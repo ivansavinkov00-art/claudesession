@@ -19,16 +19,70 @@
   --kc-stitch: repeating-linear-gradient(90deg, var(--kc-clay) 0 6px, transparent 6px 11px);
   --kc-ease: cubic-bezier(.2, .7, .2, 1);
   --kc-name: 44px;   /* название строки, Cormorant 600: 44 / 40 / 38 / 36 / 36 */
+  --kc-gap: 40px;
   --kc-sticky-top: 108px;
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--kc-gap); align-items: start;
+  color: var(--kc-ink);
 }
-@media (max-width: 1199px) { .kc-tasks { --kc-name: 40px; } }
-@media (max-width: 959px) { .kc-tasks { --kc-name: 38px; } }
+@media (max-width: 1199px) { .kc-tasks { --kc-name: 40px; --kc-gap: 24px; } }
+@media (max-width: 959px) { .kc-tasks { --kc-name: 38px; --kc-gap: 20px; } }
 @media (max-width: 639px) { .kc-tasks { --kc-name: 36px; } }
 
-/* TODO 6.3: раскладка ≥960 (список 7 кол. + sticky-сцена 5 кол.), <960 — одна колонка, сцена скрыта */
-/* TODO 6.3: строка (__row, __toggle 56px 1fr 32px, __n, __name, __arrow; .is-open — --kc-clay) */
-/* TODO 6.3: панель (grid-template-rows 0fr → 1fr, __panel-in overflow hidden, __dl, __action) */
-/* TODO 6.3: картинки (__media 4:5 стопкой, .is-active opacity 1; __media-m 3:2 только <960) */
+/* Список: строки разделены линиями 1px */
+.kc-tasks__list { grid-column: 1 / span 7; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--kc-line); }
+.kc-tasks__row { border-bottom: 1px solid var(--kc-line); }
+.kc-tasks__h { margin: 0; font: inherit; }
+.kc-tasks__toggle {
+  display: grid; grid-template-columns: 56px minmax(0, 1fr) 32px; align-items: center; width: 100%; min-height: 88px; padding: 0;
+  background: none; border: 0; border-radius: 0; color: inherit; font: inherit; text-align: left; cursor: pointer;
+}
+.kc-tasks__toggle:focus-visible { outline: 2px solid var(--kc-clay); outline-offset: -2px; }
+.kc-tasks__n { font: 400 13px/1 var(--kc-mono); letter-spacing: .05em; color: var(--kc-muted); transition: color .2s var(--kc-ease); }
+.kc-tasks__name { font: 600 var(--kc-name)/1.05 var(--kc-serif); letter-spacing: -.01em; text-wrap: balance; }
+.kc-tasks__arrow { justify-self: end; font: 400 24px/1 var(--kc-mono); transition: color .2s var(--kc-ease), transform .2s var(--kc-ease); }
+.kc-tasks__row.is-open .kc-tasks__n, .kc-tasks__row.is-open .kc-tasks__arrow { color: var(--kc-clay); }
+
+/* Панель: раскрывается через grid-template-rows 0fr → 1fr. У .kc-tasks__panel-in нет вертикальных
+   отступов (иначе свёрнутая панель не схлопнется): отступы — у детей */
+.kc-tasks__panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .25s var(--kc-ease); }
+.kc-tasks__row.is-open > .kc-tasks__panel { grid-template-rows: 1fr; }
+.kc-tasks__panel-in { min-height: 0; overflow: hidden; padding-left: 56px; }
+.kc-tasks__dl { display: grid; gap: 12px; margin: 0 0 8px; min-height: 148px; padding-top: 4px; }
+.kc-tasks__dl > div { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 16px; }
+.kc-tasks__dl dt { padding-top: 2px; font: 400 13px/1.6 var(--kc-mono); letter-spacing: .04em; color: var(--kc-muted); }
+.kc-tasks__dl dd { max-width: 52ch; margin: 0; font: 400 15px/1.6 var(--kc-mono); letter-spacing: .01em; }
+.kc-tasks__action {
+  display: inline-flex; align-items: center; min-height: 44px; margin-bottom: 28px;
+  font: 500 14px/1.2 var(--kc-mono); letter-spacing: .05em; color: var(--kc-ink);
+  text-decoration: underline; text-decoration-color: var(--kc-clay); text-decoration-thickness: 1px; text-underline-offset: 5px;
+}
+.kc-tasks__action:focus-visible { outline: 2px solid var(--kc-clay); outline-offset: 3px; }
+.kc-tasks__action span { margin-left: .5em; }
+.kc-tasks__panel .todo { font-size: .8em; letter-spacing: 0; color: #7D5F22; white-space: nowrap; }
+
+/* Картинка задачи справа: 4:5, sticky, плавная смена (opacity) */
+.kc-tasks__stage { grid-column: 8 / span 5; position: sticky; top: var(--kc-sticky-top); display: grid; aspect-ratio: 4 / 5; overflow: hidden; background: #C9B79C; }
+.kc-tasks__media { position: relative; grid-area: 1 / 1; margin: 0; opacity: 0; transition: opacity .25s ease-out; }
+.kc-tasks__media.is-active { opacity: 1; }
+.kc-tasks__media img, .kc-tasks__media-m img { display: block; width: 100%; height: 100%; object-fit: cover; filter: saturate(.92) sepia(.06); }
+.kc-tasks__media img[data-placeholder], .kc-tasks__media-m img[data-placeholder] { filter: none; object-fit: contain; }
+.kc-tasks__media-m { display: none; }
+
+/* <960: аккордеон, картинка 3:2 внутри раскрытой строки сверху */
+@media (max-width: 959px) {
+  .kc-tasks { display: block; }
+  .kc-tasks__stage { display: none; }
+  .kc-tasks__toggle { grid-template-columns: 44px minmax(0, 1fr) 32px; }
+  .kc-tasks__panel-in { padding-left: 0; }
+  .kc-tasks__media-m { position: relative; display: block; aspect-ratio: 3 / 2; margin: 4px 0 20px; overflow: hidden; background: #C9B79C; }
+  .kc-tasks__dl { min-height: 0; }
+  .kc-tasks__row.is-open .kc-tasks__arrow { transform: rotate(90deg); }
+}
+@media (max-width: 639px) {
+  .kc-tasks__toggle { min-height: 72px; grid-template-columns: 36px minmax(0, 1fr) 28px; }
+  .kc-tasks__dl > div { grid-template-columns: 1fr; gap: 2px; }
+  .kc-tasks__action { width: 100%; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .kc-tasks *, .kc-tasks *::before, .kc-tasks *::after { transition: none !important; }

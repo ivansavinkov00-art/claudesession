@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Швейное производство в Челябинске полного цикла — Культура шитья</title>
-<meta name="description" content="Швейное производство полного цикла в Челябинске: лекала, образец за 2–3 дня, пошив партий от 300 единиц для селлеров WB и OZON, ОТК, бирки и упаковка по ТЗ. Доставка по всей России.">
+<meta name="description" content="Швейное производство полного цикла в Челябинске: одежда второго слоя для селлеров WB и OZON, брендов и оптовых заказчиков. Опт от 300 ед., образец за 2–3 дня, доставка по России.">
 <meta name="theme-color" content="#E6DECE">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
@@ -20,16 +20,23 @@
 <link rel="apple-touch-icon" href="assets/logo/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/cormorant-cyrillic-600-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/ibm-plex-mono-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/img/hero-arch.webp" as="image" fetchpriority="high">
+<link rel="preload" href="assets/img/img-01.webp" as="image" fetchpriority="high">
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="modules/kc-carousel.css">
+<link rel="stylesheet" href="modules/kc-tasks.css">
+<link rel="stylesheet" href="modules/kc-calc.css">
 <script src="script.js" defer></script>
+<script src="modules/kc-carousel.js" defer></script>
+<script src="modules/kc-tasks.js" defer></script>
+<script src="modules/kc-calc.js" defer></script>
 </head>
 <body id="top">
 <!--
 THESIS: Производство как чистовая строчка: ровный, точный, спокойный ритм. Отказываемся от шаблона «большая плашка-оффер плюс карточки с иконками» и от «домашнего рукоделия».
 OWN-WORLD: Льняной фон #E6DECE, шоколадный графит #2E2520, один акцент — «нитка» #974B31 (пунктир-строчка, фокус, активные состояния). Cormorant на дисплее, IBM Plex Mono в интерфейсе. Прямые углы, линии 1px, фото в арке, тёмное «окно», бирка с пунктирной строчкой, вертикальная лента-сантиметр у правого края.
 STORY: Посетитель сразу видит, что это производство полного цикла в Челябинске для брендов и селлеров WB и OZON. Понимает, что опт идёт от 300 ед., а для малых партий есть экспериментальный цех. Верит фактам (10+ лет, свой цех, ОТК, образец за 2–3 дня) и оставляет заявку на расчёт.
-FIRST VIEWPORT: Раздельная шапка с логотипом по центру. Слева заголовок в три уровня: крупнее всего «Швейное производство» (~96px, две строки: «Швейное» / «производство» — главная мысль хиро), мелкий mono-комментарий «в Челябинске», затем «Полного цикла под ключ» одной строкой заметно меньшим кеглем (~50px). Под ним подзаголовок, «Рассчитать стоимость» (заливка), «Скачать прайс» (контур) и бирка «Опт от 300 ед.». Справа фото в арке на 5 колонок, у правого края — лента «Рассчитать стоимость».
+FIRST VIEWPORT (v2, доводка): слева заголовок в три уровня («Швейное производство» ~108px, «в Челябинске» моно, «Полного цикла под ключ» ~56px), лид, «Рассчитать стоимость» (единственная тёмная заливка колонки), «Скачать прайс», бирка «Опт от 300 ед.» и строка фактов 10+ лет / 2–3 дня / 1 цех. Справа фото в арке. У правого края лента «Рассчитать стоимость».
+STRUCTURE (v2): первый экран → производство → основатель → что мы шьём (3D-карусель) → шов «нестандартные размеры» → задачи → путь заказа и квиз → финал → подвал. Подробности — PLAN-v2.md.
 FORM: Направление задано брифом: скелет Miti Navi, цвет из брифа. Концепт-рулетка не запускалась (seed: none, brief-pinned).
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 -->
@@ -39,16 +46,16 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 <header class="site-header" data-header>
   <div class="container header-row">
     <nav class="nav nav-left" aria-label="Основные разделы">
-      <a href="#uslugi">Услуги</a>
+      <a href="#zadachi">Услуги</a>
       <a href="#proizvodstvo">Производство</a>
-      <a href="#" data-stub>Портфолио</a>
+      <a href="#portfolio">Портфолио</a>
     </nav>
     <a class="logo" href="#top" aria-label="Культура шитья — в начало страницы">
       <svg class="logo-mark" viewBox="0 0 1104 848" aria-hidden="true"><use href="#mark"/></svg>
       <span class="logo-plate">Культура шитья</span>
     </a>
     <nav class="nav nav-right" aria-label="Прайс и контакты">
-      <a href="#prais">Прайс</a>
+      <a href="#raschet">Прайс</a>
       <a href="#kontakty">Контакты</a>
       <a class="phone" href="tel:+79995888804">+7&nbsp;999&nbsp;588‑88‑04</a>
     </nav>
@@ -65,6 +72,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
 <main id="main">
 
+  <!-- Экран 1. Первый экран: саммари -->
   <section class="hero" aria-labelledby="hero-title">
     <div class="container hero-grid">
       <div class="hero-text">
@@ -73,121 +81,486 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
           <span class="ht-line ht-city">в&nbsp;Челябинске</span>
           <span class="ht-line ht-mid">Полного цикла под&nbsp;ключ</span>
         </h1>
-        <p class="hero-lead"><span>Шьём для локальных брендов и&nbsp;селлеров WB и&nbsp;OZON.</span> <span>Доставка по&nbsp;всей России.</span></p>
+        <p class="hero-lead"><span>Шьём для локальных брендов и&nbsp;селлеров WB&nbsp;и&nbsp;OZON.</span> <span>Доставка по&nbsp;всей России.</span></p>
         <div class="hero-actions" data-hero-actions>
-          <button class="btn btn-primary" type="button" data-open="calc">Рассчитать стоимость</button>
+          <a class="btn btn-primary" href="#raschet">Рассчитать стоимость</a>
           <button class="btn btn-secondary" type="button" data-open="price">Скачать прайс</button>
           <span class="tag">Опт от&nbsp;300&nbsp;ед.</span>
         </div>
       </div>
-      <figure class="hero-arch">
-        <img src="assets/img/hero-arch.webp" width="1600" height="2000" fetchpriority="high" decoding="async"
+      <figure class="hero-arch" data-slot="01">
+        <img src="assets/img/img-01.webp" width="1600" height="2000" fetchpriority="high" decoding="async"
              alt="Руки швеи ведут ткань под лапкой промышленной швейной машины">
       </figure>
+      <dl class="hero-facts">
+        <div><dt>10+&nbsp;лет</dt><dd>шьём в&nbsp;собственном цехе</dd></div>
+        <div><dt>2–3&nbsp;дня</dt><dd>любой образец</dd></div>
+        <div><dt>1&nbsp;цех</dt><dd>от&nbsp;лекал до&nbsp;упаковки</dd></div>
+      </dl>
     </div>
   </section>
 
-  <section class="section directions" id="uslugi" aria-labelledby="dir-title">
-    <div class="container">
-      <div class="section-head">
-        <h2 id="dir-title">Два направления</h2>
-        <p>Крупные партии и&nbsp;первые коллекции требуют разного подхода и&nbsp;разных цен, поэтому считаем их отдельно.</p>
-      </div>
-      <div class="dir-grid">
-        <article class="dir dir-opt">
-          <div class="dir-photo">
-            <img src="assets/img/dir-opt.webp" width="1120" height="1400" loading="lazy" decoding="async"
-                 alt="Стопка сложенных готовых изделий в тёплых тонах">
-          </div>
-          <div class="dir-body">
-            <div class="dir-title-row">
-              <h3>Маркетплейсы и&nbsp;опт</h3>
-              <span class="tag">от&nbsp;300&nbsp;ед.</span>
-            </div>
-            <p>Шьём «второй слой» для селлеров WB и&nbsp;OZON и&nbsp;оптовых заказчиков: платья, рубашки, брюки, шорты, худи, свитшоты, зип-худи.</p>
-            <p>Делаем бирки и&nbsp;составы, упаковываем по&nbsp;вашему ТЗ.</p>
-            <button class="btn btn-secondary" type="button" data-open="calc" data-direction="opt">Рассчитать стоимость опта</button>
-          </div>
-        </article>
-        <article class="dir dir-exp">
-          <div class="dir-photo">
-            <img src="assets/img/dir-exp.webp" width="933" height="1400" loading="lazy" decoding="async"
-                 alt="Конструктор обводит карандашом бумажное лекало на раскройном столе">
-          </div>
-          <div class="dir-body">
-            <div class="dir-title-row">
-              <h3>Экспериментальный цех</h3>
-              <span class="tag tag--sage">образец за&nbsp;<span class="nowrap">2–3&nbsp;дня</span></span>
-            </div>
-            <p>Для брендов, которые запускают коллекцию или проверяют новую модель: отшиваем любой образец за&nbsp;<span class="nowrap">2–3&nbsp;дня</span> и&nbsp;берём малые партии.</p>
-            <p>Минимальный объём партии <span class="todo">[уточнить минимум]</span>.</p>
-            <button class="btn btn-secondary" type="button" data-open="calc" data-direction="exp">Рассчитать образец или партию</button>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section cycle" id="cikl" aria-labelledby="cycle-title">
-    <div class="container cycle-grid">
-      <div class="cycle-photo">
-        <img src="assets/img/stitch.webp" width="933" height="1400" loading="lazy" decoding="async"
-             alt="Игла и лапка швейной машины прокладывают строчку по светлому трикотажу">
-      </div>
-      <div class="cycle-body">
-        <div class="section-head section-head--left">
-          <h2 id="cycle-title">Полный цикл в&nbsp;одном окне</h2>
-          <p>Конструктор, технолог, цех и&nbsp;контроль качества работают в&nbsp;одном месте. Не&nbsp;нужно искать пять подрядчиков и&nbsp;сводить их между собой.</p>
-        </div>
-        <ol class="steps">
-          <li><span class="step-n">01</span><div><h3>Конструирование и&nbsp;лекала</h3><p>Конструкторское бюро строит лекала. Если у&nbsp;вас уже есть свои, работаем по&nbsp;ним.</p></div></li>
-          <li><span class="step-n">02</span><div><h3>Образец</h3><p>Отшиваем образец за&nbsp;<span class="nowrap">2–3&nbsp;дня</span>, чтобы проверить модель до&nbsp;запуска партии.</p></div></li>
-          <li><span class="step-n">03</span><div><h3>Пошив партии</h3><p>Шьём в&nbsp;собственном цехе по&nbsp;регламентированным процессам.</p></div></li>
-          <li><span class="step-n">04</span><div><h3>ОТК</h3><p>Отдел технического контроля проверяет изделия перед упаковкой.</p></div></li>
-          <li><span class="step-n">05</span><div><h3>Бирки, составы, упаковка</h3><p>Любая упаковка и&nbsp;маркировка по&nbsp;техническому заданию клиента.</p></div></li>
-          <li><span class="step-n">06</span><div><h3>Отправка</h3><p>Отправляем любой транспортной компанией по&nbsp;всей России.</p></div></li>
-        </ol>
-        <div class="cycle-notes">
-          <p><strong>Дополнительно:</strong> DTF-печать и&nbsp;вышивка на&nbsp;ткани.</p>
-          <p><strong>Работаем на&nbsp;давальческом сырье:</strong> вы&nbsp;передаёте ткань, мы&nbsp;шьём.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section production" id="proizvodstvo" aria-labelledby="prod-title">
+  <!-- Экран 2. Производство -->
+  <section class="section s-prod" id="proizvodstvo" aria-labelledby="prod-title">
     <div class="container prod-grid">
-      <figure class="window">
-        <img src="assets/img/workshop.webp" width="933" height="1400" loading="lazy" decoding="async"
+      <figure class="prod-photo" data-slot="02">
+        <img src="assets/img/img-02.webp" width="1600" height="2000" loading="lazy" decoding="async"
              alt="Швейный цех: раскройный стол с лекалами, стойки с готовыми изделиями у кирпичной стены">
       </figure>
       <div class="prod-body">
-        <h2 id="prod-title">Собственный цех в&nbsp;Челябинске</h2>
-        <p class="prod-lead">Шьём больше 10&nbsp;лет. Процессы в&nbsp;цехе регламентированы, изделия проходят ОТК, чтобы сроки соблюдались, а&nbsp;качество не&nbsp;менялось от&nbsp;партии к&nbsp;партии.</p>
-        <dl class="spec">
-          <div><dt>Опыт</dt><dd>больше 10&nbsp;лет</dd></div>
-          <div><dt>Цех</dt><dd>собственный, Челябинск</dd></div>
-          <div><dt>Процессы</dt><dd>регламентированы</dd></div>
-          <div><dt>Контроль</dt><dd>ОТК перед упаковкой</dd></div>
-        </dl>
-        <blockquote class="quote">
-          <p>«Я&nbsp;сама технолог, поэтому говорю с&nbsp;клиентами на&nbsp;понятном языке: объясняю, советую и&nbsp;заранее предупреждаю о&nbsp;рисках».</p>
-          <footer>Олеся Аксенова, собственница и&nbsp;технолог <span class="todo">[согласовать]</span></footer>
-        </blockquote>
+        <h2 id="prod-title"><span>Один цех.</span> <span>Одна ответственность.</span> <span>Один результат.</span></h2>
+        <p>Мы&nbsp;— швейное производство полного цикла. Конструкторское бюро, технолог, пошив и&nbsp;ОТК работают в&nbsp;одном месте, поэтому вам не&nbsp;нужно искать пять разных подрядчиков.</p>
+        <p>За&nbsp;10+&nbsp;лет мы&nbsp;выстроили собственный цех и&nbsp;регламентированные процессы. Поэтому сроки соблюдаются, а&nbsp;качество не&nbsp;меняется от&nbsp;партии к&nbsp;партии.</p>
+        <p>Персональный менеджер на&nbsp;связи на&nbsp;всех этапах производства. Контроль качества встроен в&nbsp;каждый этап, а&nbsp;не&nbsp;оставлен на&nbsp;финал, поэтому результат предсказуем. Берём на&nbsp;себя всё&nbsp;— от&nbsp;разработки лекал до&nbsp;упаковки готовой партии.</p>
+        <p class="prod-final">Доверьте пошив нам&nbsp;— и&nbsp;сосредоточьтесь на&nbsp;развитии своего бренда.</p>
+        <ul class="facts">
+          <li class="fact fact--main"><span class="fact-n">2–3&nbsp;дня</span><span class="fact-l">любой образец</span></li>
+          <li class="fact"><span class="fact-n">от&nbsp;300&nbsp;ед.</span><span class="fact-l">опт для&nbsp;WB&nbsp;и&nbsp;OZON</span></li>
+          <li class="fact"><span class="fact-n">Бирки и&nbsp;составы</span><span class="fact-l">упаковка по&nbsp;вашему ТЗ</span></li>
+          <li class="fact"><span class="fact-n">DTF и&nbsp;вышивка</span><span class="fact-l">печать и&nbsp;вышивка на&nbsp;ткани</span></li>
+        </ul>
+        <p class="prod-note">Работаем на&nbsp;давальческом сырье.</p>
       </div>
     </div>
   </section>
 
-  <section class="section price" id="prais" aria-labelledby="price-title">
-    <div class="container price-inner">
-      <h2 id="price-title">Посчитаем вашу партию</h2>
-      <p>Напишите изделие, количество и&nbsp;сроки, и&nbsp;мы пришлём расчёт <span class="todo">[уточнить срок]</span>. Прайс-лист отправим на&nbsp;телефон или e-mail.</p>
-      <div class="price-actions">
-        <button class="btn btn-primary" type="button" data-open="calc">Рассчитать стоимость</button>
-        <button class="btn btn-secondary" type="button" data-open="price">Скачать прайс</button>
-        <span class="tag">Опт от&nbsp;300&nbsp;ед.</span>
+  <!-- Экран 3A. Основатель -->
+  <section class="section s-founder" id="osnovatel" aria-labelledby="founder-title">
+    <div class="container founder-grid">
+      <div class="founder-body">
+        <h2 id="founder-title">Олеся Аксенова</h2>
+        <p class="founder-role">основатель «Культуры шитья»</p>
+        <p>Я&nbsp;по&nbsp;образованию технолог, поэтому говорю с&nbsp;клиентами на&nbsp;понятном языке, без сложных терминов. Знаю, как важно, чтобы вас вели за&nbsp;руку: объясняли каждый этап, подсказывали, где можно сэкономить, и&nbsp;заранее предупреждали о&nbsp;рисках.</p>
+        <p>Я&nbsp;лично сопровождаю ключевые этапы и&nbsp;остаюсь на&nbsp;связи, чтобы вы не&nbsp;оставались один на&nbsp;один с&nbsp;производственными вопросами. Мой опыт и&nbsp;опыт команды помогают избежать типичных ошибок на&nbsp;старте и&nbsp;сделать продукт, который продаётся.</p>
+        <blockquote class="quote">
+          <p>«Приходите с&nbsp;идеей&nbsp;— я&nbsp;помогу превратить её в&nbsp;готовую партию и&nbsp;проведу вас от&nbsp;первой примерки до&nbsp;отгрузки».</p>
+          <footer>Олеся Аксенова, основатель</footer>
+        </blockquote>
       </div>
-      <p class="price-direct">Или напишите напрямую:
+      <figure class="window" data-slot="03">
+        <img src="assets/img/img-03.webp" width="1200" height="1500" loading="lazy" decoding="async"
+             alt="Олеся Аксенова, основатель «Культуры шитья», у раскройного стола в цехе" data-placeholder>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Экран 3B. Что мы шьём -->
+  <section class="section s-portfolio" id="portfolio" aria-labelledby="portfolio-title">
+    <div class="container">
+      <div class="sec-head">
+        <h2 id="portfolio-title">Что мы шьём</h2>
+        <p>Наше основное направление&nbsp;— одежда второго слоя: всё, что носят поверх белья и&nbsp;под верхней одеждой.</p>
+      </div>
+
+      <div class="kc-carousel" data-kc-carousel role="region" aria-roledescription="карусель" aria-label="Что мы шьём">
+        <ol class="kc-carousel__index" data-kc="index">
+          <li><button class="kc-carousel__goto" type="button" data-kc="goto" data-index="0" aria-current="true"><span class="kc-carousel__goto-n">01</span> Худи и&nbsp;зип-худи</button></li>
+          <li><button class="kc-carousel__goto" type="button" data-kc="goto" data-index="1"><span class="kc-carousel__goto-n">02</span> Свитшоты</button></li>
+          <li><button class="kc-carousel__goto" type="button" data-kc="goto" data-index="2"><span class="kc-carousel__goto-n">03</span> Рубашки</button></li>
+          <li><button class="kc-carousel__goto" type="button" data-kc="goto" data-index="3"><span class="kc-carousel__goto-n">04</span> Платья</button></li>
+          <li><button class="kc-carousel__goto" type="button" data-kc="goto" data-index="4"><span class="kc-carousel__goto-n">05</span> Брюки</button></li>
+          <li><button class="kc-carousel__goto" type="button" data-kc="goto" data-index="5"><span class="kc-carousel__goto-n">06</span> Шорты</button></li>
+        </ol>
+        <div class="kc-carousel__stage" data-kc="stage">
+          <article class="kc-carousel__slide" data-kc="slide" data-index="0" data-pos="0" role="group" aria-roledescription="слайд" aria-label="1 из 6: Худи и зип-худи">
+            <div class="kc-carousel__card">
+              <figure class="kc-carousel__media" data-slot="04">
+                <img src="assets/img/img-04.webp" width="1200" height="1600" loading="lazy" decoding="async" draggable="false"
+                     alt="Худи из плотного хлопкового футера на деревянной вешалке" data-placeholder>
+                <span class="kc-carousel__tag" aria-hidden="true">01</span>
+              </figure>
+              <h3 class="kc-carousel__title">Худи и&nbsp;зип-худи</h3>
+              <a class="kc-carousel__cta" href="#raschet" data-kc="calc-link" data-calc-item="hoodie ziphoodie">Рассчитать</a>
+            </div>
+          </article>
+          <article class="kc-carousel__slide" data-kc="slide" data-index="1" data-pos="1" role="group" aria-roledescription="слайд" aria-label="2 из 6: Свитшоты">
+            <div class="kc-carousel__card">
+              <figure class="kc-carousel__media" data-slot="05">
+                <img src="assets/img/img-05.webp" width="1200" height="1600" loading="lazy" decoding="async" draggable="false"
+                     alt="Свитшот с круглым вырезом на деревянной вешалке" data-placeholder>
+                <span class="kc-carousel__tag" aria-hidden="true">02</span>
+              </figure>
+              <h3 class="kc-carousel__title">Свитшоты</h3>
+              <a class="kc-carousel__cta" href="#raschet" data-kc="calc-link" data-calc-item="sweatshirt">Рассчитать</a>
+            </div>
+          </article>
+          <article class="kc-carousel__slide" data-kc="slide" data-index="2" data-pos="2" role="group" aria-roledescription="слайд" aria-label="3 из 6: Рубашки">
+            <div class="kc-carousel__card">
+              <figure class="kc-carousel__media" data-slot="06">
+                <img src="assets/img/img-06.webp" width="1200" height="1600" loading="lazy" decoding="async" draggable="false"
+                     alt="Хлопковая рубашка свободного кроя на деревянной вешалке" data-placeholder>
+                <span class="kc-carousel__tag" aria-hidden="true">03</span>
+              </figure>
+              <h3 class="kc-carousel__title">Рубашки</h3>
+              <a class="kc-carousel__cta" href="#raschet" data-kc="calc-link" data-calc-item="shirt">Рассчитать</a>
+            </div>
+          </article>
+          <article class="kc-carousel__slide" data-kc="slide" data-index="3" data-pos="3" role="group" aria-roledescription="слайд" aria-label="4 из 6: Платья">
+            <div class="kc-carousel__card">
+              <figure class="kc-carousel__media" data-slot="07">
+                <img src="assets/img/img-07.webp" width="1200" height="1600" loading="lazy" decoding="async" draggable="false"
+                     alt="Льняное платье миди на деревянной вешалке" data-placeholder>
+                <span class="kc-carousel__tag" aria-hidden="true">04</span>
+              </figure>
+              <h3 class="kc-carousel__title">Платья</h3>
+              <a class="kc-carousel__cta" href="#raschet" data-kc="calc-link" data-calc-item="dress">Рассчитать</a>
+            </div>
+          </article>
+          <article class="kc-carousel__slide" data-kc="slide" data-index="4" data-pos="3" role="group" aria-roledescription="слайд" aria-label="5 из 6: Брюки">
+            <div class="kc-carousel__card">
+              <figure class="kc-carousel__media" data-slot="08">
+                <img src="assets/img/img-08.webp" width="1200" height="1600" loading="lazy" decoding="async" draggable="false"
+                     alt="Широкие брюки из хлопкового твила на вешалке с зажимами" data-placeholder>
+                <span class="kc-carousel__tag" aria-hidden="true">05</span>
+              </figure>
+              <h3 class="kc-carousel__title">Брюки</h3>
+              <a class="kc-carousel__cta" href="#raschet" data-kc="calc-link" data-calc-item="pants">Рассчитать</a>
+            </div>
+          </article>
+          <article class="kc-carousel__slide" data-kc="slide" data-index="5" data-pos="3" role="group" aria-roledescription="слайд" aria-label="6 из 6: Шорты">
+            <div class="kc-carousel__card">
+              <figure class="kc-carousel__media" data-slot="09">
+                <img src="assets/img/img-09.webp" width="1200" height="1600" loading="lazy" decoding="async" draggable="false"
+                     alt="Хлопковые шорты на кулиске на вешалке с зажимами" data-placeholder>
+                <span class="kc-carousel__tag" aria-hidden="true">06</span>
+              </figure>
+              <h3 class="kc-carousel__title">Шорты</h3>
+              <a class="kc-carousel__cta" href="#raschet" data-kc="calc-link" data-calc-item="shorts">Рассчитать</a>
+            </div>
+          </article>
+        </div>
+        <div class="kc-carousel__controls">
+          <button class="kc-carousel__arrow" type="button" data-kc="prev" aria-label="Предыдущее изделие">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H4M10 6l-6 6 6 6"/></svg>
+          </button>
+          <p class="kc-carousel__counter" data-kc="counter" aria-live="polite" aria-atomic="true">01 / 06</p>
+          <button class="kc-carousel__arrow" type="button" data-kc="next" aria-label="Следующее изделие">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Шов между экранами 3B и 4 -->
+  <section class="seam" aria-labelledby="seam-title">
+    <div class="container">
+      <div class="seam-inner">
+        <h2 class="seam-title" id="seam-title">Нужны нестандартные размеры?</h2>
+        <p class="seam-text">Опишите задачу&nbsp;— уточним детали.</p>
+        <a class="btn btn-secondary" href="#raschet" data-calc-nonstandard>Описать задачу</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Экран 4. Задачи -->
+  <section class="section s-tasks" id="zadachi" aria-labelledby="tasks-title">
+    <div class="container">
+      <div class="sec-head">
+        <h2 id="tasks-title">Ваша задача определяет решение</h2>
+      </div>
+
+      <div class="kc-tasks" data-kc-tasks>
+        <ol class="kc-tasks__list">
+          <li class="kc-tasks__row is-open" data-kc="row">
+            <h3 class="kc-tasks__h">
+              <button class="kc-tasks__toggle" type="button" data-kc="toggle" id="kc-task-1-btn" aria-expanded="true" aria-controls="kc-task-1">
+                <span class="kc-tasks__n">01</span>
+                <span class="kc-tasks__name">Селлерам WB&nbsp;и&nbsp;OZON</span>
+                <span class="kc-tasks__arrow" aria-hidden="true">→</span>
+              </button>
+            </h3>
+            <div class="kc-tasks__panel" id="kc-task-1" role="region" aria-labelledby="kc-task-1-btn" data-kc="panel">
+              <div class="kc-tasks__panel-in">
+                <figure class="kc-tasks__media-m" data-slot="10">
+                  <img src="assets/img/img-10.webp" width="1200" height="1500" loading="lazy" decoding="async"
+                       alt="Готовая партия худи в пакетах с бирками, уложенная в коробки" data-placeholder>
+                </figure>
+                <dl class="kc-tasks__dl">
+                  <div><dt>Задача</dt><dd>Отшить партию к&nbsp;поставке и&nbsp;не&nbsp;сорвать сроки.</dd></div>
+                  <div><dt>Решение</dt><dd>Опт от&nbsp;300&nbsp;ед., бирки, составы и&nbsp;упаковка по&nbsp;вашему ТЗ, отправка любой транспортной компанией.</dd></div>
+                </dl>
+                <a class="kc-tasks__action" href="#raschet" data-calc-direction="wb">Рассчитать партию <span aria-hidden="true">→</span></a>
+              </div>
+            </div>
+          </li>
+          <li class="kc-tasks__row" data-kc="row">
+            <h3 class="kc-tasks__h">
+              <button class="kc-tasks__toggle" type="button" data-kc="toggle" id="kc-task-2-btn" aria-expanded="false" aria-controls="kc-task-2">
+                <span class="kc-tasks__n">02</span>
+                <span class="kc-tasks__name">Брендам одежды</span>
+                <span class="kc-tasks__arrow" aria-hidden="true">→</span>
+              </button>
+            </h3>
+            <div class="kc-tasks__panel" id="kc-task-2" role="region" aria-labelledby="kc-task-2-btn" data-kc="panel">
+              <div class="kc-tasks__panel-in">
+                <figure class="kc-tasks__media-m" data-slot="11">
+                  <img src="assets/img/img-11.webp" width="1200" height="1500" loading="lazy" decoding="async"
+                       alt="Основательница бренда и технолог обсуждают образец платья на манекене" data-placeholder>
+                </figure>
+                <dl class="kc-tasks__dl">
+                  <div><dt>Задача</dt><dd>Запустить коллекцию и&nbsp;расти, не&nbsp;меняя производство.</dd></div>
+                  <div><dt>Решение</dt><dd>Лекала, образец, пошив и&nbsp;технолог, который объясняет каждый этап. Малые партии&nbsp;— от&nbsp;<span class="todo">[уточнить минимум]</span>&nbsp;ед.</dd></div>
+                </dl>
+                <a class="kc-tasks__action" href="#raschet" data-calc-direction="brand">Рассчитать коллекцию <span aria-hidden="true">→</span></a>
+              </div>
+            </div>
+          </li>
+          <li class="kc-tasks__row" data-kc="row">
+            <h3 class="kc-tasks__h">
+              <button class="kc-tasks__toggle" type="button" data-kc="toggle" id="kc-task-3-btn" aria-expanded="false" aria-controls="kc-task-3">
+                <span class="kc-tasks__n">03</span>
+                <span class="kc-tasks__name">Бизнесу: опт и&nbsp;СТМ</span>
+                <span class="kc-tasks__arrow" aria-hidden="true">→</span>
+              </button>
+            </h3>
+            <div class="kc-tasks__panel" id="kc-task-3" role="region" aria-labelledby="kc-task-3-btn" data-kc="panel">
+              <div class="kc-tasks__panel-in">
+                <figure class="kc-tasks__media-m" data-slot="12">
+                  <img src="assets/img/img-12.webp" width="1200" height="1500" loading="lazy" decoding="async"
+                       alt="Стойка с партией одинаковых рубашек разных размеров" data-placeholder>
+                </figure>
+                <dl class="kc-tasks__dl">
+                  <div><dt>Задача</dt><dd>Стабильные объёмы и&nbsp;сроки на&nbsp;годы вперёд.</dd></div>
+                  <div><dt>Решение</dt><dd>Собственный цех, регламентированные процессы и&nbsp;ОТК&nbsp;— одинаковое качество от&nbsp;партии к&nbsp;партии.</dd></div>
+                </dl>
+                <a class="kc-tasks__action" href="#raschet" data-calc-direction="opt">Обсудить объём <span aria-hidden="true">→</span></a>
+              </div>
+            </div>
+          </li>
+          <li class="kc-tasks__row" data-kc="row">
+            <h3 class="kc-tasks__h">
+              <button class="kc-tasks__toggle" type="button" data-kc="toggle" id="kc-task-4-btn" aria-expanded="false" aria-controls="kc-task-4">
+                <span class="kc-tasks__n">04</span>
+                <span class="kc-tasks__name">Экспериментальный цех</span>
+                <span class="kc-tasks__arrow" aria-hidden="true">→</span>
+              </button>
+            </h3>
+            <div class="kc-tasks__panel" id="kc-task-4" role="region" aria-labelledby="kc-task-4-btn" data-kc="panel">
+              <div class="kc-tasks__panel-in">
+                <figure class="kc-tasks__media-m" data-slot="13">
+                  <img src="assets/img/img-13.webp" width="1200" height="1500" loading="lazy" decoding="async"
+                       alt="Стол конструктора: бумажные лекала, линейка, мел и булавки" data-placeholder>
+                </figure>
+                <dl class="kc-tasks__dl">
+                  <div><dt>Задача</dt><dd>Проверить модель, посадку и&nbsp;ткань до&nbsp;запуска партии.</dd></div>
+                  <div><dt>Решение</dt><dd>Любой образец за&nbsp;<span class="nowrap">2–3&nbsp;дня</span>, в&nbsp;том числе нестандартные модели и&nbsp;размеры.</dd></div>
+                </dl>
+                <a class="kc-tasks__action" href="#raschet" data-calc-direction="sample">Заказать образец <span aria-hidden="true">→</span></a>
+              </div>
+            </div>
+          </li>
+        </ol>
+        <div class="kc-tasks__stage" data-kc="stage">
+          <figure class="kc-tasks__media is-active" data-kc="media" data-index="0" data-slot="10">
+            <img src="assets/img/img-10.webp" width="1200" height="1500" loading="lazy" decoding="async"
+                 alt="Готовая партия худи в пакетах с бирками, уложенная в коробки" data-placeholder>
+          </figure>
+          <figure class="kc-tasks__media" data-kc="media" data-index="1" data-slot="11" aria-hidden="true">
+            <img src="assets/img/img-11.webp" width="1200" height="1500" loading="lazy" decoding="async"
+                 alt="Основательница бренда и технолог обсуждают образец платья на манекене" data-placeholder>
+          </figure>
+          <figure class="kc-tasks__media" data-kc="media" data-index="2" data-slot="12" aria-hidden="true">
+            <img src="assets/img/img-12.webp" width="1200" height="1500" loading="lazy" decoding="async"
+                 alt="Стойка с партией одинаковых рубашек разных размеров" data-placeholder>
+          </figure>
+          <figure class="kc-tasks__media" data-kc="media" data-index="3" data-slot="13" aria-hidden="true">
+            <img src="assets/img/img-13.webp" width="1200" height="1500" loading="lazy" decoding="async"
+                 alt="Стол конструктора: бумажные лекала, линейка, мел и булавки" data-placeholder>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Экран 5. От идеи до реализации -->
+  <section class="section s-calc" id="raschet" aria-labelledby="calc-title">
+    <div class="container">
+      <div class="sec-head">
+        <h2 id="calc-title">От&nbsp;идеи до&nbsp;реализации</h2>
+        <p>Ответьте на&nbsp;четыре вопроса&nbsp;— посчитаем стоимость и&nbsp;пришлём расчёт <span class="todo">[уточнить срок]</span>.</p>
+      </div>
+
+      <ol class="path" aria-label="Путь заказа">
+        <li><span class="step-n">01</span><span class="path-t">Заявка и&nbsp;расчёт</span></li>
+        <li><span class="step-n">02</span><span class="path-t">Лекала и&nbsp;образец<span class="path-s">2–3&nbsp;дня</span></span></li>
+        <li><span class="step-n">03</span><span class="path-t">Пошив партии</span></li>
+        <li><span class="step-n">04</span><span class="path-t">ОТК, бирки, упаковка</span></li>
+        <li><span class="step-n">05</span><span class="path-t">Отправка по&nbsp;России</span></li>
+      </ol>
+
+      <div class="kc-calc" data-kc-calc>
+        <form class="kc-calc__form" novalidate>
+          <div class="kc-calc__head">
+            <p class="kc-calc__progress" data-kc="progress">Шаг 1 из&nbsp;4</p>
+            <div class="kc-calc__ruler" data-kc="ruler" style="--kc-step:1" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          </div>
+
+          <!-- Шаг 1 -->
+          <fieldset class="kc-calc__step" data-kc="step" data-step="1" aria-describedby="kc-err-direction">
+            <legend><h3 class="kc-calc__q" data-kc="heading" tabindex="-1">Что нужно?</h3></legend>
+            <div class="kc-calc__cards">
+              <label class="kc-calc__card"><input type="radio" name="direction" value="wb"><span><b>Партия для&nbsp;WB и&nbsp;OZON</b><small>от&nbsp;300&nbsp;ед.</small></span></label>
+              <label class="kc-calc__card"><input type="radio" name="direction" value="brand"><span><b>Коллекция бренда</b><small>малые партии</small></span></label>
+              <label class="kc-calc__card"><input type="radio" name="direction" value="opt"><span><b>Опт и&nbsp;СТМ</b><small>от&nbsp;300&nbsp;ед.</small></span></label>
+              <label class="kc-calc__card"><input type="radio" name="direction" value="sample"><span><b>Образец</b><small>за&nbsp;2–3&nbsp;дня</small></span></label>
+            </div>
+            <p class="kc-calc__err" id="kc-err-direction" hidden>Выберите, что нужно</p>
+          </fieldset>
+
+          <!-- Шаг 2 -->
+          <fieldset class="kc-calc__step" data-kc="step" data-step="2" hidden>
+            <legend><h3 class="kc-calc__q" data-kc="heading" tabindex="-1">Изделие и&nbsp;количество</h3></legend>
+            <fieldset class="kc-calc__group" aria-describedby="kc-err-item">
+              <legend class="kc-calc__label">Изделие <small>можно несколько</small></legend>
+              <div class="kc-calc__items">
+                <label class="kc-calc__item"><input type="checkbox" name="item" value="hoodie"><span class="kc-calc__thumb"><img src="assets/img/img-04.webp" width="1200" height="1600" alt="" loading="lazy" decoding="async" data-placeholder></span><span class="kc-calc__item-name">Худи</span></label>
+                <label class="kc-calc__item"><input type="checkbox" name="item" value="ziphoodie"><span class="kc-calc__thumb"><img src="assets/img/img-04.webp" width="1200" height="1600" alt="" loading="lazy" decoding="async" data-placeholder></span><span class="kc-calc__item-name">Зип-худи</span></label>
+                <label class="kc-calc__item"><input type="checkbox" name="item" value="sweatshirt"><span class="kc-calc__thumb"><img src="assets/img/img-05.webp" width="1200" height="1600" alt="" loading="lazy" decoding="async" data-placeholder></span><span class="kc-calc__item-name">Свитшот</span></label>
+                <label class="kc-calc__item"><input type="checkbox" name="item" value="shirt"><span class="kc-calc__thumb"><img src="assets/img/img-06.webp" width="1200" height="1600" alt="" loading="lazy" decoding="async" data-placeholder></span><span class="kc-calc__item-name">Рубашка</span></label>
+                <label class="kc-calc__item"><input type="checkbox" name="item" value="dress"><span class="kc-calc__thumb"><img src="assets/img/img-07.webp" width="1200" height="1600" alt="" loading="lazy" decoding="async" data-placeholder></span><span class="kc-calc__item-name">Платье</span></label>
+                <label class="kc-calc__item"><input type="checkbox" name="item" value="pants"><span class="kc-calc__thumb"><img src="assets/img/img-08.webp" width="1200" height="1600" alt="" loading="lazy" decoding="async" data-placeholder></span><span class="kc-calc__item-name">Брюки</span></label>
+                <label class="kc-calc__item"><input type="checkbox" name="item" value="shorts"><span class="kc-calc__thumb"><img src="assets/img/img-09.webp" width="1200" height="1600" alt="" loading="lazy" decoding="async" data-placeholder></span><span class="kc-calc__item-name">Шорты</span></label>
+                <label class="kc-calc__item"><input type="checkbox" name="item" value="other"><span class="kc-calc__thumb kc-calc__thumb--none" aria-hidden="true"></span><span class="kc-calc__item-name">Другое</span></label>
+              </div>
+              <p class="kc-calc__err" id="kc-err-item" hidden>Выберите хотя бы одно изделие</p>
+            </fieldset>
+
+            <div class="kc-calc__field" data-kc="qty-wrap">
+              <label class="kc-calc__label" for="kc-qty">Количество, ед.</label>
+              <input id="kc-qty" name="qty" type="number" inputmode="numeric" min="1" step="1" aria-describedby="kc-err-qty">
+              <div class="kc-calc__quick">
+                <button type="button" data-kc="qty-quick" data-value="50">50</button>
+                <button type="button" data-kc="qty-quick" data-value="100">100</button>
+                <button type="button" data-kc="qty-quick" data-value="300">300</button>
+                <button type="button" data-kc="qty-quick" data-value="500">500</button>
+                <button type="button" data-kc="qty-quick" data-value="1000">1000+</button>
+              </div>
+              <p class="kc-calc__err" id="kc-err-qty" hidden>Укажите количество — можно примерно</p>
+            </div>
+            <div class="kc-calc__hint" data-kc="hint" hidden>
+              <p>Партии меньше 300&nbsp;ед. шьём в&nbsp;направлении «Коллекция бренда».</p>
+              <button type="button" data-kc="switch">Переключить</button>
+            </div>
+
+            <fieldset class="kc-calc__group" data-kc="models-wrap" hidden>
+              <legend class="kc-calc__label">Сколько моделей</legend>
+              <div class="kc-calc__chips">
+                <label class="kc-calc__chip"><input type="radio" name="models" value="1" checked><span>1</span></label>
+                <label class="kc-calc__chip"><input type="radio" name="models" value="2-3"><span>2–3</span></label>
+                <label class="kc-calc__chip"><input type="radio" name="models" value="4+"><span>4 и&nbsp;больше</span></label>
+              </div>
+            </fieldset>
+
+            <label class="kc-calc__check"><input type="checkbox" name="nonstandard" id="kc-nonstandard"><span>Нестандартные размеры</span></label>
+            <div class="kc-calc__field" data-kc="sizes-wrap" hidden>
+              <label class="kc-calc__label" for="kc-sizes">Опишите размеры или&nbsp;модель</label>
+              <textarea id="kc-sizes" name="sizes" rows="3"></textarea>
+            </div>
+          </fieldset>
+
+          <!-- Шаг 3 -->
+          <fieldset class="kc-calc__step" data-kc="step" data-step="3" hidden>
+            <legend><h3 class="kc-calc__q" data-kc="heading" tabindex="-1">Ткань, услуги, сроки</h3></legend>
+            <fieldset class="kc-calc__group">
+              <legend class="kc-calc__label">Ткань</legend>
+              <div class="kc-calc__cards">
+                <label class="kc-calc__card"><input type="radio" name="fabric" value="own" checked><span><b>Своя</b><small>давальческое сырьё</small></span></label>
+                <label class="kc-calc__card"><input type="radio" name="fabric" value="consult"><span><b>Нужна консультация по&nbsp;ткани</b><small class="todo">[уточнить]</small></span></label>
+              </div>
+            </fieldset>
+            <fieldset class="kc-calc__group">
+              <legend class="kc-calc__label">Дополнительно <small>можно несколько</small></legend>
+              <div class="kc-calc__chips">
+                <label class="kc-calc__chip"><input type="checkbox" name="service" value="patterns"><span>Лекала и&nbsp;конструирование</span></label>
+                <label class="kc-calc__chip"><input type="checkbox" name="service" value="labels"><span>Бирки и&nbsp;составы</span></label>
+                <label class="kc-calc__chip"><input type="checkbox" name="service" value="packaging"><span>Упаковка по&nbsp;ТЗ</span></label>
+                <label class="kc-calc__chip"><input type="checkbox" name="service" value="dtf"><span>Печать DTF</span></label>
+                <label class="kc-calc__chip"><input type="checkbox" name="service" value="embroidery"><span>Вышивка</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="kc-calc__group">
+              <legend class="kc-calc__label">Когда нужна партия</legend>
+              <div class="kc-calc__chips">
+                <label class="kc-calc__chip"><input type="radio" name="when" value="asap"><span>Как можно скорее</span></label>
+                <label class="kc-calc__chip"><input type="radio" name="when" value="month"><span>В&nbsp;течение месяца</span></label>
+                <label class="kc-calc__chip"><input type="radio" name="when" value="1-2m"><span>Через 1–2&nbsp;месяца</span></label>
+                <label class="kc-calc__chip"><input type="radio" name="when" value="later"><span>Пока присматриваюсь</span></label>
+              </div>
+            </fieldset>
+          </fieldset>
+
+          <!-- Шаг 4 -->
+          <fieldset class="kc-calc__step" data-kc="step" data-step="4" hidden>
+            <legend><h3 class="kc-calc__q" data-kc="heading" tabindex="-1">Куда прислать расчёт</h3></legend>
+            <div class="kc-calc__row">
+              <div class="kc-calc__field">
+                <label class="kc-calc__label" for="kc-name">Имя</label>
+                <input id="kc-name" name="name" type="text" autocomplete="name" aria-describedby="kc-err-name">
+                <p class="kc-calc__err" id="kc-err-name" hidden>Напишите, как к&nbsp;вам обращаться</p>
+              </div>
+              <div class="kc-calc__field">
+                <label class="kc-calc__label" for="kc-contact">Телефон или&nbsp;e-mail</label>
+                <input id="kc-contact" name="contact" type="text" autocomplete="tel" aria-describedby="kc-err-contact">
+                <p class="kc-calc__err" id="kc-err-contact" hidden>Нужен телефон (10–11&nbsp;цифр) или&nbsp;e-mail</p>
+              </div>
+            </div>
+            <fieldset class="kc-calc__group">
+              <legend class="kc-calc__label">Где удобнее общаться</legend>
+              <div class="kc-calc__chips">
+                <label class="kc-calc__chip"><input type="radio" name="messenger" value="telegram"><span>Telegram</span></label>
+                <label class="kc-calc__chip"><input type="radio" name="messenger" value="whatsapp"><span>WhatsApp</span></label>
+                <label class="kc-calc__chip"><input type="radio" name="messenger" value="max"><span>Max</span></label>
+                <label class="kc-calc__chip"><input type="radio" name="messenger" value="call"><span>Звонок</span></label>
+              </div>
+            </fieldset>
+            <label class="kc-calc__check kc-calc__check--consent">
+              <input type="checkbox" name="consent" id="kc-consent" aria-describedby="kc-err-consent">
+              <span>Я&nbsp;даю <a href="consent.html" target="_blank">согласие на&nbsp;обработку персональных данных</a> и&nbsp;принимаю <a href="privacy.html" target="_blank">политику конфиденциальности</a></span>
+            </label>
+            <p class="kc-calc__err" id="kc-err-consent" hidden>Без согласия мы не&nbsp;сможем прислать расчёт</p>
+          </fieldset>
+
+          <div class="kc-calc__nav">
+            <p class="kc-calc__sumline" data-kc="sumline"></p>
+            <button class="kc-calc__btn kc-calc__btn--ghost" type="button" data-kc="prev" hidden>Назад</button>
+            <button class="kc-calc__btn" type="button" data-kc="next">Далее</button>
+            <button class="kc-calc__btn" type="submit" data-kc="submit" hidden>Получить расчёт</button>
+          </div>
+        </form>
+
+        <div class="kc-calc__done" data-kc="done" tabindex="-1" hidden>
+          <h3>Заявка принята</h3>
+          <p>Пришлём расчёт <span class="todo">[уточнить срок]</span> туда, где вам удобнее.</p>
+          <button class="kc-calc__btn" type="button" data-open="price">Скачать прайс</button>
+        </div>
+
+        <aside class="kc-calc__panel" data-kc="summary" aria-label="Ваш проект">
+          <h3>Ваш проект</h3>
+          <dl>
+            <div><dt>Направление</dt><dd data-kc="sum" data-key="direction">—</dd></div>
+            <div><dt>Изделия</dt><dd data-kc="sum" data-key="items">—</dd></div>
+            <div><dt>Количество</dt><dd data-kc="sum" data-key="qty">—</dd></div>
+            <div><dt>Ткань</dt><dd data-kc="sum" data-key="fabric">—</dd></div>
+            <div><dt>Услуги</dt><dd data-kc="sum" data-key="services">—</dd></div>
+            <div><dt>Срок</dt><dd data-kc="sum" data-key="when">—</dd></div>
+          </dl>
+          <p>Точную стоимость посчитает технолог: цена зависит от&nbsp;модели, ткани и&nbsp;тиража.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Экран 6. Финал -->
+  <section class="final" aria-labelledby="final-title">
+    <div class="container final-inner">
+      <h2 id="final-title">Обсудим вашу задачу</h2>
+      <p>Пришлём прайс на&nbsp;телефон или e-mail или созвонимся в&nbsp;удобное время.</p>
+      <div class="final-actions">
+        <button class="btn btn-on-dark" type="button" data-open="price">Скачать прайс</button>
+        <button class="btn btn-on-dark-outline" type="button" data-open="discuss">Обсудить задачу</button>
+      </div>
+      <p class="final-direct">Или напишите напрямую:
         <a href="#" data-stub>Telegram</a>
         <a href="#" data-stub>WhatsApp</a>
         <a href="#" data-stub>Max</a>
@@ -214,10 +587,10 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
       <nav class="footer-col" aria-label="Разделы сайта">
         <h3>Разделы</h3>
         <ul>
-          <li><a href="#uslugi">Услуги</a></li>
-          <li><a href="#" data-stub>Портфолио</a></li>
+          <li><a href="#zadachi">Услуги</a></li>
           <li><a href="#proizvodstvo">Производство</a></li>
-          <li><a href="#prais">Прайс</a></li>
+          <li><a href="#portfolio">Портфолио</a></li>
+          <li><a href="#raschet">Прайс</a></li>
           <li><a href="#kontakty">Контакты</a></li>
         </ul>
       </nav>
@@ -241,12 +614,12 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   </div>
 </footer>
 
-<!-- Вертикальная лента: сайд-таб Miti Navi + плавающая кнопка из брифа (от 960px) -->
-<button class="tape" type="button" data-open="calc" aria-label="Рассчитать стоимость"><span>Рассчитать стоимость</span></button>
+<!-- Вертикальная лента: сайд-таб + плавающая кнопка из брифа (от 960px). Ведёт к квизу в #raschet -->
+<a class="tape" href="#raschet" aria-label="Рассчитать стоимость"><span>Рассчитать стоимость</span></a>
 
-<!-- Липкая нижняя кнопка (ниже 960px), появляется, когда кнопки первого экрана ушли из вида -->
+<!-- Липкая нижняя кнопка (ниже 960px): появляется, когда кнопки первого экрана ушли из вида; прячется у квиза и финала -->
 <div class="sticky-cta" data-sticky-cta hidden>
-  <button class="btn btn-primary" type="button" data-open="calc">Рассчитать стоимость</button>
+  <a class="btn btn-primary" href="#raschet">Рассчитать стоимость</a>
 </div>
 
 <!-- Мобильное меню -->
@@ -261,91 +634,65 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
     </button>
   </div>
   <nav class="menu-nav" aria-label="Разделы">
-    <a href="#uslugi">Услуги</a>
+    <a href="#zadachi">Услуги</a>
     <a href="#proizvodstvo">Производство</a>
-    <a href="#" data-stub>Портфолио</a>
-    <a href="#prais">Прайс</a>
+    <a href="#portfolio">Портфолио</a>
+    <a href="#raschet">Прайс</a>
     <a href="#kontakty">Контакты</a>
   </nav>
   <div class="menu-foot">
     <a class="menu-phone" href="tel:+79995888804">+7&nbsp;999&nbsp;588‑88‑04</a>
-    <button class="btn btn-primary" type="button" data-open="calc">Рассчитать стоимость</button>
+    <a class="btn btn-primary" href="#raschet">Рассчитать стоимость</a>
   </div>
 </dialog>
 
-<!-- Форма расчёта -->
-<dialog class="modal" id="calc" aria-labelledby="calc-title">
+<!-- Обсудить задачу -->
+<dialog class="modal modal--small" id="discuss" aria-labelledby="discuss-title">
   <div class="modal-inner">
     <button class="icon-btn modal-close" type="button" data-close aria-label="Закрыть">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg>
     </button>
-    <form class="form" data-form="calc" novalidate>
-      <h2 id="calc-title">Рассчитать стоимость</h2>
-      <fieldset class="seg">
-        <legend>Направление</legend>
-        <label class="seg-opt"><input type="radio" name="direction" value="opt" checked><span>Маркетплейсы и&nbsp;опт<small>от&nbsp;300&nbsp;ед.</small></span></label>
-        <label class="seg-opt"><input type="radio" name="direction" value="exp"><span>Экспериментальный цех<small>образцы и&nbsp;малые партии</small></span></label>
-      </fieldset>
-
+    <form class="form" data-form="discuss" novalidate>
+      <h2 id="discuss-title">Обсудить задачу</h2>
+      <p class="form-lead">Напишите в&nbsp;мессенджер или оставьте телефон&nbsp;— перезвоним в&nbsp;удобное время.</p>
+      <ul class="messengers" aria-label="Мессенджеры">
+        <li><a class="btn btn-secondary" href="#" data-stub>Telegram</a></li>
+        <li><a class="btn btn-secondary" href="#" data-stub>WhatsApp</a></li>
+        <li><a class="btn btn-secondary" href="#" data-stub>Max</a></li>
+      </ul>
       <div class="form-row">
         <div class="field">
-          <label for="calc-item">Изделие</label>
-          <select id="calc-item" name="item">
-            <option>Платье</option>
-            <option>Рубашка</option>
-            <option>Брюки</option>
-            <option>Шорты</option>
-            <option>Худи</option>
-            <option>Свитшот</option>
-            <option>Зип-худи</option>
-            <option>Другое</option>
-          </select>
+          <label for="discuss-name">Имя</label>
+          <input id="discuss-name" name="name" type="text" autocomplete="name" required aria-describedby="discuss-name-err">
+          <p class="err" id="discuss-name-err" hidden>Напишите, как к&nbsp;вам обращаться</p>
         </div>
         <div class="field">
-          <label for="calc-qty">Количество, шт.</label>
-          <input id="calc-qty" name="qty" type="number" inputmode="numeric" min="1" step="1" placeholder="Например, 500" aria-describedby="qty-hint">
+          <label for="discuss-phone">Телефон</label>
+          <input id="discuss-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required aria-describedby="discuss-phone-err">
+          <p class="err" id="discuss-phone-err" hidden>Нужен телефон (10–11&nbsp;цифр)</p>
         </div>
       </div>
-      <div class="hint" id="qty-hint" data-qty-hint hidden>
-        <p>Для партий меньше 300&nbsp;ед. подходит экспериментальный цех: там берём образцы и&nbsp;малые партии.</p>
-        <button class="btn-link" type="button" data-switch-exp>Перейти в&nbsp;экспериментальный цех</button>
-      </div>
-
-      <fieldset class="seg">
-        <legend>Ткань</legend>
-        <label class="seg-opt"><input type="radio" name="fabric" value="own" checked><span>Своя<small>давальческое сырьё</small></span></label>
-        <label class="seg-opt"><input type="radio" name="fabric" value="consult"><span>Нужна консультация<small class="todo">[уточнить]</small></span></label>
+      <fieldset class="seg seg--slots">
+        <legend>Удобное время, по&nbsp;Москве <span class="todo">[уточнить часы работы]</span></legend>
+        <label class="seg-opt"><input type="radio" name="slot" value="09-12"><span>09–12</span></label>
+        <label class="seg-opt"><input type="radio" name="slot" value="12-15"><span>12–15</span></label>
+        <label class="seg-opt"><input type="radio" name="slot" value="15-18"><span>15–18</span></label>
+        <label class="seg-opt"><input type="radio" name="slot" value="18-20"><span>18–20</span></label>
       </fieldset>
-
       <div class="field">
-        <label for="calc-term">Желаемый срок</label>
-        <input id="calc-term" name="term" type="text" placeholder="Например, к&nbsp;1&nbsp;декабря" autocomplete="off">
+        <label for="discuss-task">Коротко о&nbsp;задаче <span class="opt">необязательно</span></label>
+        <textarea id="discuss-task" name="task" rows="3"></textarea>
       </div>
-
-      <div class="form-row">
-        <div class="field">
-          <label for="calc-name">Имя</label>
-          <input id="calc-name" name="name" type="text" autocomplete="name" required aria-describedby="calc-name-err">
-          <p class="err" id="calc-name-err" hidden>Напишите, как к&nbsp;вам обращаться.</p>
-        </div>
-        <div class="field">
-          <label for="calc-contact">Телефон или e-mail</label>
-          <input id="calc-contact" name="contact" type="text" autocomplete="tel" required aria-describedby="calc-contact-err" data-contact>
-          <p class="err" id="calc-contact-err" hidden>Укажите телефон (например, +7&nbsp;999&nbsp;000‑00‑00) или e-mail.</p>
-        </div>
-      </div>
-
       <label class="check">
-        <input type="checkbox" name="consent" required aria-describedby="calc-consent-err">
+        <input type="checkbox" name="consent" required aria-describedby="discuss-consent-err">
         <span>Даю <a href="consent.html" target="_blank">согласие на&nbsp;обработку персональных данных</a> и&nbsp;принимаю <a href="privacy.html" target="_blank">политику конфиденциальности</a></span>
       </label>
-      <p class="err" id="calc-consent-err" hidden>Отметьте согласие на&nbsp;обработку персональных данных: без него мы не&nbsp;можем принять заявку.</p>
-
-      <button class="btn btn-primary btn-wide" type="submit">Отправить заявку</button>
+      <p class="err" id="discuss-consent-err" hidden>Отметьте согласие на&nbsp;обработку персональных данных: без него мы не&nbsp;можем принять заявку.</p>
+      <button class="btn btn-primary btn-wide" type="submit">Заказать звонок</button>
     </form>
     <div class="form-done" data-done hidden tabindex="-1">
-      <h2>Заявка принята</h2>
-      <p>Пришлём расчёт <span class="todo">[уточнить срок]</span>. Если появятся вопросы по&nbsp;модели, технолог свяжется с&nbsp;вами.</p>
+      <h2>Спасибо!</h2>
+      <p>Перезвоним в&nbsp;выбранное время.</p>
       <button class="btn btn-secondary" type="button" data-close>Закрыть</button>
     </div>
   </div>

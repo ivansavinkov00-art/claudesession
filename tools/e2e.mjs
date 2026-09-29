@@ -350,7 +350,7 @@ await test('квиз: без согласия отправка заблокир�
 await test('квиз: контакт — 12345 и 12 цифр нельзя, e-mail и 11 цифр можно', DESK, async (p) => {
   await toStep(p, 4);
   await p.fill('#kc-name', 'Анна');
-  await pick(p, '#kc-consent');
+  await p.check('#kc-consent');
   await p.fill('#kc-contact', '12345');
   await p.click(`${C} [data-kc="submit"]`);
   assert.equal(nb(await p.locator('#kc-err-contact').innerText()), 'Нужен телефон (10–11 цифр) или e-mail');
@@ -366,7 +366,7 @@ await test('квиз: успех — «Заявка принята» и «Ска
   await p.fill('#kc-name', 'Анна');
   await p.fill('#kc-contact', '8 (999) 588-88-04');
   await pick(p, `${C} input[name="messenger"][value="telegram"]`);
-  await pick(p, '#kc-consent');
+  await p.check('#kc-consent');
   await p.click(`${C} [data-kc="submit"]`);
   const done = p.locator(`${C} [data-kc="done"]`);
   assert.equal(await done.isVisible(), true);
@@ -380,7 +380,7 @@ await test('квиз: после успеха новый переход откр
   await toStep(p, 4);
   await p.fill('#kc-name', 'Анна');
   await p.fill('#kc-contact', 'anna@brand.ru');
-  await pick(p, '#kc-consent');
+  await p.check('#kc-consent');
   await p.click(`${C} [data-kc="submit"]`);
   await p.evaluate(() => window.scrollTo(0, 0));
   await p.click('[data-hero-actions] a[href="#raschet"]');
@@ -398,7 +398,7 @@ await test('квиз: отправка с пропущенным шагом во
   await next(p); await next(p);
   await p.fill('#kc-name', 'Анна');
   await p.fill('#kc-contact', 'anna@brand.ru');
-  await pick(p, '#kc-consent');
+  await p.check('#kc-consent');
   await p.click(`${C} [data-kc="submit"]`);
   assert.equal(await stepNow(p), 1);
   assert.equal(await p.locator('#kc-err-direction').isVisible(), true);
@@ -556,7 +556,7 @@ await test('«Обсудить задачу»: телефон проверяет
   await p.fill('#discuss-name', 'Анна');
   await p.fill('#discuss-phone', 'anna@brand.ru');
   await pick(p, '#discuss input[name="slot"][value="12-15"]');
-  await pick(p, '#discuss input[name="consent"]');
+  await p.check('#discuss input[name="consent"]');
   await p.click('#discuss button[type="submit"]');
   assert.equal(await p.locator('#discuss-phone-err').isVisible(), true, 'e-mail прошёл как телефон');
   await p.fill('#discuss-phone', '+7 999 123-45-67');

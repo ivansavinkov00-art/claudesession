@@ -122,7 +122,7 @@ const sets = {
           await p.fill('#kc-name', 'Анна');
           await p.fill('#kc-contact', '+7 999 123-45-67');
           await pick(p, `${CALC} input[name="messenger"][value="telegram"]`);
-          await pick(p, '#kc-consent');
+          await p.check('#kc-consent');
           await p.click(`${CALC} [data-kc="submit"]`);
           await pause(p, 200);
         },

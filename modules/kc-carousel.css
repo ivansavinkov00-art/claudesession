@@ -1,7 +1,9 @@
 /* kc-carousel — 3D-карусель «Что мы шьём». Спека: PLAN-v2.md, 6.2.
    Все селекторы — .kc-carousel…; глобальные токены и классы сайта не используются.
-   Брейкпоинты Тильды: 1199 / 959 / 639 / 479. Движение 150–300 мс, ease-out; при reduce — плоский ряд со scroll-snap.
-   Геометрия coverflow — по [data-pos] (−3…3), таблица значений в PLAN-v2.md. */
+   Брейкпоинты Тильды: 1199 / 959 / 639 / 479. Движение 150–300 мс, ease-out.
+   По умолчанию и при prefers-reduced-motion: плоский горизонтальный ряд со scroll-snap, без поворотов.
+   3D-режим включается только при prefers-reduced-motion: no-preference; геометрия coverflow — по [data-pos] (−3…3).
+   Объём создают только перспектива, масштаб и затемнение: без глянца, бликов и теней с размытием. */
 .kc-carousel {
   /* свои токены модуля (значения = DESIGN.md), чтобы блок жил в Тильде без styles.css */
   --kc-linen: #E6DECE;
@@ -21,16 +23,110 @@
   --kc-ease: cubic-bezier(.2, .7, .2, 1);
   --kc-card-w: 360px;
   --kc-perspective: 1200px;
+  color: var(--kc-ink);
 }
 @media (max-width: 1199px) { .kc-carousel { --kc-card-w: 320px; } }
 @media (max-width: 639px) { .kc-carousel { --kc-card-w: min(280px, 72vw); --kc-perspective: 900px; } }
 
-/* TODO 6.2: ряд-указатель (.kc-carousel__index, __goto, активный — пунктир снизу) */
-/* TODO 6.2: сцена (.kc-carousel__stage: perspective, overflow: clip, высота) и слайды по [data-pos] */
-/* TODO 6.2: карточка (__card, __media 3:4, __tag-бирка, __title, __cta только у [data-pos="0"]) */
-/* TODO 6.2: управление (__controls, __arrow 48×48, disabled; __counter, lining-nums) */
-/* TODO 6.2: фокус — outline 2px var(--kc-clay) */
+/* Ряд-указатель: активный подчёркнут пунктирной строчкой */
+.kc-carousel__index { position: relative; display: flex; flex-wrap: wrap; gap: 0 28px; margin: 0 0 32px; padding: 0; list-style: none; }
+.kc-carousel__goto {
+  position: relative; display: inline-flex; align-items: center; gap: .6em; min-height: 44px; padding: 0 0 4px;
+  background: none; border: 0; border-radius: 0; cursor: pointer;
+  font: 400 13px/1.2 var(--kc-mono); letter-spacing: .05em; color: var(--kc-ink);
+  text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 6px; text-decoration-thickness: 1px;
+  transition: text-decoration-color .15s var(--kc-ease);
+}
+.kc-carousel__goto:hover { text-decoration-color: var(--kc-clay); }
+.kc-carousel__goto:focus-visible { outline: 2px solid var(--kc-clay); outline-offset: 2px; }
+.kc-carousel__goto::after { content: ""; position: absolute; left: 0; right: 0; bottom: 6px; height: 2px; background: var(--kc-stitch); opacity: 0; transition: opacity .15s var(--kc-ease); }
+.kc-carousel__goto[aria-current="true"]::after { opacity: 1; }
+.kc-carousel__goto-n { color: var(--kc-muted); }
 
+/* Сцена: плоский ряд со scroll-snap (базовый режим) */
+.kc-carousel__stage {
+  position: relative; display: flex; gap: 16px; overflow-x: auto; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; scrollbar-width: none; padding: 0 calc(50% - var(--kc-card-w) / 2) 4px;
+  user-select: none; -webkit-user-select: none;
+}
+.kc-carousel__stage::-webkit-scrollbar { display: none; }
+.kc-carousel__slide { position: relative; flex: 0 0 var(--kc-card-w); width: var(--kc-card-w); scroll-snap-align: center; }
+
+/* Карточка. Фон намеренно с альфой .99, а не сплошной: иначе Chromium считает активную карточку полностью
+   непрозрачной слоем и «вырезает» из-под неё куски боковых 3D-карточек (видны прямоугольные дыры у внутреннего края) */
+.kc-carousel__card { display: flex; flex-direction: column; background: rgba(242, 236, 226, .99); transition: transform .15s ease-out; transform: perspective(900px) rotateX(var(--tilt-y, 0deg)) rotateY(var(--tilt-x, 0deg)); }
+.kc-carousel__media { position: relative; margin: 0; aspect-ratio: 3 / 4; overflow: hidden; background: rgba(201, 183, 156, .99); }
+.kc-carousel__media img { display: block; width: 100%; height: 100%; object-fit: cover; -webkit-user-drag: none; user-select: none; filter: saturate(.92) sepia(.06); }
+.kc-carousel__media img[data-placeholder] { filter: none; object-fit: contain; }
+/* номер — бирка, будто вшитый ярлык */
+.kc-carousel__tag {
+  position: absolute; z-index: 2; top: 12px; left: 12px; display: inline-flex; align-items: center; min-height: 32px; padding: 0 12px;
+  background: var(--kc-milk); border: 1.5px dashed var(--kc-clay); font: 500 13px/1 var(--kc-mono); letter-spacing: .05em;
+}
+.kc-carousel__title { margin: 0; padding: 16px 20px 0; font: 600 32px/1.1 var(--kc-serif); letter-spacing: -.005em; }
+.kc-carousel__cta {
+  align-self: flex-start; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; margin: 14px 20px 20px; padding: 0 22px;
+  border: 1px solid var(--kc-ink); background: transparent; color: var(--kc-ink);
+  font: 500 14px/1.2 var(--kc-mono); letter-spacing: .05em; text-decoration: none; cursor: pointer;
+  transition: background-color .15s var(--kc-ease);
+}
+.kc-carousel__cta:hover { background: rgba(46, 37, 32, .08); }
+.kc-carousel__cta:focus-visible { outline: 2px solid var(--kc-clay); outline-offset: 3px; }
+@media (max-width: 1199px) { .kc-carousel__title { font-size: 30px; } }
+@media (max-width: 639px) { .kc-carousel__title { font-size: 28px; padding: 14px 16px 0; } .kc-carousel__cta { margin: 12px 16px 16px; } }
+
+/* Управление: стрелки 48×48, счётчик «03 / 06» */
+.kc-carousel__controls { display: flex; align-items: center; justify-content: center; gap: 24px; margin-top: 32px; }
+.kc-carousel__arrow {
+  display: grid; place-items: center; width: 48px; height: 48px; padding: 0; background: transparent; color: var(--kc-ink);
+  border: 1px solid var(--kc-ink); border-radius: 0; cursor: pointer; transition: background-color .15s var(--kc-ease);
+}
+.kc-carousel__arrow svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: square; stroke-linejoin: miter; }
+.kc-carousel__arrow:hover:not(:disabled) { background: rgba(46, 37, 32, .08); }
+.kc-carousel__arrow:disabled { opacity: .35; cursor: default; }
+.kc-carousel__arrow:focus-visible { outline: 2px solid var(--kc-clay); outline-offset: 3px; }
+.kc-carousel__counter { min-width: 6em; margin: 0; text-align: center; font: 500 15px/1 var(--kc-mono); letter-spacing: .1em; font-variant-numeric: lining-nums; }
+
+/* <960: ряд-указатель одной строкой с горизонтальной прокруткой */
+@media (max-width: 959px) {
+  .kc-carousel__index { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 0 24px; }
+  .kc-carousel__index::-webkit-scrollbar { display: none; }
+  .kc-carousel__index li { flex: none; }
+}
+
+/* ---------- 3D-режим (coverflow) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .kc-carousel__stage {
+    display: block; height: calc(var(--kc-card-w) * 4 / 3 + 170px); padding: 0; overflow: clip;
+    perspective: var(--kc-perspective); perspective-origin: 50% 40%;
+    scroll-snap-type: none; touch-action: pan-y;
+  }
+  .kc-carousel__slide {
+    position: absolute; top: 0; left: 50%; margin-left: calc(var(--kc-card-w) / -2);
+    transition: transform .3s var(--kc-ease), filter .3s var(--kc-ease), opacity .3s var(--kc-ease);
+  }
+  .kc-carousel__slide[data-pos="0"] { z-index: 5; }
+  .kc-carousel__slide[data-pos="-1"] { z-index: 4; transform: translateX(-64%) translateZ(-160px) rotateY(30deg); filter: brightness(.82); cursor: pointer; }
+  .kc-carousel__slide[data-pos="1"]  { z-index: 4; transform: translateX(64%) translateZ(-160px) rotateY(-30deg); filter: brightness(.82); cursor: pointer; }
+  .kc-carousel__slide[data-pos="-2"] { z-index: 3; transform: translateX(-114%) translateZ(-280px) rotateY(32deg); filter: brightness(.62); cursor: pointer; }
+  .kc-carousel__slide[data-pos="2"]  { z-index: 3; transform: translateX(114%) translateZ(-280px) rotateY(-32deg); filter: brightness(.62); cursor: pointer; }
+  .kc-carousel__slide[data-pos="-3"] { z-index: 1; transform: translateX(-140%) translateZ(-360px) rotateY(32deg); filter: brightness(.5); opacity: 0; pointer-events: none; }
+  .kc-carousel__slide[data-pos="3"]  { z-index: 1; transform: translateX(140%) translateZ(-360px) rotateY(-32deg); filter: brightness(.5); opacity: 0; pointer-events: none; }
+  /* «Рассчитать» — только у активной карточки */
+  .kc-carousel__slide:not([data-pos="0"]) .kc-carousel__cta { visibility: hidden; }
+}
+@media (prefers-reduced-motion: no-preference) and (max-width: 1199px) {
+  .kc-carousel__slide[data-pos="-1"] { transform: translateX(-60%) translateZ(-140px) rotateY(28deg); }
+  .kc-carousel__slide[data-pos="1"]  { transform: translateX(60%) translateZ(-140px) rotateY(-28deg); }
+  .kc-carousel__slide[data-pos="-2"] { transform: translateX(-106%) translateZ(-240px) rotateY(30deg); }
+  .kc-carousel__slide[data-pos="2"]  { transform: translateX(106%) translateZ(-240px) rotateY(-30deg); }
+}
+/* мобильный: одна карточка по центру и края соседних, 3D мягче */
+@media (prefers-reduced-motion: no-preference) and (max-width: 639px) {
+  .kc-carousel__slide[data-pos="-1"] { transform: translateX(-88%) translateZ(-80px) rotateY(15deg); filter: brightness(.85); }
+  .kc-carousel__slide[data-pos="1"]  { transform: translateX(88%) translateZ(-80px) rotateY(-15deg); filter: brightness(.85); }
+  .kc-carousel__slide[data-pos="-2"], .kc-carousel__slide[data-pos="2"] { opacity: 0; pointer-events: none; }
+}
 @media (prefers-reduced-motion: reduce) {
-  /* TODO 6.2: плоский ряд — stage flex + overflow-x auto + scroll-snap, слайды static, transform/filter none */
+  .kc-carousel *, .kc-carousel *::before, .kc-carousel *::after { transition: none !important; }
 }

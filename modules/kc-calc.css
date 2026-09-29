@@ -1,7 +1,7 @@
 /* kc-calc — квиз «Рассчитать стоимость» + панель «Ваш проект». Спека: PLAN-v2.md, 6.4.
    Все селекторы — .kc-calc…; глобальные токены и классы сайта (.btn, .seg, .field, .hint) не используются —
    нужные стили продублированы внутри префикса, чтобы модуль переносился в Тильду блоком T123.
-   Брейкпоинты Тильды: 1199 / 959 / 639 / 479. */
+   Брейкпоинты Тильды: 1199 / 959 / 639 / 479. Движение 150–300 мс, ease-out; при reduce — без переходов. */
 .kc-calc {
   /* свои токены модуля (значения = DESIGN.md), чтобы блок жил в Тильде без styles.css */
   --kc-linen: #E6DECE;
@@ -19,20 +19,159 @@
   --kc-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
   --kc-stitch: repeating-linear-gradient(90deg, var(--kc-clay) 0 6px, transparent 6px 11px);
   --kc-ease: cubic-bezier(.2, .7, .2, 1);
-  --kc-q: 32px;      /* заголовок шага: 32 / 28 / 28 / 26 / 24 */
+  --kc-q: 32px;      /* заголовок шага, Cormorant 600: 32 / 28 / 28 / 26 / 24 */
+  --kc-gap: 40px;
   --kc-sticky-top: 100px;
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--kc-gap); align-items: start;
+  color: var(--kc-ink); font: 400 15px/1.6 var(--kc-mono); letter-spacing: .01em;
 }
-@media (max-width: 1199px) { .kc-calc { --kc-q: 28px; } }
+@media (max-width: 1199px) { .kc-calc { --kc-q: 28px; --kc-gap: 24px; } }
+@media (max-width: 959px) { .kc-calc { --kc-gap: 20px; } }
 @media (max-width: 639px) { .kc-calc { --kc-q: 26px; } }
 @media (max-width: 479px) { .kc-calc { --kc-q: 24px; } }
+.kc-calc [hidden] { display: none !important; }
+.kc-calc :focus-visible { outline: 2px solid var(--kc-clay); outline-offset: 3px; }
+.kc-calc__form, .kc-calc__done { grid-column: 1 / span 8; grid-row: 1; min-width: 0; }
+.kc-calc__panel { grid-column: 9 / span 4; grid-row: 1; }
 
-/* TODO 6.4: раскладка (форма 8 кол. + sticky-панель 4 кол.; <960 — панель скрыта, видна __sumline) */
-/* TODO 6.4: шапка (__progress, __ruler — 4 сегмента, деления сантиметровой ленты, --kc-step) */
-/* TODO 6.4: шаг (__step, legend без отступов, __q) и группы (__group) */
-/* TODO 6.4: карточки-радио (__card) и изделия с миниатюрами (__items, __item; «Другое» — пунктир) */
-/* TODO 6.4: поля (__field, input/textarea 50px), быстрые варианты (__quick), чекбоксы (__check) */
-/* TODO 6.4: ошибки (__err, aria-invalid), подсказка (__hint — sage + пунктир olive) */
-/* TODO 6.4: кнопки (__btn, __btn--ghost), навигация (__nav), успех (__done), панель (__summary / __panel) */
+/* Прогресс: «Шаг 2 из 4» и мерная лента с делениями. --kc-step (1…4) ставит JS */
+.kc-calc__head { margin-bottom: 32px; }
+.kc-calc__progress { margin: 0 0 12px; font: 500 13px/1.2 var(--kc-mono); letter-spacing: .05em; }
+.kc-calc__ruler { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; }
+.kc-calc__ruler i { --on: clamp(0, calc(var(--kc-step, 1) - var(--n) + 1), 1); display: block; height: 14px; transition: background-size .25s var(--kc-ease);
+  background:
+    linear-gradient(var(--kc-clay), var(--kc-clay)) left top / calc(100% * var(--on)) 4px no-repeat,
+    linear-gradient(var(--kc-line-strong), var(--kc-line-strong)) left top / 100% 4px no-repeat,
+    repeating-linear-gradient(90deg, rgba(46, 37, 32, .5) 0 1px, transparent 1px 8px) left bottom / 100% 6px no-repeat,
+    linear-gradient(rgba(46, 37, 32, .7), rgba(46, 37, 32, .7)) left bottom / 1px 10px no-repeat; }
+.kc-calc__ruler i:nth-child(1) { --n: 1; } .kc-calc__ruler i:nth-child(2) { --n: 2; }
+.kc-calc__ruler i:nth-child(3) { --n: 3; } .kc-calc__ruler i:nth-child(4) { --n: 4; }
+
+/* Шаг и группы полей */
+.kc-calc__step { margin: 0; padding: 0; border: 0; min-width: 0; }
+.kc-calc__step > legend { width: 100%; margin: 0 0 24px; padding: 0; }
+.kc-calc__q { margin: 0; font: 600 var(--kc-q)/1.1 var(--kc-serif); letter-spacing: -.01em; text-wrap: balance; }
+.kc-calc__q:focus { outline: none; }
+.kc-calc__group { margin: 0 0 28px; padding: 0; border: 0; min-width: 0; }
+.kc-calc__label { display: block; margin: 0 0 10px; padding: 0; font: 500 13px/1.3 var(--kc-mono); letter-spacing: .03em; }
+.kc-calc__label small { margin-left: .6em; font-weight: 400; color: var(--kc-muted); }
+.kc-calc small.todo { color: #7D5F22; }
+
+/* Карточки-радио (направление, ткань): мотив .seg-opt из v1 */
+.kc-calc__cards { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.kc-calc__card { position: relative; display: block; cursor: pointer; }
+.kc-calc__card input, .kc-calc__chip input, .kc-calc__item input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.kc-calc__card > span { display: block; height: 100%; min-height: 64px; padding: 14px 16px; border: 1px solid var(--kc-line-strong); transition: border-color .15s var(--kc-ease), box-shadow .15s var(--kc-ease); }
+.kc-calc__card b { display: block; font: 500 15px/1.35 var(--kc-mono); letter-spacing: .02em; }
+.kc-calc__card small { display: block; margin-top: 3px; font: 400 12px/1.35 var(--kc-mono); color: var(--kc-muted); }
+.kc-calc__card:hover > span { border-color: var(--kc-ink); }
+.kc-calc__card input:checked + span { border-color: var(--kc-clay); box-shadow: inset 0 0 0 1px var(--kc-clay); }
+.kc-calc__card input:focus-visible + span, .kc-calc__chip input:focus-visible + span, .kc-calc__item input:focus-visible + .kc-calc__thumb { outline: 2px solid var(--kc-clay); outline-offset: 3px; }
+
+/* Изделия: миниатюры из слотов 04–09, выбор несколькими */
+.kc-calc__items { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 10px 8px; }
+.kc-calc__item { position: relative; display: flex; flex-direction: column; gap: 8px; cursor: pointer; }
+.kc-calc__thumb { position: relative; display: block; aspect-ratio: 3 / 4; overflow: hidden; background: #D5C8B3; border: 1px solid var(--kc-line-strong); transition: border-color .15s var(--kc-ease), box-shadow .15s var(--kc-ease); }
+.kc-calc__thumb img { display: block; width: 100%; height: 100%; object-fit: cover; filter: saturate(.92) sepia(.06); }
+.kc-calc__thumb img[data-placeholder] { filter: none; object-fit: contain; }
+.kc-calc__thumb--none { background: var(--kc-milk); border: 1.5px dashed var(--kc-clay); }
+.kc-calc__thumb::after { content: ""; position: absolute; top: 6px; right: 6px; width: 18px; height: 18px; background: var(--kc-milk) center / 12px 9px no-repeat; border: 1px solid var(--kc-ink); }
+.kc-calc__item:hover .kc-calc__thumb { border-color: var(--kc-ink); }
+.kc-calc__item input:checked + .kc-calc__thumb { border-color: var(--kc-clay); box-shadow: inset 0 0 0 2px var(--kc-clay); }
+.kc-calc__item input:checked + .kc-calc__thumb::after { background-color: var(--kc-ink); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='9' viewBox='0 0 12 9'%3E%3Cpath d='M1 4.5 4.3 7.8 11 1.2' fill='none' stroke='%23F2ECE2' stroke-width='1.6'/%3E%3C/svg%3E"); }
+.kc-calc__item-name { font: 500 13px/1.25 var(--kc-mono); letter-spacing: .02em; overflow-wrap: anywhere; }
+
+/* Чипы: услуги, сроки, мессенджеры, «сколько моделей» */
+.kc-calc__chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.kc-calc__chip { position: relative; cursor: pointer; }
+.kc-calc__chip > span { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--kc-line-strong); font: 500 13px/1.2 var(--kc-mono); letter-spacing: .03em; transition: border-color .15s var(--kc-ease), box-shadow .15s var(--kc-ease); }
+.kc-calc__chip:hover > span { border-color: var(--kc-ink); }
+.kc-calc__chip input:checked + span { border-color: var(--kc-clay); box-shadow: inset 0 0 0 1px var(--kc-clay); }
+
+/* Поля */
+.kc-calc__field { margin: 0 0 24px; min-width: 0; }
+.kc-calc__field input, .kc-calc__field textarea {
+  display: block; width: 100%; height: 50px; padding: 0 14px; background: var(--kc-milk); color: var(--kc-ink);
+  border: 1px solid var(--kc-line-strong); border-radius: 0; font: 400 16px/1.2 var(--kc-mono); letter-spacing: .01em; caret-color: var(--kc-clay);
+  appearance: none; -webkit-appearance: none;
+}
+.kc-calc__field textarea { height: auto; min-height: 96px; padding: 12px 14px; line-height: 1.4; resize: vertical; }
+.kc-calc__field input[type="number"] { -moz-appearance: textfield; }
+.kc-calc__field input[type="number"]::-webkit-inner-spin-button, .kc-calc__field input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.kc-calc__field input:hover, .kc-calc__field textarea:hover { border-color: var(--kc-ink); }
+.kc-calc__field input:focus-visible, .kc-calc__field textarea:focus-visible { outline: 2px solid var(--kc-clay); outline-offset: 2px; border-color: var(--kc-ink); }
+.kc-calc__field [aria-invalid="true"] { border-color: var(--kc-clay); box-shadow: inset 0 0 0 1px var(--kc-clay); }
+.kc-calc__row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+.kc-calc__quick { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.kc-calc__quick button { min-width: 56px; min-height: 44px; padding: 0 16px; background: transparent; color: var(--kc-ink); border: 1px solid var(--kc-line-strong); border-radius: 0; cursor: pointer; font: 500 13px/1.2 var(--kc-mono); letter-spacing: .03em; transition: border-color .15s var(--kc-ease); }
+.kc-calc__quick button:hover { border-color: var(--kc-ink); }
+.kc-calc__quick button.is-active { border-color: var(--kc-clay); box-shadow: inset 0 0 0 1px var(--kc-clay); }
+
+/* Согласие и чекбоксы */
+.kc-calc__check { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; align-items: start; margin: 0 0 24px; padding: 4px 0; font: 400 13px/1.5 var(--kc-mono); cursor: pointer; }
+.kc-calc__check input { appearance: none; -webkit-appearance: none; width: 22px; height: 22px; margin: 0; background: var(--kc-milk) center / 14px 11px no-repeat; border: 1px solid var(--kc-ink); border-radius: 0; cursor: pointer; }
+.kc-calc__check input:checked { background-color: var(--kc-ink); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='11' viewBox='0 0 14 11'%3E%3Cpath d='M1 5.5 5 9.5 13 1.5' fill='none' stroke='%23F2ECE2' stroke-width='1.8'/%3E%3C/svg%3E"); }
+.kc-calc__check input[aria-invalid="true"] { border-color: var(--kc-clay); box-shadow: 0 0 0 1px var(--kc-clay); }
+.kc-calc__check a { text-decoration-color: var(--kc-clay); }
+.kc-calc__check--consent { margin-bottom: 4px; }
+
+/* Ошибки и подсказка < 300 ед. (не ошибка: спокойная, шалфей + пунктир олива) */
+.kc-calc__err { margin: 8px 0 0; font: 400 13px/1.4 var(--kc-mono); color: var(--kc-clay); }
+.kc-calc__hint { position: relative; margin: 0 0 24px; padding: 14px 16px; background: var(--kc-sage-bg); font: 400 13px/1.5 var(--kc-mono); }
+.kc-calc__hint::before { content: ""; position: absolute; inset: 4px; border: 1px dashed var(--kc-olive); pointer-events: none; }
+.kc-calc__hint p { margin: 0; }
+.kc-calc__hint button { position: relative; display: inline-flex; align-items: center; min-height: 44px; margin-top: 2px; padding: 0; background: none; border: 0; cursor: pointer; color: var(--kc-ink); font: 500 13px/1.3 var(--kc-mono); letter-spacing: .03em; text-decoration: underline; text-decoration-color: var(--kc-clay); text-underline-offset: 4px; }
+
+/* Кнопки */
+.kc-calc__nav { display: flex; align-items: center; gap: 12px; margin-top: 12px; padding-top: 24px; border-top: 1px solid var(--kc-line); }
+.kc-calc__btn {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 26px;
+  background: var(--kc-ink); color: var(--kc-milk); border: 1px solid var(--kc-ink); border-radius: 0; cursor: pointer;
+  font: 500 14px/1.2 var(--kc-mono); letter-spacing: .05em; text-align: center; text-decoration: none;
+  transition: background-color .2s var(--kc-ease), border-color .2s var(--kc-ease);
+}
+.kc-calc__btn:hover { background: var(--kc-ink-hover); border-color: var(--kc-ink-hover); }
+.kc-calc__btn--ghost { margin-right: auto; background: transparent; color: var(--kc-ink); }
+.kc-calc__btn--ghost:hover { background: rgba(46, 37, 32, .08); border-color: var(--kc-ink); }
+.kc-calc__nav .kc-calc__btn:not(.kc-calc__btn--ghost) { margin-left: auto; }
+.kc-calc__sumline { display: none; margin: 0; font: 400 13px/1.5 var(--kc-mono); color: var(--kc-muted); }
+
+/* Успех */
+.kc-calc__done:focus { outline: none; }
+.kc-calc__done h3 { margin: 0; font: 600 calc(var(--kc-q) * 1.25)/1.05 var(--kc-serif); letter-spacing: -.01em; }
+.kc-calc__done p { max-width: 46ch; margin: 16px 0 0; }
+.kc-calc__done .kc-calc__btn { margin-top: 28px; }
+
+/* Панель «Ваш проект»: обновляется вживую */
+.kc-calc__panel { position: sticky; top: var(--kc-sticky-top); padding: 28px 24px 24px; background: var(--kc-stitch) top left / 100% 2px no-repeat, var(--kc-milk); }
+.kc-calc__panel h3 { margin: 0 0 12px; font: 600 26px/1.1 var(--kc-serif); letter-spacing: -.005em; }
+.kc-calc__panel dl { margin: 0; }
+.kc-calc__panel dl > div { padding: 11px 0 12px; border-top: 1px solid var(--kc-line); }
+.kc-calc__panel dt { font: 400 12px/1.3 var(--kc-mono); letter-spacing: .04em; color: var(--kc-muted); }
+.kc-calc__panel dd { margin: 3px 0 0; font: 500 20px/1.25 var(--kc-serif); color: var(--kc-cacao); overflow-wrap: anywhere; }
+.kc-calc__panel dd.is-empty { color: var(--kc-muted); }
+.kc-calc__panel > p { margin: 16px 0 0; font: 400 12px/1.5 var(--kc-mono); color: var(--kc-muted); }
+
+/* <960: панель прячется, над кнопками появляется строка-итог */
+@media (max-width: 959px) {
+  .kc-calc { display: block; }
+  .kc-calc__panel { display: none; }
+  .kc-calc__nav { flex-wrap: wrap; }
+  .kc-calc__sumline { display: block; flex: 0 0 100%; order: -3; }
+  .kc-calc__sumline:empty { display: none; }
+}
+@media (max-width: 639px) {
+  .kc-calc__items { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .kc-calc__nav { flex-direction: column; align-items: stretch; }
+  .kc-calc__nav .kc-calc__btn { width: 100%; margin: 0; }
+  .kc-calc__nav .kc-calc__btn:not(.kc-calc__btn--ghost) { order: -2; }
+  .kc-calc__btn--ghost { order: -1; }
+  .kc-calc__sumline { flex: none; }
+  .kc-calc__row { grid-template-columns: 1fr; }
+}
+@media (max-width: 479px) {
+  .kc-calc__cards { grid-template-columns: 1fr; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .kc-calc *, .kc-calc *::before, .kc-calc *::after { transition: none !important; }

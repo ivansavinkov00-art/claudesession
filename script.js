@@ -1,5 +1,6 @@
-// Культура шитья — прототип главной. Vanilla JS, без сборки.
+// Культура шитья — прототип главной, v2. Vanilla JS, без сборки.
 // В Tilda всё это заменяется штатными средствами: попапы Zero Block, встроенные формы, фиксированные элементы.
+// Три интерактивных модуля (карусель, задачи, квиз) живут отдельно в modules/ — каждый вставляется в Тильду блоком T123.
 (() => {
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -7,7 +8,7 @@
   // Режим ?slots: бирка с номером слота на каждой картинке ([data-slot] на обёртке, стили в styles.css)
   if (new URLSearchParams(location.search).has('slots')) document.documentElement.classList.add('show-slots');
 
-  // Ссылки-заглушки (Портфолио, мессенджеры) никуда не ведут и не прыгают наверх
+  // Ссылки-заглушки (мессенджеры) никуда не ведут и не прыгают наверх
   $$('[data-stub]').forEach((a) => a.addEventListener('click', (e) => e.preventDefault()));
 
   // Шапка: фон --linen и линия снизу после начала прокрутки
@@ -32,9 +33,7 @@
     const openBtn = e.target.closest('[data-open]');
     if (openBtn) {
       const id = openBtn.dataset.open;
-      if (id === 'calc') resetForm($('#calc'));
-      if (id === 'price') resetForm($('#price'));
-      if (id === 'calc' && openBtn.dataset.direction) setDirection(openBtn.dataset.direction);
+      if (id === 'price' || id === 'discuss') resetForm(document.getElementById(id));
       openDialog(id, openBtn);
       return;
     }
@@ -57,17 +56,29 @@
     });
   });
 
-  // Пункты мобильного меню: закрыть меню, якорь отработает сам
-  $$('#menu .menu-nav a:not([data-stub])').forEach((a) => a.addEventListener('click', () => $('#menu').close()));
+  // Пункты мобильного меню и кнопка в нём: закрыть меню, якорь или переход к квизу отработают сами.
+  // Фокус на «≡» не возвращаем: квиз ставит его на свой заголовок (PLAN-v2.md, 5.1).
+  $$('#menu .menu-nav a, #menu .menu-foot .btn').forEach((a) => a.addEventListener('click', () => {
+    opener = null;
+    $('#menu').close();
+  }));
 
-  // ---------- Формы ----------
+  // ---------- Формы: прайс и «Обсудить задачу» ----------
   const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-  function isContact(value) {
+  const PHONE = /^[+\d\s()\-‐‑]+$/;
+  function isPhone(value) {
     const v = value.trim();
-    if (EMAIL.test(v)) return true;
     const digits = v.replace(/\D/g, '');
-    return /^[+\d\s()\-‐‑]+$/.test(v) && digits.length >= 10 && digits.length <= 12;
+    return PHONE.test(v) && digits.length >= 10 && digits.length <= 11;
   }
+  const isContact = (value) => EMAIL.test(value.trim()) || isPhone(value);
+  // проверка поля по имени: телефон — только телефон, контакт — телефон или e-mail
+  const fieldOk = (input) => {
+    if (input.type === 'checkbox') return input.checked;
+    if (input.name === 'phone') return isPhone(input.value);
+    if (input.name === 'contact') return isContact(input.value);
+    return input.value.trim().length > 0;
+  };
 
   function setError(input, errEl, show) {
     input.setAttribute('aria-invalid', show ? 'true' : 'false');
@@ -81,20 +92,14 @@
     if (!done.hidden) { form.reset(); form.hidden = false; done.hidden = true; }
     $$('[aria-invalid]', form).forEach((i) => i.setAttribute('aria-invalid', 'false'));
     $$('.err', form).forEach((e) => { e.hidden = true; });
-    syncQtyHint();
   }
 
   function validate(form) {
-    const checks = [];
-    const name = form.elements.name;
-    if (name) checks.push([name, name.value.trim().length > 0]);
-    const contact = form.elements.contact;
-    checks.push([contact, isContact(contact.value)]);
-    const consent = form.elements.consent;
-    checks.push([consent, consent.checked]);
-
+    // порядок проверки = порядок полей в форме
+    const inputs = ['name', 'phone', 'contact', 'consent'].map((n) => form.elements[n]).filter(Boolean);
     let firstBad = null;
-    for (const [input, ok] of checks) {
+    for (const input of inputs) {
+      const ok = fieldOk(input);
       setError(input, document.getElementById(input.getAttribute('aria-describedby')), !ok);
       if (!ok && !firstBad) firstBad = input;
     }
@@ -117,51 +122,33 @@
     form.addEventListener('input', (e) => {
       const input = e.target;
       if (input.getAttribute('aria-invalid') !== 'true') return;
-      const ok = input.type === 'checkbox' ? input.checked
-        : input.name === 'contact' ? isContact(input.value)
-        : input.value.trim().length > 0;
-      if (ok) setError(input, document.getElementById(input.getAttribute('aria-describedby')), false);
+      if (fieldOk(input)) setError(input, document.getElementById(input.getAttribute('aria-describedby')), false);
     });
   });
 
-  // ---------- Калькулятор: мягкий отсев партий < 300 ед. в «Опте» ----------
-  const calc = $('#calc');
-  const qty = $('#calc-qty');
-  const qtyHint = $('[data-qty-hint]');
-
-  function setDirection(value) {
-    const radio = $(`input[name="direction"][value="${value}"]`, calc);
-    if (radio) radio.checked = true;
-    syncQtyHint();
-  }
-
-  function syncQtyHint() {
-    const dir = $('input[name="direction"]:checked', calc)?.value;
-    const n = Number(qty.value);
-    qtyHint.hidden = !(dir === 'opt' && qty.value !== '' && n > 0 && n < 300);
-  }
-
-  qty.addEventListener('input', syncQtyHint);
-  $$('input[name="direction"]', calc).forEach((r) => r.addEventListener('change', syncQtyHint));
-  $('[data-switch-exp]', calc).addEventListener('click', () => {
-    setDirection('exp');
-    $('input[name="direction"][value="exp"]', calc).focus();
-  });
-
   // ---------- Липкая нижняя кнопка < 960px ----------
+  // Показывается, когда кнопки первого экрана ушли из вида; прячется, пока на экране квиз (#raschet) или финал.
   const sticky = $('[data-sticky-cta]');
   const heroActions = $('[data-hero-actions]');
   const mobile = window.matchMedia('(max-width: 959px)');
-  let heroActionsVisible = true;
+  const inView = new Map(); // цель → видна ли
+  let heroActionsAbove = false;
 
   const syncSticky = () => {
     sticky.hidden = !mobile.matches;
-    sticky.classList.toggle('is-visible', mobile.matches && !heroActionsVisible);
+    const heroGone = !inView.get(heroActions);
+    const covered = inView.get($('#raschet')) || inView.get($('.final'));
+    sticky.classList.toggle('is-visible', mobile.matches && heroGone && !covered);
   };
-  new IntersectionObserver(([entry]) => {
-    heroActionsVisible = entry.isIntersecting || entry.boundingClientRect.top > 0;
+  const io = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      // кнопки первого экрана ниже окна (страница ещё не прокручена) считаем «видимыми», липкая кнопка не нужна
+      if (entry.target === heroActions) heroActionsAbove = entry.boundingClientRect.top > 0;
+      inView.set(entry.target, entry.target === heroActions ? (entry.isIntersecting || heroActionsAbove) : entry.isIntersecting);
+    }
     syncSticky();
-  }).observe(heroActions);
+  });
+  [heroActions, $('#raschet'), $('.final')].forEach((el) => { if (el) { inView.set(el, el === heroActions); io.observe(el); } });
   mobile.addEventListener('change', syncSticky);
   syncSticky();
 })();

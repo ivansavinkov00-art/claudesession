@@ -33,10 +33,17 @@
       });
     }
 
-    // TODO 6.3: клик по toggle — на ≥960 только активирует, на <960 переключает;
-    //   на ≥960 при hover.matches — pointerenter на row активирует; focusin на toggle активирует (≥960);
-    //   desktop 'change': если на ≥960 ничего не открыто — открыть 0.
-    void desktop; void hover;
+    // ≥960: строка становится активной по наведению мыши, фокусу и клику, и всегда открыта ровно одна.
+    // <960: аккордеон, клик переключает, открыта максимум одна (можно закрыть все).
+    // Наведение реагирует только на мышь: у тача hover эмулируется клик-ом и тогда строка сразу бы закрывалась.
+    const current = () => rows.findIndex((r) => r.classList.contains('is-open'));
+    rows.forEach((row, i) => {
+      toggleOf(row).addEventListener('click', () => setOpen(desktop.matches || current() !== i ? i : -1));
+      toggleOf(row).addEventListener('focus', () => { if (desktop.matches) setOpen(i); });
+      row.addEventListener('pointerenter', (e) => { if (desktop.matches && hover.matches && e.pointerType === 'mouse') setOpen(i); });
+    });
+    // на ≥960 закрытых строк не бывает
+    desktop.addEventListener('change', () => { if (desktop.matches && current() === -1) setOpen(0); });
 
     const initial = rows.findIndex((r) => r.classList.contains('is-open'));
     setOpen(initial === -1 ? 0 : initial);
