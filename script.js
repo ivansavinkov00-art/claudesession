@@ -11,12 +11,6 @@
   // Ссылки-заглушки (мессенджеры) никуда не ведут и не прыгают наверх
   $$('[data-stub]').forEach((a) => a.addEventListener('click', (e) => e.preventDefault()));
 
-  // Шапка: фон --linen и линия снизу после начала прокрутки
-  const header = $('[data-header]');
-  const syncHeader = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
-  window.addEventListener('scroll', syncHeader, { passive: true });
-  syncHeader();
-
   // ---------- Диалоги: <dialog>.showModal() даёт фокус-ловушку, inert-фон и Esc ----------
   let opener = null;
 

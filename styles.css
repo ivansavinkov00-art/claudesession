@@ -15,6 +15,18 @@
 @font-face { font-family: "Cormorant"; font-style: normal; font-weight: 600; font-display: swap;
   src: url(assets/fonts/cormorant-latin-600-normal.woff2) format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Cormorant"; font-style: italic; font-weight: 500; font-display: swap;
+  src: url(assets/fonts/cormorant-cyrillic-500-italic.woff2) format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "Cormorant"; font-style: italic; font-weight: 500; font-display: swap;
+  src: url(assets/fonts/cormorant-latin-500-italic.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Cormorant"; font-style: italic; font-weight: 600; font-display: swap;
+  src: url(assets/fonts/cormorant-cyrillic-600-italic.woff2) format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "Cormorant"; font-style: italic; font-weight: 600; font-display: swap;
+  src: url(assets/fonts/cormorant-latin-600-italic.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 400; font-display: swap;
   src: url(assets/fonts/ibm-plex-mono-cyrillic-400-normal.woff2) format("woff2");
   unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
@@ -36,6 +48,7 @@
   --ink-hover: #4A3B33;
   --muted: #6B5F55;   /* второстепенный текст */
   --clay: #974B31;    /* «нитка»: строчка, фокус, активные состояния */
+  --clay-light: #D9A184; /* та же нитка на тёмном --cacao (7,6:1); на светлом не использовать */
   --line: rgba(46, 37, 32, .18);
   --line-strong: rgba(46, 37, 32, .56);
 
@@ -43,11 +56,11 @@
   --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
 
   /* 1200+ */
-  --fs-xl: 108px;     /* «Швейное производство» — главный акцент первого экрана */
-  --fs-mid: 56px;     /* «Полного цикла под ключ» — вдвое меньше главной строки */
+  --fs-xl: 100px;     /* «Швейное производство» — главный акцент первого экрана */
+  --fs-mid: 50px;     /* «Полного цикла под ключ» — ровно вдвое меньше главной строки */
   --fs-city: 17px;    /* «в Челябинске», моно */
-  --fs-lead: 22px;    /* лид первого экрана */
-  --fs-hero-fact: 40px; /* цифры строки фактов первого экрана */
+  --fs-lead: 26px;    /* лид: у Cormorant низкий x-height, поэтому 22px читались мелко */
+  --fs-hero-fact: 44px; /* цифры строки фактов первого экрана */
   --fs-h2: 56px;
   --fs-h3: 32px;
   --fs-quote: 34px;
@@ -70,16 +83,16 @@
   --stitch: repeating-linear-gradient(90deg, var(--clay) 0 6px, transparent 6px 11px);
 }
 @media (max-width: 1199px) {
-  :root { --fs-xl: 88px; --fs-mid: 46px; --fs-city: 16px; --fs-lead: 20px; --fs-hero-fact: 36px; --fs-h2: 48px; --fs-h3: 28px; --fs-quote: 30px; --fs-h2-lg: 56px; --fs-fact: 40px; --fs-pfinal: 24px; --fs-seam: 30px; --gutter: 32px; --gap: 24px; --section: 112px; }
+  :root { --fs-xl: 84px; --fs-mid: 42px; --fs-city: 16px; --fs-lead: 22px; --fs-hero-fact: 38px; --fs-h2: 48px; --fs-h3: 28px; --fs-quote: 30px; --fs-h2-lg: 56px; --fs-fact: 40px; --fs-pfinal: 24px; --fs-seam: 30px; --gutter: 32px; --gap: 24px; --section: 112px; }
 }
 @media (max-width: 959px) {
-  :root { --fs-xl: 78px; --fs-mid: 39px; --fs-city: 15px; --fs-lead: 19px; --fs-h2: 44px; --fs-h2-lg: 52px; --fs-fact: 38px; --fs-pfinal: 22px; --fs-seam: 28px; --gap: 20px; --section: 96px; --header-h: 64px; --tape-w: 0px; }
+  :root { --fs-xl: 76px; --fs-mid: 38px; --fs-city: 15px; --fs-lead: 22px; --fs-h2: 44px; --fs-h2-lg: 52px; --fs-fact: 38px; --fs-pfinal: 22px; --fs-seam: 28px; --gap: 20px; --section: 96px; --header-h: 64px; --tape-w: 0px; }
 }
 @media (max-width: 639px) {
-  :root { --fs-xl: 64px; --fs-mid: 32px; --fs-city: 14px; --fs-lead: 18px; --fs-hero-fact: 32px; --fs-h2: 38px; --fs-h3: 26px; --fs-quote: 27px; --fs-body: 14px; --fs-h2-lg: 44px; --fs-fact: 36px; --fs-pfinal: 21px; --fs-seam: 26px; --gutter: 20px; --gap: 16px; --section: 80px; --header-h: 60px; }
+  :root { --fs-xl: 62px; --fs-mid: 32px; --fs-city: 14px; --fs-lead: 20px; --fs-hero-fact: 32px; --fs-h2: 38px; --fs-h3: 26px; --fs-quote: 27px; --fs-body: 14px; --fs-h2-lg: 44px; --fs-fact: 36px; --fs-pfinal: 21px; --fs-seam: 26px; --gutter: 20px; --gap: 16px; --section: 80px; --header-h: 60px; }
 }
 @media (max-width: 479px) {
-  :root { --fs-xl: 47px; --fs-mid: 25px; --fs-lead: 17px; --fs-hero-fact: 30px; --fs-h2: 34px; --fs-h3: 24px; --fs-quote: 25px; --gutter: 16px; --fs-h2-lg: 40px; --fs-pfinal: 20px; --fs-seam: 24px; --section: 64px; }
+  :root { --fs-xl: 46px; --fs-mid: 26px; --fs-lead: 18px; --fs-hero-fact: 30px; --fs-h2: 34px; --fs-h3: 24px; --fs-quote: 25px; --gutter: 16px; --fs-h2-lg: 40px; --fs-pfinal: 20px; --fs-seam: 24px; --section: 64px; }
 }
 
 /* ---------- База ---------- */
@@ -153,9 +166,8 @@ input, select, textarea { caret-color: var(--clay); }
 .site-header {
   position: fixed; z-index: 50; top: 0; left: 0; right: var(--tape-w);
   height: var(--header-h); display: flex; align-items: center;
-  border-bottom: 1px solid transparent; transition: background-color .25s ease, border-color .25s ease;
+  background: var(--linen); border-bottom: 1px solid var(--line); /* всегда непрозрачная: под ней ничего не должно просвечивать */
 }
-.site-header.is-scrolled { background: var(--linen); border-bottom-color: var(--line); }
 .header-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; column-gap: 24px; }
 .nav { display: flex; align-items: center; gap: 28px; font: 400 13px/1.2 var(--mono); letter-spacing: .05em; }
 .nav-left { justify-self: start; }
@@ -166,28 +178,33 @@ input, select, textarea { caret-color: var(--clay); }
 .header-mobile { display: none; }
 
 /* ---------- Первый экран ---------- */
-.hero { padding-top: calc(var(--header-h) + 24px); }
+.hero { padding-top: calc(var(--header-h) + 32px); }
 .hero-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); align-items: end; }
 .hero-text { grid-column: 1 / span 7; grid-row: 1; }
-.hero-title { font-weight: 500; letter-spacing: -.01em; } /* на кегле 108px начертание 500 тоньше и дороже 600: выбрано по скриншотам */
+.hero-title { font-weight: 500; letter-spacing: -.01em; } /* на кегле 100px начертание 500 тоньше и дороже 600: выбрано по скриншотам */
 .ht-line { display: block; }
-.ht-xl { font-size: var(--fs-xl); line-height: .96; letter-spacing: -.015em; }
-.ht-city { margin: 14px 0 22px; font: 500 var(--fs-city)/1.2 var(--mono); letter-spacing: .04em; }
-.ht-mid { font-size: var(--fs-mid); line-height: 1; }
-.hero-lead { margin-top: 44px; font: 500 var(--fs-lead)/1.5 var(--serif); letter-spacing: 0; max-width: 28em; }
+.ht-xl { font-size: var(--fs-xl); line-height: .94; letter-spacing: -.02em; }
+/* «в Челябинске» — пришитая бирка-метка: строчка и моно-строка, привязана к «производство» */
+.ht-city { display: flex; align-items: center; gap: 12px; margin: 16px 0 18px; font: 500 var(--fs-city)/1.2 var(--mono); letter-spacing: .04em; }
+.ht-city::before { content: ""; flex: none; width: 40px; height: 2px; background: var(--stitch); }
+.ht-mid { font-size: var(--fs-mid); line-height: 1.02; letter-spacing: -.01em; }
+/* акцентное слово: курсив Cormorant цвета «нитки». Одно на заголовок */
+.acc { font-style: italic; color: var(--clay); }
+.hero-lead { margin-top: 40px; font: 500 var(--fs-lead)/1.38 var(--serif); letter-spacing: 0; max-width: 28em; }
 .hero-lead span { display: block; }
-.hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 16px; margin-top: 40px; }
+.hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 16px; margin-top: 36px; }
 .hero-actions .tag { margin-left: 8px; }
 
-/* Строка фактов: цифры цепляют взгляд раньше слов */
-.hero-facts { grid-column: 1 / span 7; grid-row: 2; display: flex; margin-top: 48px; }
-.hero-facts > div { padding: 0 28px; border-left: 1px solid var(--line-strong); }
+/* Строка фактов: цифры цепляют взгляд раньше слов, единица измерения — курсивом цвета «нитки», между фактами строчка */
+.hero-facts { grid-column: 1 / span 7; grid-row: 2; display: flex; margin-top: 44px; }
+.hero-facts > div { padding: 0 28px; border-left: 1.5px dashed var(--clay); }
 .hero-facts > div:first-child { padding-left: 0; border-left: 0; }
-.hero-facts dt { font: 600 var(--fs-hero-fact)/1 var(--serif); letter-spacing: -.01em; font-variant-numeric: lining-nums; white-space: nowrap; }
+.hero-facts dt { font: 500 var(--fs-hero-fact)/1 var(--serif); letter-spacing: -.01em; font-variant-numeric: lining-nums; white-space: nowrap; }
 .hero-facts dd { margin-top: 8px; font: 400 var(--fs-small)/1.3 var(--mono); letter-spacing: .03em; color: var(--muted); }
 
 /* Фото в арке: верх полукругом, низ прямой */
-.hero-arch { grid-column: 8 / span 5; grid-row: 1 / span 2; align-self: stretch; position: relative; min-height: 520px; overflow: hidden; border-radius: 999px 999px 0 0; background: #C9B79C; }
+.hero-arch { grid-column: 8 / span 5; grid-row: 1 / span 2; align-self: stretch; position: relative; min-height: 520px; overflow: hidden; border-radius: 999px 999px 0 0; background: #C9B79C;
+  outline: 1.5px dashed var(--clay); outline-offset: 12px; } /* строчка по краю арки: контур повторяет форму (скругление) */
 .hero-arch img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; }
 
 /* Одна анимация загрузки: строки заголовка + раскрытие арки, всего ≤ 900 мс */
@@ -200,8 +217,26 @@ input, select, textarea { caret-color: var(--clay); }
   .hero-arch img { animation: settle .86s cubic-bezier(.16, 1, .3, 1) both; }
 }
 @keyframes rise { from { opacity: 0; transform: translateY(.3em); } to { opacity: 1; transform: none; } }
-@keyframes arch { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes arch { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(-40px); } } /* -40px: строчка вокруг арки не обрезается */
 @keyframes settle { from { transform: scale(1.08); } to { transform: none; } }
+
+/* Невысокие окна ноутбуков (1366×650, 1536×730): кегли и отступы компактнее, чтобы вместе с фактами всё помещалось на первый экран.
+   Это надстройка прототипа: в Тильде (нет медиазапросов по высоте) берётся один набор размеров по ширине. */
+@media (min-width: 1200px) and (max-height: 760px) {
+  :root { --fs-xl: 88px; --fs-mid: 44px; --fs-lead: 24px; --fs-hero-fact: 36px; }
+  .ht-city { margin: 12px 0 14px; }
+  .hero-lead { margin-top: 30px; }
+  .hero-actions { margin-top: 28px; }
+  .hero-facts { margin-top: 28px; }
+}
+@media (min-width: 960px) and (max-width: 1199px) and (max-height: 760px) {
+  :root { --fs-xl: 72px; --fs-mid: 36px; --fs-lead: 20px; --fs-hero-fact: 32px; }
+  .ht-city { margin: 12px 0 14px; }
+  .hero-lead { margin-top: 26px; }
+  .hero-actions { margin-top: 24px; }
+  .hero-facts { margin-top: 26px; }
+}
+
 
 /* ---------- Секции ---------- */
 .section { padding: var(--section) 0 0; }
@@ -227,7 +262,7 @@ input, select, textarea { caret-color: var(--clay); }
 .prod-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
 .prod-body { grid-column: 7 / span 6; }
 .prod-body h2 { font-size: var(--fs-h2); line-height: 1.02; letter-spacing: -.01em; }
-.prod-body h2 span { display: block; }
+.prod-body h2 > span { display: block; }
 .prod-body > p { max-width: 56ch; margin-top: 14px; }
 .prod-body > h2 + p { margin-top: 32px; }
 .prod-body > .prod-final { margin-top: 32px; max-width: 30ch; font: 500 var(--fs-pfinal)/1.25 var(--serif); letter-spacing: 0; }
@@ -279,6 +314,7 @@ input, select, textarea { caret-color: var(--clay); }
 .btn-on-dark-outline { background: transparent; color: var(--milk); border-color: var(--milk); }
 .btn-on-dark-outline:hover { background: rgba(242, 236, 226, .1); }
 .final :focus-visible { outline-color: var(--milk); }
+.final .acc { color: var(--clay-light); }
 .final-inner > .final-direct { margin-top: 32px; font-size: var(--fs-small); color: rgba(242, 236, 226, .84); }
 .final-direct a { display: inline-flex; align-items: center; min-height: 44px; margin: 0 8px; color: var(--milk); text-decoration-color: rgba(242, 236, 226, .5); }
 .final-direct a:first-of-type { margin-left: 4px; }
@@ -503,7 +539,7 @@ dialog::backdrop { background: rgba(46, 37, 32, .56); }
   .hero-lead span { display: inline; }
   .hero-actions { flex-direction: column; align-items: stretch; margin-top: 26px; gap: 10px; }
   .hero-actions .tag { align-self: flex-start; margin-top: 4px; }
-  .hero-arch { width: 100%; margin-top: 20px; }
+  .hero-arch { width: 100%; margin-top: 28px; outline-offset: 10px; }
   .hero-facts { margin-top: 32px; }
   .hero-facts > div { padding: 0 16px; }
 
@@ -536,8 +572,8 @@ dialog::backdrop { background: rgba(46, 37, 32, .56); }
   .facts { grid-template-columns: 1fr; }
   .fact { min-height: 112px; }
   /* строка фактов: цифра слева, подпись справа, между строками линии */
-  .hero-facts { display: block; border-top: 1px solid var(--line-strong); }
-  .hero-facts > div { display: grid; grid-template-columns: 116px minmax(0, 1fr); align-items: baseline; gap: 12px; padding: 12px 0; border-left: 0; border-bottom: 1px solid var(--line-strong); }
+  .hero-facts { display: block; border-top: 1.5px dashed var(--clay); }
+  .hero-facts > div { display: grid; grid-template-columns: 116px minmax(0, 1fr); align-items: baseline; gap: 12px; padding: 12px 0; border-left: 0; border-bottom: 1.5px dashed var(--clay); }
   .hero-facts > div:first-child { padding-left: 0; }
   .hero-facts dd { margin-top: 0; }
   .footer-phone { font-size: 34px; }

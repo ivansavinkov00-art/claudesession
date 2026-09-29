@@ -648,11 +648,17 @@ await test('финал: «Скачать прайс» открывает окн�
 });
 
 // ================= Прочее =================
-await test('шапка получает фон после прокрутки', DESK, async (p) => {
-  assert.equal(await p.locator('.site-header').evaluate((e) => e.classList.contains('is-scrolled')), false);
+await test('шапка всегда непрозрачная (не зависит от JS и прокрутки)', DESK, async (p) => {
+  const bg = () => p.locator('.site-header').evaluate((e) => getComputedStyle(e).backgroundColor);
+  assert.equal(await bg(), 'rgb(230, 222, 206)', 'на самом верху шапка прозрачна');
   await p.mouse.wheel(0, 900);
   await wait(p, 200);
-  assert.equal(await p.locator('.site-header').evaluate((e) => e.classList.contains('is-scrolled')), true);
+  assert.equal(await bg(), 'rgb(230, 222, 206)', 'после прокрутки шапка прозрачна');
+  const line = await p.locator('.site-header').evaluate((e) => getComputedStyle(e).borderBottomWidth);
+  assert.equal(line, '1px', 'нет линии под шапкой');
+  // текст страницы не просвечивает: элемент под шапкой — сама шапка
+  const top = await p.evaluate(() => document.elementFromPoint(300, 40).closest('.site-header') !== null);
+  assert.equal(top, true);
 });
 
 await test('мобильный: лента скрыта, липкая кнопка появляется и прячется у квиза', MOB, async (p) => {

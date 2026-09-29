@@ -28,7 +28,7 @@
 
 | Шрифт | Автор | Лицензия | Откуда |
 |---|---|---|---|
-| Cormorant 500, 600 | Christian Thalmann (Catharsis Fonts) | SIL Open Font License 1.1 | `@fontsource/cormorant`, woff2 cyrillic + latin |
+| Cormorant 500, 600, обычный и курсив | Christian Thalmann (Catharsis Fonts) | SIL Open Font License 1.1 | `@fontsource/cormorant`, woff2 cyrillic + latin |
 | IBM Plex Mono 400, 500 | IBM, Mike Abbink, Bold Monday | SIL Open Font License 1.1 | `@fontsource/ibm-plex-mono`, woff2 cyrillic + latin |
 
 Шрифты лежат в `assets/fonts/` (self-hosted). В Тильде оба есть в библиотеке Google Fonts, их можно подключить оттуда.
