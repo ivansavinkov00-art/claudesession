@@ -18,7 +18,7 @@
   --kc-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
   --kc-stitch: repeating-linear-gradient(90deg, var(--kc-clay) 0 6px, transparent 6px 11px);
   --kc-ease: cubic-bezier(.2, .7, .2, 1);
-  --kc-name: 44px;   /* название строки, Cormorant 600: 44 / 40 / 38 / 36 / 36 */
+  --kc-name: 44px;   /* название строки, Cormorant 600: 44 / 40 / 38 / 32 / 28 (на 320 «Экспериментальный» при 36 не помещается) */
   --kc-gap: 40px;
   --kc-sticky-top: 108px;
   display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--kc-gap); align-items: start;
@@ -26,7 +26,8 @@
 }
 @media (max-width: 1199px) { .kc-tasks { --kc-name: 40px; --kc-gap: 24px; } }
 @media (max-width: 959px) { .kc-tasks { --kc-name: 38px; --kc-gap: 20px; } }
-@media (max-width: 639px) { .kc-tasks { --kc-name: 36px; } }
+@media (max-width: 639px) { .kc-tasks { --kc-name: 32px; } }
+@media (max-width: 479px) { .kc-tasks { --kc-name: 28px; } }
 
 /* Список: строки разделены линиями 1px */
 .kc-tasks__list { grid-column: 1 / span 7; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--kc-line); }
@@ -58,7 +59,7 @@
 }
 .kc-tasks__action:focus-visible { outline: 2px solid var(--kc-clay); outline-offset: 3px; }
 .kc-tasks__action span { margin-left: .5em; }
-.kc-tasks__panel .todo { font-size: .8em; letter-spacing: 0; color: #7D5F22; white-space: nowrap; }
+.kc-tasks__panel .todo { font-size: .8em; letter-spacing: 0; color: #765A1F; white-space: nowrap; }
 
 /* Картинка задачи справа: 4:5, sticky, плавная смена (opacity) */
 .kc-tasks__stage { grid-column: 8 / span 5; position: sticky; top: var(--kc-sticky-top); display: grid; aspect-ratio: 4 / 5; overflow: hidden; background: #C9B79C; }

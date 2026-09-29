@@ -404,6 +404,72 @@ await test('квиз: отправка с пропущенным шагом во
   assert.equal(await p.locator('#kc-err-direction').isVisible(), true);
 });
 
+// ================= Квиз: крайние вводы (harden) =================
+await test('квиз-harden: количество 0, −5, «abc» и пробелы — ошибка; 99999 — можно', DESK, async (p) => {
+  await toStep(p, 2);
+  await pick(p, `${C} input[name="item"][value="hoodie"]`);
+  for (const bad of ['0', '-5', '   ']) {
+    await p.fill('#kc-qty', bad);
+    await next(p);
+    assert.equal(await stepNow(p), 2, `«${bad}» пропущено`);
+    assert.equal(await p.locator('#kc-err-qty').isVisible(), true, `«${bad}»: нет ошибки`);
+  }
+  await p.fill('#kc-qty', '99999');
+  assert.equal(await p.locator('#kc-err-qty').isVisible(), false);
+  await next(p);
+  assert.equal(await stepNow(p), 3);
+});
+
+await test('квиз-harden: имя из одних пробелов не проходит', DESK, async (p) => {
+  await toStep(p, 4);
+  await p.fill('#kc-name', '   ');
+  await p.fill('#kc-contact', 'anna@brand.ru');
+  await p.check('#kc-consent');
+  await p.click(`${C} [data-kc="submit"]`);
+  assert.equal(await p.locator('#kc-err-name').isVisible(), true);
+  assert.equal(await p.locator(`${C} [data-kc="done"]`).isVisible(), false);
+});
+
+await test('квиз-harden: Enter в поле количества работает как «Далее», а не как отправка', DESK, async (p) => {
+  await toStep(p, 2);
+  await pick(p, `${C} input[name="item"][value="hoodie"]`);
+  await p.fill('#kc-qty', '500');
+  await p.press('#kc-qty', 'Enter');
+  assert.equal(await stepNow(p), 3);
+  assert.equal(await p.locator(`${C} [data-kc="done"]`).isVisible(), false);
+});
+
+await test('квиз-harden: предвыбор посреди заполнения не стирает ответы', DESK, async (p) => {
+  await toStep(p, 2);
+  await pick(p, `${C} input[name="item"][value="dress"]`);
+  await p.fill('#kc-qty', '700');
+  await p.locator('#zadachi').scrollIntoViewIfNeeded();
+  await p.locator('#zadachi [data-kc="toggle"]').nth(2).click();
+  await wait(p);
+  await p.locator('#zadachi [data-kc="panel"]').nth(2).locator('a[data-calc-direction="opt"]').click();
+  await assertLandedInCalc(p);
+  assert.ok(await isChecked(p, 'direction', 'opt'), 'направление не сменилось');
+  assert.ok(await isChecked(p, 'item', 'dress'), 'изделие потеряно');
+  assert.equal(await p.inputValue('#kc-qty'), '700', 'количество потеряно');
+});
+
+await test('квиз-harden: двойной клик «Далее» не перепрыгивает шаг с ошибкой', DESK, async (p) => {
+  await pick(p, `${C} input[name="direction"][value="wb"]`);
+  await p.dblclick(`${C} [data-kc="next"]`);
+  assert.equal(await stepNow(p), 2, 'двойной клик пропустил шаг 2 без изделия');
+});
+
+await test('задачи-harden: смена ширины окна сохраняет открытую строку', DESK, async (p) => {
+  await p.locator('#zadachi [data-kc="toggle"]').nth(2).hover();
+  await wait(p);
+  await p.setViewportSize({ width: 600, height: 800 });
+  await wait(p, 200);
+  assert.deepEqual(await expanded(p), ['false', 'false', 'true', 'false']);
+  await p.setViewportSize({ width: 1440, height: 800 });
+  await wait(p, 200);
+  assert.deepEqual(await expanded(p), ['false', 'false', 'true', 'false']);
+});
+
 // ================= Карусель =================
 await test('карусель: роли, подписи, счётчик', MOTION, async (p) => {
   const root = p.locator('#portfolio [data-kc-carousel]');

@@ -13,7 +13,7 @@
       "clay": { "role": "secondary", "displayName": "Глина / нитка действия", "canonical": "#974B31" },
       "olive": { "role": "secondary", "displayName": "Олива / спокойная нитка", "canonical": "#5E6A48" },
       "sage-bg": { "role": "neutral", "displayName": "Шалфей-подложка", "canonical": "#E4E8DC" },
-      "mustard-ink": { "role": "tertiary", "displayName": "Горчичные чернила (служебные пометки)", "canonical": "#7D5F22" },
+      "mustard-ink": { "role": "tertiary", "displayName": "Горчичные чернила (служебные пометки)", "canonical": "#765A1F" },
       "line": { "role": "neutral", "displayName": "Тонкая линия", "canonical": "rgba(46, 37, 32, .18)" },
       "line-strong": { "role": "neutral", "displayName": "Усиленная линия", "canonical": "rgba(46, 37, 32, .56)" }
     },

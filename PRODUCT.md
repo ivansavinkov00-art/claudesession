@@ -30,7 +30,7 @@ Target actions, in order:
 1. «Рассчитать стоимость» — calculation request form (item type, quantity, fabric, deadline, name + phone/e-mail). Must be reachable on every page, including as a floating button.
 2. «Скачать прайс» — price list PDF in exchange for phone/e-mail.
 3. Direct contact via phone, WhatsApp, Telegram, Max.
-(Brief also mentions callback with a time slot — not in this prototype.)
+4. «Обсудить задачу» — callback with a time slot (09–12, 12–15, 15–18, 18–20 Moscow time), added in v2.
 
 ## Positioning
 
@@ -38,6 +38,37 @@ Full cycle under one roof, run by a technologist-owner who talks to clients in p
 
 - **Опт и маркетплейсы** — WB and OZON sellers and wholesale, **from 300 units**; "second layer" garments: dresses, shirts, trousers, shorts, hoodies, sweatshirts, zip hoodies.
 - **Экспериментальный цех** — any sample in 2–3 days; small batches for brands. Minimum batch is **undecided** (brief contradicts itself: §10 says "from 100 units", §7 says brand orders can be ~10) → shown as `[уточнить минимум]`, never invented.
+
+## Four client types (v2)
+
+The home page speaks to four kinds of customer. The first three come from the brief (block 3); the fourth is the second production mode. Each has a row in the «Задачи» screen and a preselected direction in the quiz.
+
+| # | Client | Task | What we offer | Quiz direction |
+|---|---|---|---|---|
+| 01 | Селлеры WB и OZON | Sew a batch for a delivery date and not miss it | Wholesale from 300 units, labels, composition tags, packaging per spec, shipping by any carrier | `wb` «Партия для WB и OZON» |
+| 02 | Бренды одежды | Launch a collection and grow without changing production | Patterns, sample, sewing, a technologist who explains every stage; small batches from `[уточнить минимум]` | `brand` «Коллекция бренда» |
+| 03 | Бизнес: опт и СТМ | Stable volume and deadlines for years | Own workshop, regulated processes, QC; the same quality from batch to batch | `opt` «Опт и СТМ» |
+| 04 | Экспериментальный цех | Check model, fit and fabric before a batch | Any sample in 2–3 days, including non-standard models and sizes | `sample` «Образец» |
+
+**Why row 04 is «Экспериментальный цех» and not «Индивидуальный пошив».** The brief's second direction is «any sample in 2–3 days and small batches for brands». «Индивидуальный пошив» attracts private persons with single orders, and the brief explicitly asks to filter those out.
+
+## Home page structure (v2)
+
+Logic: what this is → why the production can be trusted → who answers personally → what we sew → which task is yours → calculate → get in touch. Screens 2 and 3A carry trust and have no buttons; the rest carry an action.
+
+| # | Screen | id | Essence | Image slots |
+|---|---|---|---|---|
+| 1 | First screen | — | summary: who, what, for whom, three figures (10+ лет, 2–3 дня, 1 цех), two actions | 01 |
+| 2 | Производство | `#proizvodstvo` | full cycle in one workshop, four accent facts | 02 |
+| 3A | Основатель | `#osnovatel` | Olesya Aksenova, technologist, leads the client by the hand | 03 |
+| 3B | Что мы шьём | `#portfolio` | second-layer clothing, 3D carousel of six garments | 04–09 |
+| seam | Нестандартные размеры | — | strip that leads to the quiz with «non-standard sizes» ticked | — |
+| 4 | Задачи | `#zadachi` | the four client types above, hover list with a picture | 10–13 |
+| 5 | От идеи до реализации | `#raschet` | five-step order path and the four-step quiz | thumbnails 04–09 |
+| 6 | Финал | — | «Скачать прайс» and «Обсудить задачу» | — |
+| — | Подвал | `#kontakty` | contacts, documents | — |
+
+Every «Рассчитать стоимость» (first screen, tape, sticky button, menu, carousel cards, task list, seam) leads to the quiz in `#raschet`; the preselection travels in `data-calc-direction`, `data-calc-item`, `data-calc-nonstandard`. On inner Tilda pages the same quiz opens as a popup.
 
 ## Operating Context
 
@@ -49,10 +80,10 @@ Full cycle under one roof, run by a technologist-owner who talks to clients in p
 
 ## Capabilities and Constraints
 
-- Calculator must steer orders under 300 units away from the wholesale flow **without losing brands**: under 300 in "Опт" is a hint + switch to "Экспериментальный цех", not an error.
+- The quiz must steer orders under 300 units away from the wholesale flow **without losing brands**: under 300 in «Партия для WB и OZON» or «Опт и СТМ» is a calm hint with a «Переключить» button to «Коллекция бренда», not an error. For «Образец» the quantity field is replaced by «Сколько моделей». One quiz with a direction choice answers the brief's question about two calculators: different prices are different directions inside one form, and the price itself is calculated by a technologist after the visitor leaves contacts.
 - Personal-data consent (152-ФЗ, separate consent document required since 2025-09-01): separate unchecked checkbox, links to both «Согласие на обработку персональных данных» and «Политика конфиденциальности».
-- Required site sections (future pages): Главная, Услуги, Портфолио, Производство, Прайс с калькулятором, Контакты, Политика. Only the home page is in scope now; «Портфолио» is a `#` stub.
-- Undecided facts (must stay marked `[уточнить]`): brand/experimental minimum batch, response time for a calculation, fabric sourcing/consultation option, legal requirements (реквизиты), real photos, capacity numbers.
+- Required site sections (future pages): Главная, Услуги, Портфолио, Производство, Прайс с калькулятором, Контакты, Политика. Only the home page is in scope now; «Портфолио» is now a real screen of the home page (`#portfolio`).
+- Undecided facts (must stay marked `[уточнить]`): brand/experimental minimum batch, response time for a calculation, fabric sourcing/consultation option, callback working hours, legal requirements (реквизиты), real photos, capacity numbers.
 
 ## Brand Commitments
 
@@ -67,7 +98,7 @@ Full cycle under one roof, run by a technologist-owner who talks to clients in p
 
 - Facts: 10+ years, own workshop, regulated processes, ОТК; sample in 2–3 days; wholesale from 300 units; owner is a technologist.
 - No real photos of the workshop yet → stock placeholders (Unsplash/Pexels), to be replaced; see README slot table.
-- **Absent, must not be fabricated:** client count, capacity/volume per month, lead times beyond "sample in 2–3 days", testimonials, client logos, prices, case studies. The owner quote is paraphrased from the brief and marked `[согласовать]`.
+- **Absent, must not be fabricated:** client count, capacity/volume per month, lead times beyond "sample in 2–3 days", testimonials, client logos, prices, case studies. The owner's quote is the last sentence of the customer's own text 3 («Приходите с идеей…»); the wording still needs the customer's confirmation.
 
 ## Product Principles
 
