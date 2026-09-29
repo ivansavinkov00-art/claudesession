@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-24T00:00:00Z",
+  "title": "Design System: Культура шитья",
+  "extensions": {
+    "colorMeta": {
+      "linen": { "role": "neutral", "displayName": "Лён", "canonical": "#E6DECE" },
+      "milk": { "role": "neutral", "displayName": "Молоко", "canonical": "#F2ECE2" },
+      "ink": { "role": "primary", "displayName": "Чернила", "canonical": "#2E2520" },
+      "ink-hover": { "role": "primary", "displayName": "Чернила (hover)", "canonical": "#4A3B33" },
+      "cacao": { "role": "primary", "displayName": "Какао", "canonical": "#2A1810" },
+      "muted": { "role": "neutral", "displayName": "Приглушённый текст", "canonical": "#6B5F55" },
+      "clay": { "role": "secondary", "displayName": "Глина / нитка действия", "canonical": "#974B31" },
+      "olive": { "role": "secondary", "displayName": "Олива / спокойная нитка", "canonical": "#5E6A48" },
+      "sage-bg": { "role": "neutral", "displayName": "Шалфей-подложка", "canonical": "#E4E8DC" },
+      "mustard-ink": { "role": "tertiary", "displayName": "Горчичные чернила (служебные пометки)", "canonical": "#7D5F22" },
+      "line": { "role": "neutral", "displayName": "Тонкая линия", "canonical": "rgba(46, 37, 32, .18)" },
+      "line-strong": { "role": "neutral", "displayName": "Усиленная линия", "canonical": "rgba(46, 37, 32, .56)" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Крупнейший заголовок первого экрана («Полного цикла»)." },
+      "headline": { "displayName": "Headline", "purpose": "h2 секций «Два направления» / «Полный цикл»." },
+      "headline-lg": { "displayName": "Headline Large", "purpose": "h2 «Собственный цех» — раздел доверия, утяжелён." },
+      "headline-sm": { "displayName": "Headline Small", "purpose": "h2 «Прайс» — калькулятор, компактнее." },
+      "title": { "displayName": "Title", "purpose": "h3, заголовки шагов цикла." },
+      "quote": { "displayName": "Quote", "purpose": "Цитата владелицы производства." },
+      "lead": { "displayName": "Lead", "purpose": "Вводный абзац hero, теперь serif вместо mono." },
+      "body": { "displayName": "Body", "purpose": "Базовый текст на IBM Plex Mono." },
+      "label": { "displayName": "Label", "purpose": "Кнопки, лейблы полей, навигация, мелкие подписи." }
+    },
+    "shadows": [
+      { "name": "step-divider-inset", "value": "inset 0 -1px 0 var(--line)", "purpose": "Служебный нижний разделитель под последним шагом списка «Полного цикла», не элевация." },
+      { "name": "field-active-inset", "value": "inset 0 0 0 1px var(--clay)", "purpose": "Внутренняя рамка активного сегмента / невалидного поля." }
+    ],
+    "motion": [
+      { "name": "rise", "value": "translateY(.3em) -> none, opacity 0 -> 1, .62s cubic-bezier(.16,1,.3,1)", "purpose": "Построчный подъём заголовка hero при загрузке." },
+      { "name": "arch", "value": "clip-path inset(100% 0 0 0) -> inset(0), .86s cubic-bezier(.16,1,.3,1)", "purpose": "Раскрытие арки-фото на первом экране." },
+      { "name": "pop", "value": "opacity 0->1, translateY(10px)->none, .24s cubic-bezier(.16,1,.3,1)", "purpose": "Появление модального окна." },
+      { "name": "sticky-cta-slide", "value": "translateY(110%) -> none, .28s cubic-bezier(.16,1,.3,1)", "purpose": "Появление мобильной липкой CTA-кнопки." }
+    ],
+    "breakpoints": [
+      { "name": "base", "value": "1200px" },
+      { "name": "max-1199", "value": "1199px" },
+      { "name": "max-959", "value": "959px" },
+      { "name": "max-639", "value": "639px" },
+      { "name": "max-479", "value": "479px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Основной CTA, прямой срез, чернильная заливка.",
+      "html": "<button class=\"ds-btn ds-btn-primary\">Рассчитать стоимость</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 26px; font: 500 14px/1.2 'IBM Plex Mono', ui-monospace, Consolas, monospace; letter-spacing: .05em; border: 1px solid #2E2520; border-radius: 0; cursor: pointer; transition: background-color .2s ease, color .2s ease, border-color .2s ease; } .ds-btn-primary { background: #2E2520; color: #F2ECE2; } .ds-btn-primary:hover { background: #4A3B33; border-color: #4A3B33; } .ds-btn-primary:focus-visible { outline: 2px solid #974B31; outline-offset: 3px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Второстепенное действие, прозрачный фон, чернильная обводка.",
+      "html": "<button class=\"ds-btn ds-btn-secondary\">Скачать прайс</button>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 26px; font: 500 14px/1.2 'IBM Plex Mono', ui-monospace, Consolas, monospace; letter-spacing: .05em; background: transparent; color: #2E2520; border: 1px solid #2E2520; border-radius: 0; cursor: pointer; transition: background-color .2s ease; } .ds-btn-secondary:hover { background: rgba(46,37,32,.08); } .ds-btn-secondary:focus-visible { outline: 2px solid #974B31; outline-offset: 3px; }"
+    },
+    {
+      "name": "Бирка (Tag)",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Статичный ярлык «от 300 единиц» — не кнопка, кусок ткани с пунктирной строчкой по всему периметру.",
+      "html": "<span class=\"ds-tag\">от 300 единиц</span>",
+      "css": ".ds-tag { display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border: 1.5px dashed #974B31; background: #F2ECE2; color: #2E2520; font: 500 13px/1.2 'IBM Plex Mono', ui-monospace, Consolas, monospace; letter-spacing: .05em; white-space: nowrap; cursor: default; } .ds-tag--sage { border-color: #5E6A48; }"
+    },
+    {
+      "name": "Бейдж шага (Step Badge)",
+      "kind": "custom",
+      "refersTo": "step-badge",
+      "description": "Заполненный квадрат-номер шага в списке «Полного цикла» — заменил голую mono-цифру.",
+      "html": "<span class=\"ds-step-n\">01</span>",
+      "css": ".ds-step-n { display: grid; place-items: center; width: 40px; height: 40px; background: #974B31; color: #F2ECE2; font: 500 14px/1 'IBM Plex Mono', ui-monospace, Consolas, monospace; letter-spacing: 0; }"
+    },
+    {
+      "name": "Поле ввода (Field)",
+      "kind": "input",
+      "refersTo": "field-input",
+      "description": "Текстовое поле формы расчёта / прайса.",
+      "html": "<input class=\"ds-field\" type=\"text\" placeholder=\"Имя\">",
+      "css": ".ds-field { display: block; width: 100%; height: 50px; padding: 0 14px; background: #F2ECE2; color: #2E2520; border: 1px solid rgba(46,37,32,.56); border-radius: 0; font: 400 16px/1.2 'IBM Plex Mono', ui-monospace, Consolas, monospace; letter-spacing: .01em; } .ds-field:hover { border-color: #2E2520; } .ds-field:focus-visible { outline: 2px solid #974B31; outline-offset: 2px; border-color: #2E2520; } .ds-field[aria-invalid='true'] { border-color: #974B31; box-shadow: inset 0 0 0 1px #974B31; }"
+    },
+    {
+      "name": "Сегментированный выбор (Seg)",
+      "kind": "custom",
+      "refersTo": "seg",
+      "description": "Переключатель направления (Опт / Экспериментальный цех) в форме расчёта — карточка поверх скрытого radio.",
+      "html": "<label class=\"ds-seg-opt\"><input type=\"radio\" name=\"dir\" checked><span>Опт и маркетплейсы<small>от 300 единиц</small></span></label>",
+      "css": ".ds-seg-opt { position: relative; display: block; cursor: pointer; } .ds-seg-opt input { position: absolute; opacity: 0; width: 1px; height: 1px; } .ds-seg-opt > span { display: block; min-height: 56px; padding: 13px 16px; border: 1px solid rgba(46,37,32,.56); font: 500 14px/1.35 'IBM Plex Mono', ui-monospace, Consolas, monospace; letter-spacing: .02em; transition: border-color .15s ease, box-shadow .15s ease; } .ds-seg-opt small { display: block; margin-top: 3px; font: 400 12px/1.35 'IBM Plex Mono', ui-monospace, Consolas, monospace; color: #6B5F55; } .ds-seg-opt:hover > span { border-color: #2E2520; } .ds-seg-opt input:checked + span { border-color: #974B31; box-shadow: inset 0 0 0 1px #974B31; } .ds-seg-opt input:focus-visible + span { outline: 2px solid #974B31; outline-offset: 3px; }"
+    },
+    {
+      "name": "Подсказка (Hint)",
+      "kind": "custom",
+      "refersTo": "hint",
+      "description": "Спокойный нудж «меньше 300 ед. → экспериментальный цех» — теперь на шалфейной паре, не клэй/лён.",
+      "html": "<p class=\"ds-hint\">Меньше 300&nbsp;единиц? Загляните в «Экспериментальный цех».</p>",
+      "css": ".ds-hint { position: relative; margin: -4px 0 20px; padding: 14px 16px; background: #E4E8DC; font-size: 13px; line-height: 1.5; } .ds-hint::before { content: ''; position: absolute; inset: 4px; border: 1px dashed #5E6A48; pointer-events: none; }"
+    },
+    {
+      "name": "Вертикальная лента (Tape CTA)",
+      "kind": "custom",
+      "refersTo": "tape",
+      "description": "Сигнатурная фиксированная CTA-кнопка справа от вьюпорта (от 960px), имитация сантиметровой ленты с делениями.",
+      "html": "<button class=\"ds-tape\"><span>Рассчитать стоимость</span></button>",
+      "css": ".ds-tape { position: fixed; z-index: 60; right: 0; top: 50%; transform: translateY(-50%); width: 44px; height: 288px; padding: 0; border: 0; display: grid; place-items: center; background: #2E2520; color: #F2ECE2; cursor: pointer; font: 500 13px/1 'IBM Plex Mono', ui-monospace, Consolas, monospace; letter-spacing: .06em; transition: background-color .2s ease; } .ds-tape span { writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; } .ds-tape::before { content: ''; position: absolute; left: 0; top: 12px; bottom: 12px; width: 12px; pointer-events: none; background: repeating-linear-gradient(to bottom, rgba(242,236,226,.5) 0 1px, transparent 1px 8px) left top / 5px 100% no-repeat, repeating-linear-gradient(to bottom, rgba(242,236,226,.7) 0 1px, transparent 1px 40px) left top / 11px 100% no-repeat; } .ds-tape:hover { background: #974B31; } .ds-tape:focus-visible { outline: 2px solid #F2ECE2; outline-offset: -5px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Мерная лента технолога",
+    "overview": "Прототип строит образ не швейного ателье, а инженерного цеха: лён и молоко (--linen, --milk) как некрашеная ткань и подложка, чернильный графит (--ink) и его более глубокий двойник шоколад (--cacao) вместо чёрного, и рабочая нитка — глина (--clay) — как основной акцент во всей системе, с оливой (--olive) как второй, подчёркнуто спокойной нитью для несоревнующихся меток. Серия почти скрытых swiss-инженерных приёмов держит метафору: пунктирная «строчка» (--stitch) как разделитель и рамка бирки, спецификации и подсказки, вертикальная сантиметровая лента справа с делениями через 8px/40px как фиксированная CTA-кнопка, монопространственный IBM Plex Mono как «технический» голос рядом с высоким serif Cormorant для крупных утверждений и вводного лида hero. Радиус везде 0. Цвет используется скупо, но с двумя явными смысловыми парами: глина держит CTA, фокус и реальный «Опт»-акцент, олива и шалфей (--sage-bg) — калибровочный, некритичный акцент, горчичные чернила (--mustard-ink) — исключительно служебные пометки [уточнить]/[согласовать].",
+    "keyCharacteristics": [
+      "Лён/молоко/чернила/какао — нейтральный слой ткани в двух глубинах, глина и олива — две нитки с разными ролями",
+      "Serif (Cormorant) для масштаба, эмоции и вводного лида, mono (IBM Plex Mono) для всего функционального",
+      "Радиус 0 везде, без исключений",
+      "Пунктирная «строчка» — главный декоративный мотив, теперь обрамляет бирку по периметру и делит блок спецификации",
+      "Плоская система: без теней-элевации",
+      "Вся реальная фотография получает единую тёплую цветокоррекцию saturate(.92) sepia(.06)"
+    ],
+    "rules": [
+      { "name": "The One Thread, Two Tones Rule", "body": "Глина (--clay) — единственный цвет крупного действия и состояния; олива (--olive) — единственный второй акцент, зарезервированный за некритичными, спокойными метками, и никогда не подменяет глину на реальном действии.", "section": "colors" },
+      { "name": "The No Pure Black Rule", "body": "Текст и тёмные поверхности используют графитовый --ink (#2E2520) или более глубокий --cacao (#2A1810), никогда #000.", "section": "colors" },
+      { "name": "The Service-Ink Rule", "body": "--mustard-ink красит только инлайн-пометки [уточнить]/[согласовать] об отсутствующих в брифе фактах, никогда реальный UI.", "section": "colors" },
+      { "name": "The Two-Voice Rule", "body": "Serif — заголовки h1/h2/h3, цитата и вводный лид hero; всё остальное — IBM Plex Mono.", "section": "typography" },
+      { "name": "The Weighted-Headline Rule", "body": "h2 не имеет единого размера: базовый 56px, --fs-h2-lg (64px) для раздела доверия, --fs-h2-sm (44px) для калькулятора — размер сигнализирует смысловую значимость раздела.", "section": "typography" },
+      { "name": "The Fixed-Px Rule", "body": "Все размеры шрифта и вертикальный ритм заданы в px и переопределяются по max-width на пяти точках (1199/959/639/479px) для переноса в Tilda Zero Block.", "section": "typography" },
+      { "name": "The Weighted-Rhythm Rule", "body": "Вертикальный ритм секции (--section) может быть локально переопределён (.section.production тяжелее, .section.price компактнее) как осознанная развеска плотности по смыслу раздела.", "section": "layout" },
+      { "name": "The Flat Ground Rule", "body": "Ничего не «парит»: разница поверхностей — смена тона и линия, никогда тень с размытием.", "section": "elevation" },
+      { "name": "The Zero-Radius Rule", "body": "Радиус скругления — 0 у каждого UI-примитива; единственное исключение — полукруглый верх фотографии в арке первого экрана.", "section": "shapes" },
+      { "name": "The Perimeter Stitch Rule", "body": "Пунктирная обводка бирки идёт по всему периметру, не акцентом с одной стороны — вариант с рамкой-акцентом только слева был опробован и отклонён как типовой AI-slop паттерн подсвеченного края карточки.", "section": "shapes" }
+    ],
+    "dos": [
+      "Do использовать --clay для реального действия и состояния; держать --olive только за некритичными, спокойными метками.",
+      "Do держать серией --fs-* px-значения как единственный источник размеров текста, включая раздельные headline/headline-lg/headline-sm.",
+      "Do сохранять радиус 0 у всех UI-примитивов.",
+      "Do обводить бирку пунктиром по всему периметру, не акцентом с одной стороны.",
+      "Do пропускать реальную фотографию через единый saturate(.92) sepia(.06).",
+      "Do красить служебные [уточнить]/[согласовать] пометки только --mustard-ink."
+    ],
+    "donts": [
+      "Don't добавлять box-shadow с размытием как элевацию.",
+      "Don't смешивать Cormorant и IBM Plex Mono внутри одного текстового блока.",
+      "Don't вводить третий акцентный цвет для реального UI-состояния — --olive и --mustard-ink закреплены за конкретными некритичными ролями.",
+      "Don't использовать чистый чёрный (#000) для текста или тёмных поверхностей.",
+      "Don't добавлять текстовые кикеры/эйбраузы над заголовками — опробовано и отклонено этим проходом.",
+      "Don't расширять letter-spacing кнопок сверх .05em."
+    ]
+  }
+}

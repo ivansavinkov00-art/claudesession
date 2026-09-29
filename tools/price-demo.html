@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Прайс-лист — Культура шитья (демо)</title>
+<style>
+  @font-face { font-family: "Cormorant"; font-weight: 600; src: url(../assets/fonts/cormorant-cyrillic-600-normal.woff2) format("woff2"); unicode-range: U+0400-045F; }
+  @font-face { font-family: "Cormorant"; font-weight: 600; src: url(../assets/fonts/cormorant-latin-600-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+  @font-face { font-family: "IBM Plex Mono"; font-weight: 400; src: url(../assets/fonts/ibm-plex-mono-cyrillic-400-normal.woff2) format("woff2"); unicode-range: U+0400-045F; }
+  @font-face { font-family: "IBM Plex Mono"; font-weight: 400; src: url(../assets/fonts/ibm-plex-mono-latin-400-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+  @font-face { font-family: "IBM Plex Mono"; font-weight: 500; src: url(../assets/fonts/ibm-plex-mono-cyrillic-500-normal.woff2) format("woff2"); unicode-range: U+0400-045F; }
+  @font-face { font-family: "IBM Plex Mono"; font-weight: 500; src: url(../assets/fonts/ibm-plex-mono-latin-500-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+  @page { size: A4; margin: 0; }
+  html, body { margin: 0; }
+  body { width: 210mm; height: 297mm; background: #E6DECE; color: #2E2520; font: 400 11pt/1.6 "IBM Plex Mono", monospace; box-sizing: border-box; padding: 22mm 20mm; display: flex; flex-direction: column; }
+  .logo { align-self: flex-start; display: inline-flex; flex-direction: column; align-items: center; }
+  .logo svg { width: 22mm; height: auto; fill: #2E2520; }
+  .plate { margin-top: -1mm; padding: 1mm 2.2mm .8mm; border: .3mm solid #2E2520; background: #E6DECE; font: 500 7pt/1 "IBM Plex Mono"; letter-spacing: .16em; text-transform: uppercase; position: relative; }
+  h1 { margin: 34mm 0 0; font: 600 54pt/.96 "Cormorant", serif; letter-spacing: -.01em; }
+  .lead { margin: 10mm 0 0; max-width: 120mm; }
+  .tag { align-self: flex-start; position: relative; display: inline-block; margin-top: 12mm; padding: 3mm 4.5mm; background: #F2ECE2; font-weight: 500; letter-spacing: .05em; }
+  .tag::before { content: ""; position: absolute; inset: 1.2mm; border: .3mm dashed #974B31; }
+  .stitch { margin: 18mm 0 8mm; height: .3mm; background: repeating-linear-gradient(90deg, #974B31 0 2mm, transparent 2mm 3.6mm); }
+  dl { margin: 0; display: grid; grid-template-columns: 40mm 1fr; row-gap: 3mm; }
+  dt { color: #6B5F55; }
+  dd { margin: 0; }
+  .foot { margin-top: auto; padding-top: 6mm; border-top: .3mm solid rgba(46,37,32,.25); display: flex; justify-content: space-between; color: #6B5F55; font-size: 9pt; }
+</style>
+</head>
+<body>
+  <div class="logo"><svg viewBox="0 0 1104 848"><use href="#mark"/></svg><span class="plate">Культура шитья</span></div>
+  <!--SYMBOL-->
+  <h1>Прайс в&nbsp;работе</h1>
+  <p class="lead">Это демонстрационный файл для прототипа сайта. Актуальный прайс-лист с&nbsp;ценами на&nbsp;пошив заказчик пришлёт позже.</p>
+  <span class="tag">Опт от&nbsp;300&nbsp;ед.</span>
+  <div class="stitch"></div>
+  <dl>
+    <dt>Опт и&nbsp;маркетплейсы</dt><dd>от&nbsp;300&nbsp;ед., цены <span style="color:#974B31">[уточнить]</span></dd>
+    <dt>Эксп. цех</dt><dd>образец за&nbsp;2–3&nbsp;дня, цены <span style="color:#974B31">[уточнить]</span></dd>
+    <dt>Телефон</dt><dd>+7&nbsp;999&nbsp;588‑88‑04</dd>
+    <dt>Сайт</dt><dd>aksenovasew.ru</dd>
+  </dl>
+  <div class="foot"><span>Швейное производство полного цикла, Челябинск</span><span>Демо, не&nbsp;является офертой</span></div>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "kultura-static",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "5507", "--bind", "127.0.0.1"],
+      "port": 5507,
+      "url": "http://127.0.0.1:5507"
+    }
+  ]
+}

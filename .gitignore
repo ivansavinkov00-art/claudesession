@@ -1,0 +1,7 @@
+# зависимости ставятся через npm i
+node_modules/
+
+# мусор ОС
+.DS_Store
+Thumbs.db
+desktop.ini
