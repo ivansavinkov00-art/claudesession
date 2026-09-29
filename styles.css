@@ -495,6 +495,19 @@ dialog::backdrop { background: rgba(46, 37, 32, .56); }
   .footer-title { font-size: 28px; }
 }
 
+/* ---------- v2: слоты картинок ---------- */
+/* Цветокоррекция DESIGN.md — на все фото слотов, кроме заглушек */
+[data-slot] img { filter: saturate(.92) sepia(.06); }
+/* Заглушка (data-placeholder снимает tools/incoming.mjs): целиком, без цветокоррекции, на фоне заглушки */
+img[data-placeholder] { filter: none !important; object-fit: contain !important; background: #D5C8B3; }
+/* ?slots: бирка с номером слота. Обёртка [data-slot] должна быть позиционирована своими стилями */
+.show-slots [data-slot]::after {
+  content: attr(data-slot); position: absolute; z-index: 3; left: 12px; bottom: 12px;
+  display: grid; place-items: center; min-width: 44px; height: 32px; padding: 0 10px;
+  background: var(--milk); color: var(--ink); border: 1.5px dashed var(--clay);
+  font: 500 14px/1 var(--mono); letter-spacing: .04em; pointer-events: none;
+}
+
 /* ---------- Страницы документов (заглушки) ---------- */
 .doc-page { padding-right: 0; }
 .doc { max-width: 760px; padding-top: 64px; padding-bottom: 120px; }

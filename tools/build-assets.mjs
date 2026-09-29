@@ -1,12 +1,12 @@
 // Генерирует assets/price-demo.pdf (из tools/price-demo.html) и assets/og.jpg (первый экран 1200x630).
 // node tools/build-assets.mjs [BASE]  — для OG нужен запущенный сервер (по умолчанию http://127.0.0.1:5507/)
-import { chromium } from 'playwright';
+import { launch } from './browser.mjs';
 import { readFileSync, writeFileSync, rmSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import sharp from 'sharp';
 
 const BASE = process.argv[2] || 'http://127.0.0.1:5507/';
-const browser = await chromium.launch();
+const browser = await launch();
 
 // PDF: подставляем символ логотипа в шаблон и печатаем A4
 const symbol = readFileSync('assets/logo/logo-symbol.txt', 'utf8');

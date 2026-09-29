@@ -4,6 +4,9 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
+  // Режим ?slots: бирка с номером слота на каждой картинке ([data-slot] на обёртке, стили в styles.css)
+  if (new URLSearchParams(location.search).has('slots')) document.documentElement.classList.add('show-slots');
+
   // Ссылки-заглушки (Портфолио, мессенджеры) никуда не ведут и не прыгают наверх
   $$('[data-stub]').forEach((a) => a.addEventListener('click', (e) => e.preventDefault()));
 

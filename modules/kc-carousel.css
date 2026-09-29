@@ -1,0 +1,36 @@
+/* kc-carousel — 3D-карусель «Что мы шьём». Спека: PLAN-v2.md, 6.2.
+   Все селекторы — .kc-carousel…; глобальные токены и классы сайта не используются.
+   Брейкпоинты Тильды: 1199 / 959 / 639 / 479. Движение 150–300 мс, ease-out; при reduce — плоский ряд со scroll-snap.
+   Геометрия coverflow — по [data-pos] (−3…3), таблица значений в PLAN-v2.md. */
+.kc-carousel {
+  /* свои токены модуля (значения = DESIGN.md), чтобы блок жил в Тильде без styles.css */
+  --kc-linen: #E6DECE;
+  --kc-milk: #F2ECE2;
+  --kc-ink: #2E2520;
+  --kc-ink-hover: #4A3B33;
+  --kc-muted: #6B5F55;
+  --kc-clay: #974B31;
+  --kc-cacao: #2A1810;
+  --kc-olive: #5E6A48;
+  --kc-sage-bg: #E4E8DC;
+  --kc-line: rgba(46, 37, 32, .18);
+  --kc-line-strong: rgba(46, 37, 32, .56);
+  --kc-serif: "Cormorant", "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --kc-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --kc-stitch: repeating-linear-gradient(90deg, var(--kc-clay) 0 6px, transparent 6px 11px);
+  --kc-ease: cubic-bezier(.2, .7, .2, 1);
+  --kc-card-w: 360px;
+  --kc-perspective: 1200px;
+}
+@media (max-width: 1199px) { .kc-carousel { --kc-card-w: 320px; } }
+@media (max-width: 639px) { .kc-carousel { --kc-card-w: min(280px, 72vw); --kc-perspective: 900px; } }
+
+/* TODO 6.2: ряд-указатель (.kc-carousel__index, __goto, активный — пунктир снизу) */
+/* TODO 6.2: сцена (.kc-carousel__stage: perspective, overflow: clip, высота) и слайды по [data-pos] */
+/* TODO 6.2: карточка (__card, __media 3:4, __tag-бирка, __title, __cta только у [data-pos="0"]) */
+/* TODO 6.2: управление (__controls, __arrow 48×48, disabled; __counter, lining-nums) */
+/* TODO 6.2: фокус — outline 2px var(--kc-clay) */
+
+@media (prefers-reduced-motion: reduce) {
+  /* TODO 6.2: плоский ряд — stage flex + overflow-x auto + scroll-snap, слайды static, transform/filter none */
+}

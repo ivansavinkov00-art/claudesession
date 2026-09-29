@@ -1,0 +1,35 @@
+/* kc-tasks — список задач: ховер-список с картинкой (≥960) и аккордеон (<960). Спека: PLAN-v2.md, 6.3.
+   Все селекторы — .kc-tasks…; глобальные токены и классы сайта не используются.
+   Брейкпоинты Тильды: 1199 / 959 / 639 / 479. Движение 150–300 мс, ease-out; при reduce — без переходов. */
+.kc-tasks {
+  /* свои токены модуля (значения = DESIGN.md), чтобы блок жил в Тильде без styles.css */
+  --kc-linen: #E6DECE;
+  --kc-milk: #F2ECE2;
+  --kc-ink: #2E2520;
+  --kc-ink-hover: #4A3B33;
+  --kc-muted: #6B5F55;
+  --kc-clay: #974B31;
+  --kc-cacao: #2A1810;
+  --kc-olive: #5E6A48;
+  --kc-sage-bg: #E4E8DC;
+  --kc-line: rgba(46, 37, 32, .18);
+  --kc-line-strong: rgba(46, 37, 32, .56);
+  --kc-serif: "Cormorant", "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --kc-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --kc-stitch: repeating-linear-gradient(90deg, var(--kc-clay) 0 6px, transparent 6px 11px);
+  --kc-ease: cubic-bezier(.2, .7, .2, 1);
+  --kc-name: 44px;   /* название строки, Cormorant 600: 44 / 40 / 38 / 36 / 36 */
+  --kc-sticky-top: 108px;
+}
+@media (max-width: 1199px) { .kc-tasks { --kc-name: 40px; } }
+@media (max-width: 959px) { .kc-tasks { --kc-name: 38px; } }
+@media (max-width: 639px) { .kc-tasks { --kc-name: 36px; } }
+
+/* TODO 6.3: раскладка ≥960 (список 7 кол. + sticky-сцена 5 кол.), <960 — одна колонка, сцена скрыта */
+/* TODO 6.3: строка (__row, __toggle 56px 1fr 32px, __n, __name, __arrow; .is-open — --kc-clay) */
+/* TODO 6.3: панель (grid-template-rows 0fr → 1fr, __panel-in overflow hidden, __dl, __action) */
+/* TODO 6.3: картинки (__media 4:5 стопкой, .is-active opacity 1; __media-m 3:2 только <960) */
+
+@media (prefers-reduced-motion: reduce) {
+  .kc-tasks *, .kc-tasks *::before, .kc-tasks *::after { transition: none !important; }
+}

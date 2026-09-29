@@ -1,0 +1,39 @@
+/* kc-calc — квиз «Рассчитать стоимость» + панель «Ваш проект». Спека: PLAN-v2.md, 6.4.
+   Все селекторы — .kc-calc…; глобальные токены и классы сайта (.btn, .seg, .field, .hint) не используются —
+   нужные стили продублированы внутри префикса, чтобы модуль переносился в Тильду блоком T123.
+   Брейкпоинты Тильды: 1199 / 959 / 639 / 479. */
+.kc-calc {
+  /* свои токены модуля (значения = DESIGN.md), чтобы блок жил в Тильде без styles.css */
+  --kc-linen: #E6DECE;
+  --kc-milk: #F2ECE2;
+  --kc-ink: #2E2520;
+  --kc-ink-hover: #4A3B33;
+  --kc-muted: #6B5F55;
+  --kc-clay: #974B31;
+  --kc-cacao: #2A1810;
+  --kc-olive: #5E6A48;
+  --kc-sage-bg: #E4E8DC;
+  --kc-line: rgba(46, 37, 32, .18);
+  --kc-line-strong: rgba(46, 37, 32, .56);
+  --kc-serif: "Cormorant", "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --kc-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --kc-stitch: repeating-linear-gradient(90deg, var(--kc-clay) 0 6px, transparent 6px 11px);
+  --kc-ease: cubic-bezier(.2, .7, .2, 1);
+  --kc-q: 32px;      /* заголовок шага: 32 / 28 / 28 / 26 / 24 */
+  --kc-sticky-top: 100px;
+}
+@media (max-width: 1199px) { .kc-calc { --kc-q: 28px; } }
+@media (max-width: 639px) { .kc-calc { --kc-q: 26px; } }
+@media (max-width: 479px) { .kc-calc { --kc-q: 24px; } }
+
+/* TODO 6.4: раскладка (форма 8 кол. + sticky-панель 4 кол.; <960 — панель скрыта, видна __sumline) */
+/* TODO 6.4: шапка (__progress, __ruler — 4 сегмента, деления сантиметровой ленты, --kc-step) */
+/* TODO 6.4: шаг (__step, legend без отступов, __q) и группы (__group) */
+/* TODO 6.4: карточки-радио (__card) и изделия с миниатюрами (__items, __item; «Другое» — пунктир) */
+/* TODO 6.4: поля (__field, input/textarea 50px), быстрые варианты (__quick), чекбоксы (__check) */
+/* TODO 6.4: ошибки (__err, aria-invalid), подсказка (__hint — sage + пунктир olive) */
+/* TODO 6.4: кнопки (__btn, __btn--ghost), навигация (__nav), успех (__done), панель (__summary / __panel) */
+
+@media (prefers-reduced-motion: reduce) {
+  .kc-calc *, .kc-calc *::before, .kc-calc *::after { transition: none !important; }
+}
