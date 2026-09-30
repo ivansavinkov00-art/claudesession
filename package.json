@@ -5,15 +5,20 @@
   "description": "Design prototype: home page for Kultura Shitya sewing production",
   "scripts": {
     "shots": "node tools/shots.mjs v2",
+    "shots:v3": "node tools/shots-v3.mjs",
     "shots:before": "node tools/shots.mjs before",
     "shots:after": "node tools/shots.mjs after",
     "review": "node tools/shots.mjs review",
     "e2e": "node tools/e2e.mjs",
     "placeholders": "node tools/placeholders.mjs",
     "incoming": "node tools/incoming.mjs",
-    "assets": "node tools/build-assets.mjs"
+    "assets": "node tools/build-assets.mjs",
+    "preview": "node tools/preview.mjs preview.html"
   },
   "devDependencies": {
+    "@fontsource-variable/manrope": "^5.3.0",
+    "@fontsource-variable/onest": "^5.3.1",
+    "@fontsource-variable/playfair-display": "^5.3.0",
     "@fontsource/cormorant": "^5.3.0",
     "@fontsource/ibm-plex-mono": "^5.3.0",
     "css-select": "^7.0.0",

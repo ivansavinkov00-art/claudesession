@@ -18,25 +18,28 @@
 <link rel="icon" href="assets/logo/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/logo/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/logo/apple-touch-icon.png">
-<link rel="preload" href="assets/fonts/cormorant-cyrillic-500-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/cormorant-cyrillic-500-italic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/ibm-plex-mono-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/playfair-display-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/onest-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/img/img-01.webp" as="image" fetchpriority="high">
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="modules/kc-carousel.css">
-<link rel="stylesheet" href="modules/kc-tasks.css">
-<link rel="stylesheet" href="modules/kc-calc.css">
+<link rel="stylesheet" href="modules/kc-carousel.css" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="modules/kc-tasks.css" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="modules/kc-calc.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="modules/kc-carousel.css"><link rel="stylesheet" href="modules/kc-tasks.css"><link rel="stylesheet" href="modules/kc-calc.css"></noscript>
+<link rel="stylesheet" href="v3.css">
+<script>document.documentElement.classList.add("js")</script>
 <script src="script.js" defer></script>
 <script src="modules/kc-carousel.js" defer></script>
 <script src="modules/kc-tasks.js" defer></script>
 <script src="modules/kc-calc.js" defer></script>
+<script src="v3.js" defer></script>
 </head>
 <body id="top">
 <!--
 THESIS: Производство как чистовая строчка: ровный, точный, спокойный ритм. Отказываемся от шаблона «большая плашка-оффер плюс карточки с иконками» и от «домашнего рукоделия».
-OWN-WORLD: Льняной фон #E6DECE, шоколадный графит #2E2520, один акцент — «нитка» #974B31 (пунктир-строчка, фокус, активные состояния). Cormorant на дисплее, IBM Plex Mono в интерфейсе. Прямые углы, линии 1px, фото в арке, тёмное «окно», бирка с пунктирной строчкой, вертикальная лента-сантиметр у правого края.
+OWN-WORLD: Льняной фон #E6DECE, шоколадный графит #2E2520, один акцент — «нитка» #974B31 (пунктир-строчка, фокус, активные состояния). Playfair Display на дисплее, Onest в тексте и интерфейсе, IBM Plex Mono только в ярлыках (v3). Прямые углы, линии 1px, фото в арке, тёмное «окно», бирка с пунктирной строчкой, вертикальная лента-сантиметр у правого края.
 STORY: Посетитель сразу видит, что это производство полного цикла в Челябинске для брендов и селлеров WB и OZON. Понимает, что опт идёт от 300 ед., а для малых партий есть экспериментальный цех. Верит фактам (10+ лет, свой цех, ОТК, образец за 2–3 дня) и оставляет заявку на расчёт.
-FIRST VIEWPORT (v2, доводка): слева заголовок в три уровня («Швейное производство» ~108px, «в Челябинске» моно, «Полного цикла под ключ» ~56px), лид, «Рассчитать стоимость» (единственная тёмная заливка колонки), «Скачать прайс», бирка «Опт от 300 ед.» и строка фактов 10+ лет / 2–3 дня / 1 цех. Справа фото в арке. У правого края лента «Рассчитать стоимость».
+FIRST VIEWPORT (v3): ткань WebGL за сеткой, арка с карточкой и печатью, под ней бегущая строка. Слева заголовок в три уровня («Швейное производство» 84px, «в Челябинске» моно, «Полного цикла под ключ» ~56px), лид, «Рассчитать стоимость» (единственная тёмная заливка колонки), «Скачать прайс», бирка «Опт от 300 ед.» и строка фактов 10+ лет / 2–3 дня / 1 цех. Справа фото в арке. У правого края лента «Рассчитать стоимость».
 STRUCTURE (v2): первый экран → производство → основатель → что мы шьём (3D-карусель) → шов «нестандартные размеры» → задачи → путь заказа и квиз → финал → подвал. Подробности — PLAN-v2.md.
 FORM: Направление задано брифом: скелет Miti Navi, цвет из брифа. Концепт-рулетка не запускалась (seed: none, brief-pinned).
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
@@ -69,12 +72,14 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
       </button>
     </div>
   </div>
+  <div class="progress" aria-hidden="true"></div>
 </header>
 
 <main id="main">
 
   <!-- Экран 1. Первый экран: саммари -->
   <section class="hero" aria-labelledby="hero-title">
+    <canvas class="fabric" aria-hidden="true"></canvas>
     <div class="container hero-grid">
       <div class="hero-text">
         <h1 class="hero-title" id="hero-title">
@@ -89,16 +94,43 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
           <span class="tag">Опт от&nbsp;300&nbsp;ед.</span>
         </div>
       </div>
-      <figure class="hero-arch" data-slot="01">
-        <img src="assets/img/img-01.webp" width="1600" height="2000" fetchpriority="high" decoding="async"
-             alt="Руки швеи ведут ткань под лапкой промышленной швейной машины">
-      </figure>
+      <div class="hero-media">
+        <figure class="hero-arch" data-slot="01">
+          <img src="assets/img/img-01.webp" width="1600" height="2000" fetchpriority="high" decoding="async"
+               alt="Руки швеи ведут ткань под лапкой промышленной швейной машины">
+        </figure>
+        <figure class="hero-card">
+          <img src="assets/img/img-10.webp" width="1200" height="1500" loading="lazy" decoding="async" alt="">
+        </figure>
+        <svg class="stamp" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+          <defs><path id="stamp-path" d="M60 60m-42 0a42 42 0 1 1 84 0a42 42 0 1 1-84 0"/></defs>
+          <circle class="stamp-bg" cx="60" cy="60" r="58"/>
+          <g class="stamp-ring"><text><textPath href="#stamp-path" textLength="262" lengthAdjust="spacing">ПОЛНЫЙ ЦИКЛ · ОТК · ОПТ ОТ 300 ЕД · </textPath></text></g>
+          <svg x="36" y="42" width="48" height="37" viewBox="0 0 1104 848"><use href="#mark"/></svg>
+        </svg>
+      </div>
       <dl class="hero-facts">
         <div><dt>10+&nbsp;<span class="acc">лет</span></dt><dd>шьём в&nbsp;собственном цехе</dd></div>
         <div><dt>2–3&nbsp;<span class="acc">дня</span></dt><dd>любой образец</dd></div>
         <div><dt>1&nbsp;<span class="acc">цех</span></dt><dd>от&nbsp;лекал до&nbsp;упаковки</dd></div>
       </dl>
     </div>
+  </section>
+
+  <!-- Бегущая строка услуг (единственная на странице) -->
+  <section class="marquee" aria-label="Что мы делаем" data-marquee>
+    <div class="marquee-track">
+      <ul class="marquee-list">
+        <li>Худи и&nbsp;зип-худи</li><li>Свитшоты</li><li>Рубашки</li><li>Платья</li><li>Брюки</li><li>Шорты</li><li>Печать DTF</li><li>Вышивка</li><li>Бирки и&nbsp;составы</li><li>Упаковка по&nbsp;ТЗ</li>
+      </ul>
+      <ul class="marquee-list" aria-hidden="true">
+        <li>Худи и&nbsp;зип-худи</li><li>Свитшоты</li><li>Рубашки</li><li>Платья</li><li>Брюки</li><li>Шорты</li><li>Печать DTF</li><li>Вышивка</li><li>Бирки и&nbsp;составы</li><li>Упаковка по&nbsp;ТЗ</li>
+      </ul>
+    </div>
+    <button class="marquee-pause" type="button" aria-pressed="false" aria-label="Остановить бегущую строку" data-marquee-pause>
+      <svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2h3.5v12H3zM9.5 2H13v12H9.5z"/></svg>
+      <svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2l10 6-10 6z"/></svg>
+    </button>
   </section>
 
   <!-- Экран 2. Производство -->
@@ -167,7 +199,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
             <div class="kc-carousel__card">
               <figure class="kc-carousel__media" data-slot="04">
                 <img src="assets/img/img-04.webp" width="1200" height="1600" loading="lazy" decoding="async" draggable="false"
-                     alt="Худи из плотного хлопкового футера на деревянной вешалке" data-placeholder>
+                     alt="Худи из плотного хлопкового футера на деревянной вешалке">
                 <span class="kc-carousel__tag" aria-hidden="true">01</span>
               </figure>
               <h3 class="kc-carousel__title">Худи и&nbsp;зип-худи</h3>
@@ -178,7 +210,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
             <div class="kc-carousel__card">
               <figure class="kc-carousel__media" data-slot="05">
                 <img src="assets/img/img-05.webp" width="1200" height="1600" loading="lazy" decoding="async" draggable="false"
-                     alt="Свитшот с круглым вырезом на деревянной вешалке" data-placeholder>
+                     alt="Свитшот с круглым вырезом на деревянной вешалке">
                 <span class="kc-carousel__tag" aria-hidden="true">02</span>
               </figure>
               <h3 class="kc-carousel__title">Свитшоты</h3>
@@ -189,7 +221,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
             <div class="kc-carousel__card">
               <figure class="kc-carousel__media" data-slot="06">
                 <img src="assets/img/img-06.webp" width="1200" height="1600" loading="lazy" decoding="async" draggable="false"
-                     alt="Хлопковая рубашка свободного кроя на деревянной вешалке" data-placeholder>
+                     alt="Хлопковая рубашка свободного кроя на деревянной вешалке">
                 <span class="kc-carousel__tag" aria-hidden="true">03</span>
               </figure>
               <h3 class="kc-carousel__title">Рубашки</h3>
@@ -200,7 +232,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
             <div class="kc-carousel__card">
               <figure class="kc-carousel__media" data-slot="07">
                 <img src="assets/img/img-07.webp" width="1200" height="1600" loading="lazy" decoding="async" draggable="false"
-                     alt="Льняное платье миди на деревянной вешалке" data-placeholder>
+                     alt="Льняное платье миди на деревянной вешалке">
                 <span class="kc-carousel__tag" aria-hidden="true">04</span>
               </figure>
               <h3 class="kc-carousel__title">Платья</h3>
@@ -211,7 +243,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
             <div class="kc-carousel__card">
               <figure class="kc-carousel__media" data-slot="08">
                 <img src="assets/img/img-08.webp" width="1200" height="1600" loading="lazy" decoding="async" draggable="false"
-                     alt="Широкие брюки из хлопкового твила на вешалке с зажимами" data-placeholder>
+                     alt="Широкие брюки из хлопкового твила на вешалке с зажимами">
                 <span class="kc-carousel__tag" aria-hidden="true">05</span>
               </figure>
               <h3 class="kc-carousel__title">Брюки</h3>
@@ -222,7 +254,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
             <div class="kc-carousel__card">
               <figure class="kc-carousel__media" data-slot="09">
                 <img src="assets/img/img-09.webp" width="1200" height="1600" loading="lazy" decoding="async" draggable="false"
-                     alt="Хлопковые шорты на кулиске на вешалке с зажимами" data-placeholder>
+                     alt="Хлопковые шорты на кулиске на вешалке с зажимами">
                 <span class="kc-carousel__tag" aria-hidden="true">06</span>
               </figure>
               <h3 class="kc-carousel__title">Шорты</h3>
@@ -275,7 +307,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
               <div class="kc-tasks__panel-in">
                 <figure class="kc-tasks__media-m" data-slot="10">
                   <img src="assets/img/img-10.webp" width="1200" height="1500" loading="lazy" decoding="async"
-                       alt="Готовая партия худи в пакетах с бирками, уложенная в коробки" data-placeholder>
+                       alt="Стопка сложенных тканей в нейтральных тонах">
                 </figure>
                 <dl class="kc-tasks__dl">
                   <div><dt>Задача</dt><dd>Отшить партию к&nbsp;поставке и&nbsp;не&nbsp;сорвать сроки.</dd></div>
@@ -297,7 +329,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
               <div class="kc-tasks__panel-in">
                 <figure class="kc-tasks__media-m" data-slot="11">
                   <img src="assets/img/img-11.webp" width="1200" height="1500" loading="lazy" decoding="async"
-                       alt="Основательница бренда и технолог обсуждают образец платья на манекене" data-placeholder>
+                       alt="Игла швейной машины прошивает ткань, крупный план">
                 </figure>
                 <dl class="kc-tasks__dl">
                   <div><dt>Задача</dt><dd>Запустить коллекцию и&nbsp;расти, не&nbsp;меняя производство.</dd></div>
@@ -319,7 +351,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
               <div class="kc-tasks__panel-in">
                 <figure class="kc-tasks__media-m" data-slot="12">
                   <img src="assets/img/img-12.webp" width="1200" height="1500" loading="lazy" decoding="async"
-                       alt="Стойка с партией одинаковых рубашек разных размеров" data-placeholder>
+                       alt="Цех: стойка с готовыми изделиями у кирпичной стены">
                 </figure>
                 <dl class="kc-tasks__dl">
                   <div><dt>Задача</dt><dd>Стабильные объёмы и&nbsp;сроки на&nbsp;годы вперёд.</dd></div>
@@ -341,7 +373,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
               <div class="kc-tasks__panel-in">
                 <figure class="kc-tasks__media-m" data-slot="13">
                   <img src="assets/img/img-13.webp" width="1200" height="1500" loading="lazy" decoding="async"
-                       alt="Стол конструктора: бумажные лекала, линейка, мел и булавки" data-placeholder>
+                       alt="Конструктор размечает лекало на рабочем столе">
                 </figure>
                 <dl class="kc-tasks__dl">
                   <div><dt>Задача</dt><dd>Проверить модель, посадку и&nbsp;ткань до&nbsp;запуска партии.</dd></div>
@@ -355,19 +387,19 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         <div class="kc-tasks__stage" data-kc="stage">
           <figure class="kc-tasks__media is-active" data-kc="media" data-index="0" data-slot="10">
             <img src="assets/img/img-10.webp" width="1200" height="1500" loading="lazy" decoding="async"
-                 alt="Готовая партия худи в пакетах с бирками, уложенная в коробки" data-placeholder>
+                 alt="Стопка сложенных тканей в нейтральных тонах">
           </figure>
           <figure class="kc-tasks__media" data-kc="media" data-index="1" data-slot="11" aria-hidden="true">
             <img src="assets/img/img-11.webp" width="1200" height="1500" loading="lazy" decoding="async"
-                 alt="Основательница бренда и технолог обсуждают образец платья на манекене" data-placeholder>
+                 alt="Игла швейной машины прошивает ткань, крупный план">
           </figure>
           <figure class="kc-tasks__media" data-kc="media" data-index="2" data-slot="12" aria-hidden="true">
             <img src="assets/img/img-12.webp" width="1200" height="1500" loading="lazy" decoding="async"
-                 alt="Стойка с партией одинаковых рубашек разных размеров" data-placeholder>
+                 alt="Цех: стойка с готовыми изделиями у кирпичной стены">
           </figure>
           <figure class="kc-tasks__media" data-kc="media" data-index="3" data-slot="13" aria-hidden="true">
             <img src="assets/img/img-13.webp" width="1200" height="1500" loading="lazy" decoding="async"
-                 alt="Стол конструктора: бумажные лекала, линейка, мел и булавки" data-placeholder>
+                 alt="Конструктор размечает лекало на рабочем столе">
           </figure>
         </div>
       </div>
@@ -415,13 +447,13 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
             <fieldset class="kc-calc__group" aria-describedby="kc-err-item">
               <legend class="kc-calc__label">Изделие <small>можно несколько</small></legend>
               <div class="kc-calc__items">
-                <label class="kc-calc__item"><input type="checkbox" name="item" value="hoodie"><span class="kc-calc__thumb"><img src="assets/img/img-04.webp" width="1200" height="1600" alt="" loading="lazy" decoding="async" data-placeholder></span><span class="kc-calc__item-name">Худи</span></label>
-                <label class="kc-calc__item"><input type="checkbox" name="item" value="ziphoodie"><span class="kc-calc__thumb"><img src="assets/img/img-04.webp" width="1200" height="1600" alt="" loading="lazy" decoding="async" data-placeholder></span><span class="kc-calc__item-name">Зип-худи</span></label>
-                <label class="kc-calc__item"><input type="checkbox" name="item" value="sweatshirt"><span class="kc-calc__thumb"><img src="assets/img/img-05.webp" width="1200" height="1600" alt="" loading="lazy" decoding="async" data-placeholder></span><span class="kc-calc__item-name">Свитшот</span></label>
-                <label class="kc-calc__item"><input type="checkbox" name="item" value="shirt"><span class="kc-calc__thumb"><img src="assets/img/img-06.webp" width="1200" height="1600" alt="" loading="lazy" decoding="async" data-placeholder></span><span class="kc-calc__item-name">Рубашка</span></label>
-                <label class="kc-calc__item"><input type="checkbox" name="item" value="dress"><span class="kc-calc__thumb"><img src="assets/img/img-07.webp" width="1200" height="1600" alt="" loading="lazy" decoding="async" data-placeholder></span><span class="kc-calc__item-name">Платье</span></label>
-                <label class="kc-calc__item"><input type="checkbox" name="item" value="pants"><span class="kc-calc__thumb"><img src="assets/img/img-08.webp" width="1200" height="1600" alt="" loading="lazy" decoding="async" data-placeholder></span><span class="kc-calc__item-name">Брюки</span></label>
-                <label class="kc-calc__item"><input type="checkbox" name="item" value="shorts"><span class="kc-calc__thumb"><img src="assets/img/img-09.webp" width="1200" height="1600" alt="" loading="lazy" decoding="async" data-placeholder></span><span class="kc-calc__item-name">Шорты</span></label>
+                <label class="kc-calc__item"><input type="checkbox" name="item" value="hoodie"><span class="kc-calc__thumb"><img src="assets/img/img-04.webp" width="1200" height="1600" alt="" loading="lazy" decoding="async"></span><span class="kc-calc__item-name">Худи</span></label>
+                <label class="kc-calc__item"><input type="checkbox" name="item" value="ziphoodie"><span class="kc-calc__thumb"><img src="assets/img/img-04.webp" width="1200" height="1600" alt="" loading="lazy" decoding="async"></span><span class="kc-calc__item-name">Зип-худи</span></label>
+                <label class="kc-calc__item"><input type="checkbox" name="item" value="sweatshirt"><span class="kc-calc__thumb"><img src="assets/img/img-05.webp" width="1200" height="1600" alt="" loading="lazy" decoding="async"></span><span class="kc-calc__item-name">Свитшот</span></label>
+                <label class="kc-calc__item"><input type="checkbox" name="item" value="shirt"><span class="kc-calc__thumb"><img src="assets/img/img-06.webp" width="1200" height="1600" alt="" loading="lazy" decoding="async"></span><span class="kc-calc__item-name">Рубашка</span></label>
+                <label class="kc-calc__item"><input type="checkbox" name="item" value="dress"><span class="kc-calc__thumb"><img src="assets/img/img-07.webp" width="1200" height="1600" alt="" loading="lazy" decoding="async"></span><span class="kc-calc__item-name">Платье</span></label>
+                <label class="kc-calc__item"><input type="checkbox" name="item" value="pants"><span class="kc-calc__thumb"><img src="assets/img/img-08.webp" width="1200" height="1600" alt="" loading="lazy" decoding="async"></span><span class="kc-calc__item-name">Брюки</span></label>
+                <label class="kc-calc__item"><input type="checkbox" name="item" value="shorts"><span class="kc-calc__thumb"><img src="assets/img/img-09.webp" width="1200" height="1600" alt="" loading="lazy" decoding="async"></span><span class="kc-calc__item-name">Шорты</span></label>
                 <label class="kc-calc__item"><input type="checkbox" name="item" value="other"><span class="kc-calc__thumb kc-calc__thumb--none" aria-hidden="true"></span><span class="kc-calc__item-name">Другое</span></label>
               </div>
               <p class="kc-calc__err" id="kc-err-item" hidden>Выберите хотя бы одно изделие</p>
@@ -557,7 +589,8 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   <!-- Экран 6. Финал -->
   <section class="final" aria-labelledby="final-title">
     <div class="container final-inner">
-      <h2 id="final-title">Обсудим вашу <span class="acc">задачу</span></h2>
+      <div class="final-main">
+        <h2 id="final-title">Обсудим вашу <span class="acc">задачу</span></h2>
       <p>Пришлём прайс на&nbsp;телефон или e-mail или созвонимся в&nbsp;удобное время.</p>
       <div class="final-actions">
         <button class="btn btn-on-dark" type="button" data-open="price">Скачать прайс</button>
@@ -568,6 +601,12 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         <a href="#" data-stub>WhatsApp</a>
         <a href="#" data-stub>Max</a>
       </p>
+      </div>
+      <div class="final-side">
+        <p class="final-side-l">Позвонить</p>
+        <a class="final-phone" href="tel:+79995888804">+7&nbsp;999&nbsp;588‑88‑04</a>
+        <p class="final-side-n">Челябинск, доставка по&nbsp;всей России</p>
+      </div>
     </div>
   </section>
 

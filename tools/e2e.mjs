@@ -1,4 +1,4 @@
-// Проверка интерактива v2 по контракту разметки (PLAN-v2.md, раздел 4).
+// Проверка интерактива v2 по контракту разметки (PLAN-v2.md, раздел 4) и слоя v3 (PLAN-v3.md).
 // node tools/e2e.mjs [BASE] [--only=подстрока]   (нужен сервер, по умолчанию http://127.0.0.1:5507/)
 // Каждая проверка — на свежей странице; падение одной не останавливает остальные. Код выхода 1, если есть FAIL.
 import { launch } from './browser.mjs';
@@ -683,6 +683,75 @@ await test('мобильное меню: пункт ведёт к якорю и 
   assert.equal(await p.evaluate(() => document.getElementById('menu').open), false);
   const top = await p.locator('#proizvodstvo').evaluate((e) => e.getBoundingClientRect().top);
   assert.ok(Math.abs(top) < 120, `верх секции ${top}`);
+});
+
+// ---------- v3 ----------
+await test('v3: шрифты — Playfair на заголовках, Onest в тексте, моно только в ярлыках', DESK, async (p) => {
+  const f = await p.evaluate(() => {
+    const ff = (sel) => getComputedStyle(document.querySelector(sel)).fontFamily.split(',')[0].replace(/"/g, '');
+    return { h1: ff('.hero-title'), body: ff('.prod-body > p'), btn: ff('.btn-primary'), tag: ff('.tag'), loaded: [...document.fonts].filter((x) => x.status === 'loaded').map((x) => x.family.replace(/"/g, '')) };
+  });
+  assert.equal(f.h1, 'Playfair Display');
+  assert.equal(f.body, 'Onest');
+  assert.equal(f.btn, 'Onest');
+  assert.equal(f.tag, 'IBM Plex Mono');
+  assert.ok(f.loaded.includes('Playfair Display') && f.loaded.includes('Onest'), `загружены: ${f.loaded}`);
+});
+await test('v3: бегущая строка — один список для чтения, дубль скрыт, есть кнопка паузы', MOTION, async (p) => {
+  assert.equal(await p.locator('[data-marquee]').count(), 1, 'бегущая строка должна быть одна на странице');
+  assert.equal(await p.locator('.marquee-list:not([aria-hidden="true"]) li').count(), 10);
+  assert.equal(await p.locator('.marquee-list[aria-hidden="true"]').count(), 1);
+  const btn = p.locator('[data-marquee-pause]');
+  const state = () => p.locator('.marquee-track').evaluate((e) => getComputedStyle(e).animationPlayState);
+  await p.mouse.move(10, 10);
+  assert.equal(await state(), 'running');
+  await btn.click();
+  assert.equal(await btn.getAttribute('aria-pressed'), 'true');
+  assert.equal(await state(), 'paused');
+  await btn.click();
+  await p.mouse.move(10, 10); // курсор над строкой сам её останавливает (hover), убираем
+  assert.equal(await state(), 'running');
+});
+await test('v3: при reduced motion бегущая строка не движется, без кнопки паузы', DESK, async (p) => {
+  assert.equal(await p.locator('.marquee-track').evaluate((e) => getComputedStyle(e).animationName), 'none');
+  assert.equal(await p.locator('[data-marquee-pause]').isVisible(), false);
+});
+await test('v3: блоки появляются при прокрутке, без JS контент виден', MOTION, async (p) => {
+  const prodBody = p.locator('.prod-body > p').first();
+  await p.locator('#proizvodstvo').scrollIntoViewIfNeeded();
+  await p.evaluate(() => window.scrollBy(0, 200));
+  await wait(p, 1200);
+  assert.equal(await prodBody.evaluate((e) => getComputedStyle(e).opacity), '1');
+  const ctx = await p.context().browser().newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 800 } });
+  const np = await ctx.newPage();
+  await np.goto(BASE, { waitUntil: 'load' });
+  assert.equal(await np.locator('.prod-body > p').first().evaluate((e) => getComputedStyle(e).opacity), '1');
+  await ctx.close();
+});
+await test('v3: первый экран — арка, карточка, печать, ткань; ткань не ломает страницу', MOTION, async (p) => {
+  for (const sel of ['.hero-arch', '.hero-card', '.stamp', '.fabric']) assert.equal(await p.locator(sel).count(), 1, sel);
+  const hero = await p.locator('.hero-arch').boundingBox();
+  const card = await p.locator('.hero-card').boundingBox();
+  assert.ok(card.x < hero.x + hero.width && card.y + card.height > hero.y, 'карточка должна заходить на арку');
+  assert.equal(await p.locator('.fabric').evaluate((c) => c.getAttribute('aria-hidden')), 'true');
+});
+await test('v3: на мобильном ткань не запускается, hero читается', MOB, async (p) => {
+  await wait(p, 600);
+  assert.equal(await p.locator('.fabric').evaluate((c) => c.classList.contains('is-on')), false);
+  assert.ok(await p.locator('.hero-title').isVisible());
+});
+await test('v3: нитка прогресса лежит в шапке и не перехватывает клики', MOTION, async (p) => {
+  const pe = await p.locator('.progress').evaluate((e) => ({ pe: getComputedStyle(e).pointerEvents, inHeader: !!e.closest('.site-header') }));
+  assert.deepEqual(pe, { pe: 'none', inHeader: true });
+});
+await test('v3: тёмная секция «Что мы шьём» — текст и стрелки светлые, контраст ≥ 4.5', MOTION, async (p) => {
+  const c = await p.evaluate(() => {
+    const lum = (rgb) => { const [r, g, b] = rgb.match(/\d+/g).map(Number).map((v) => { v /= 255; return v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; }); return .2126 * r + .7152 * g + .0722 * b; };
+    const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + .05) / (y + .05); };
+    const bg = getComputedStyle(document.querySelector('.s-portfolio')).backgroundColor;
+    return ['.s-portfolio .sec-head h2', '.s-portfolio .sec-head p', '.s-portfolio .kc-carousel__goto', '.s-portfolio .kc-carousel__counter', '.s-portfolio .acc'].map((s) => [s, ratio(getComputedStyle(document.querySelector(s)).color, bg)]);
+  });
+  for (const [s, r] of c) assert.ok(r >= 4.5, `${s}: ${r.toFixed(2)}`);
 });
 
 for (const w of [320, 360, 390, 480, 640, 960, 1200, 1366, 1440, 1920]) {

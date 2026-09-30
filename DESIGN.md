@@ -16,50 +16,50 @@ colors:
   line-strong: "rgba(46, 37, 32, .56)"
 typography:
   display:
-    fontFamily: "Cormorant, Cormorant Garamond, Georgia, Times New Roman, serif"
-    fontSize: "124px"
+    fontFamily: "Playfair Display, Georgia, Times New Roman, serif"
+    fontSize: "84px"
     fontWeight: 600
     lineHeight: 0.96
     letterSpacing: "-.015em"
   headline:
-    fontFamily: "Cormorant, Cormorant Garamond, Georgia, Times New Roman, serif"
-    fontSize: "56px"
+    fontFamily: "Playfair Display, Georgia, Times New Roman, serif"
+    fontSize: "52px"
     fontWeight: 600
     lineHeight: 1.02
     letterSpacing: "-.01em"
   headline-lg:
-    fontFamily: "Cormorant, Cormorant Garamond, Georgia, Times New Roman, serif"
-    fontSize: "64px"
+    fontFamily: "Playfair Display, Georgia, Times New Roman, serif"
+    fontSize: "60px"
     fontWeight: 600
     lineHeight: 1.0
     letterSpacing: "-.01em"
   headline-sm:
-    fontFamily: "Cormorant, Cormorant Garamond, Georgia, Times New Roman, serif"
+    fontFamily: "Playfair Display, Georgia, Times New Roman, serif"
     fontSize: "44px"
     fontWeight: 600
     lineHeight: 1.02
     letterSpacing: "-.01em"
   title:
-    fontFamily: "Cormorant, Cormorant Garamond, Georgia, Times New Roman, serif"
-    fontSize: "32px"
+    fontFamily: "Playfair Display, Georgia, Times New Roman, serif"
+    fontSize: "30px"
     fontWeight: 600
     lineHeight: 1.1
   quote:
-    fontFamily: "Cormorant, Cormorant Garamond, Georgia, Times New Roman, serif"
-    fontSize: "34px"
+    fontFamily: "Playfair Display, Georgia, Times New Roman, serif"
+    fontSize: "32px"
     fontWeight: 500
     lineHeight: 1.24
     letterSpacing: "-.005em"
   body:
-    fontFamily: "IBM Plex Mono, ui-monospace, Cascadia Mono, Consolas, monospace"
-    fontSize: "15px"
+    fontFamily: "Onest, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
+    fontSize: "17px"
     fontWeight: 400
     lineHeight: 1.6
-    letterSpacing: ".01em"
+    letterSpacing: "0"
   lead:
-    fontFamily: "Cormorant, Cormorant Garamond, Georgia, Times New Roman, serif"
+    fontFamily: "Onest, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
     fontSize: "20px"
-    fontWeight: 500
+    fontWeight: 400
     lineHeight: 1.5
   label:
     fontFamily: "IBM Plex Mono, ui-monospace, Cascadia Mono, Consolas, monospace"
@@ -469,3 +469,70 @@ Serif `500 34px/1.24`, слева сплошная 4px рамка `--clay` (за
 - Не давать карточкам-фактам `.fact` hover и `cursor: pointer`: они не интерактивны.
 - Не ставить сгенерированное лицо в слот 03.
 - Не делать сплошной фон у карточки карусели (см. выше про альфу .99).
+
+## v3: «плотная ткань» (действует поверх всего выше)
+
+Цель v3 — убрать ощущение пустоты и дать экрану вес. Разделы v1 и v2 выше остаются верными для цвета, радиуса 0, «строчки», модулей и контрактов. Там, где выше написано «Cormorant» или «моно в тексте», **действуют правила этого раздела**. Обоснование и план — `PLAN-v3.md`, итоги — `REPORT-v3.md`.
+
+### Шрифты
+
+- **Playfair Display** (вариативный 400–900, обычный и курсив): заголовки, цифры фактов, цитата, названия в модулях, телефон. Акцентное слово — курсив того же семейства цвета `--clay` (на тёмном `--clay-light`). Заголовки 600, средняя строка первого экрана 500.
+- **Onest** (вариативный 100–900): абзацы 17px / 1,6, кнопки 15px / 600, меню, формы, подписи, всё внутри модулей.
+- **IBM Plex Mono**: только ярлыки: `.tag`, номера 01–06, `.step-n`, счётчик карусели, `dt` в списках и подписи фактов (12px, прописные, трекинг .07em), «в Челябинске», пометки `[уточнить]`, надпись на табличке логотипа.
+- Расчёт ширины: на 320px «производство» на 38px Playfair помещается в 288px колонки; на 360px ещё есть запас.
+
+### Шкала (px по брейкпоинтам Tilda: 1200+ / 960 / 640 / 480 / 320)
+
+| Роль | 1200+ | 960 | 640 | 480 | 320 |
+|---|---|---|---|---|---|
+| «Швейное производство» | 84 | 72 | 58 | 50 | 38 |
+| «Полного цикла под ключ» | 40 | 34 | 29 | 26 | 23 |
+| Лид | 20 | 19 | 18 | 17 | 17 |
+| h2 | 52 | 44 | 38 | 34 | 30 |
+| h2 разделов доверия | 60 | 52 | 44 | 40 | 34 |
+| h3 | 30 | 28 | 28 | 26 | 22 |
+| Цитата | 32 | 28 | 28 | 24 | 22 |
+| Цифра факта | 42 | 38 | 36 | 34 | 34 |
+| Цифры строки фактов | 44 | 38 | 38 | 32 | 28 |
+| Тело | 17 | 17 | 17 | 16 | 16 |
+| Малый | 14 | 14 | 14 | 14 | 13 |
+| Название задачи (`kc-tasks`) | 40 | 36 | 34 | 30 | 26 |
+
+Значения лежат в токенах `--fs-*` `:root` (`styles.css`) и в токенах модулей (`--kc-name`, `--kc-q`). Межстрочные: заголовки 1,02–1,08, текст 1,5–1,6.
+
+### Ритм секций (фон вместо линий)
+
+Верхняя линия секций убрана. Отступ секции `--section`: 88 / 80 / 72 / 64 / 56px. Фоны сверху вниз: первый экран `--linen` с тканью; бегущая строка `--cacao`; «Производство» `--linen`; «Основатель» `--milk`; «Что мы шьём» `--cacao`; шов `--linen`; «Задачи» `--milk`; «Путь и квиз» `--linen`; финал `--cacao`; подвал `--linen`. Светлые фоны `--milk` и тёмные `--cacao` несут тонкую сетку переплетения (`--weave-light`, `--weave-dark`: линии 1px через 4px, прозрачность 3%).
+Фон сложен из `background-color` и `background-image` раздельно: цвет в сокращённой записи допустим только в последнем слое, `background: var(--cacao) var(--weave-dark)` молча не применяется.
+
+### Первый экран
+
+- Ткань: `<canvas class="fabric">` за сеткой, WebGL-шейдер (льняное полотно: уток и основа в шахматку, складка, свет следует за курсором). Рендер в половинном разрешении, 30 к/с, пауза вне экрана и при скрытой вкладке; яркость колеблется не более ±4%, чтобы текст оставался ≥ 4,5:1. Не запускается ≤959px, при `saveData`, без WebGL; при reduced motion рисуется один статичный кадр. Фон-заглушка — CSS-переплетение.
+- Медиа: арка (слот 01) занимает правые 80% блока `.hero-media`; карточка `.hero-card` (фото слота 10, рамка `--milk`, пунктир `--clay`, поворот −3°) заходит на арку слева снизу; печать `.stamp` (SVG 116px, текст по окружности «ПОЛНЫЙ ЦИКЛ · ОТК · ОПТ ОТ 300 ЕД ·», машинка в центре) вращается 42 с. Всё декоративное, `aria-hidden`; карточка с `alt=""`.
+- Высота: `min(100dvh − 72px, 860px)`, так что на 1440×900 край бегущей строки виден без прокрутки. Окна ниже 760px: кегли меньше (`--fs-xl: 66px`), вместе со строкой фактов всё помещается на 1366×650.
+
+### Бегущая строка
+
+Единственная на странице. `--cacao`, высота 72 / 64 / 56 / 52px, Playfair курсив 30 / 26 / 22 / 20px, разделитель — короткая строчка `--clay-light`. Два одинаковых списка, второй `aria-hidden`; 55 с на круг; остановка при наведении и кнопкой 44×44 (WCAG 2.2.2). При reduced motion не движется, кнопки нет, список переносится по строкам.
+
+### Тёмная секция «Что мы шьём»
+
+Заголовок и лид светлые, акцент `--clay-light`, ряд-указатель и счётчик `--milk`, стрелки с контуром `--milk` 70%. Карточки остаются `--milk`/`--ink` (внутри карточки цвета модуля не менялись).
+
+### Движение v3
+
+| Что | Как | Без движения |
+|---|---|---|
+| Нитка прогресса в шапке (3px `--clay`) | CSS `animation-timeline: scroll()` | скрыта |
+| Раскрытие фото и тёмного окна | `view()` + `clip-path` (конец `inset(-24px)`, чтобы не резать тень) | сразу |
+| Параллакс фото | `view()` + `translate` | нет |
+| Строчка между шагами пути | `view()` + `clip-path` | сразу целиком |
+| Карточка и арка первого экрана | `scroll()` + `translate` | нет |
+| Появление блоков | IntersectionObserver, `.reveal` → `.is-in`, 750 мс `cubic-bezier(.16, 1, .3, 1)`, задержка ≤ 350 мс | всё видно |
+
+Скрытие блоков действует только при классе `html.js` (ставится инлайн-скриптом), поэтому без JS и при печати контент виден. `window.addEventListener('scroll')` нигде не используется.
+
+### Do's and Don'ts для v3
+
+**Do:** держать цвет в `background-color` отдельно от градиентов; давать тёмным секциям свои переопределения токенов модулей в `.s-portfolio`; проверять анимацию на 1440 и 390 и при `reducedMotion: 'reduce'`; снимать страницу целиком только при reduced motion (scroll-анимации иначе остаются в начальной точке).
+**Don't:** ставить вторую бегущую строку; запускать WebGL на мобильных; использовать акцент `--clay` на тёмном (только `--clay-light`); ставить em-dash в новые тексты; показывать сгенерированное лицо в слоте 03.
