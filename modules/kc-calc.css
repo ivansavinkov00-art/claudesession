@@ -26,6 +26,7 @@
   display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--kc-gap); align-items: start;
   color: var(--kc-ink); font: 400 16px/1.6 var(--kc-sans); letter-spacing: .01em;
 }
+@media (min-width: 1600px) { .kc-calc { --kc-q: 36px; } }
 @media (max-width: 1199px) { .kc-calc { --kc-q: 28px; --kc-gap: 24px; } }
 @media (max-width: 959px) { .kc-calc { --kc-gap: 20px; } }
 @media (max-width: 639px) { .kc-calc { --kc-q: 26px; } }

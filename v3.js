@@ -7,13 +7,16 @@
 
   // ---------- Появление блоков ----------
   // Классы ставим сами, чтобы не раздувать разметку. Контент скрыт только пока IO не подтвердил выход в экран.
+  // Не трогаем то, что уже на экране при загрузке (первый экран анимируется своими стилями, иначе блок мигнёт),
+  // и контейнеры, чьи дети тоже в списке (иначе проявление сыграет дважды).
   const GROUPS = [
-    '.sec-head', '.prod-body > *', '.facts .fact', '.founder-body > *', '.seam-inner',
-    '.path li', '.final-inner > *', '.footer-call', '.footer-col', '.hero-facts > div',
+    '.sec-head', '.prod-body > :not(.facts)', '.facts .fact', '.founder-body > *', '.seam-inner',
+    '.path li', '.final-inner > *', '.footer-call', '.footer-col',
   ];
   const targets = [];
   GROUPS.forEach((sel) => $$(sel).forEach((el) => {
     if (el.closest('dialog') || el.classList.contains('reveal')) return;
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.92) return;
     // порядок внутри родителя даёт задержку (не больше 5 шагов)
     const i = [...el.parentElement.children].indexOf(el);
     el.style.setProperty('--i', Math.min(i, 5));
@@ -42,7 +45,12 @@
 
   // ---------- Ткань первого экрана ----------
   const VERT = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
-  const FRAG = `precision mediump float;
+  // highp обязателен: хэш sin(...)*43758 и пиксельные координаты на fp16 дают муар вместо ткани
+  const FRAG = `#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
 uniform vec2 uRes;uniform float uT;uniform vec2 uM;uniform float uS;
 float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
 float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);
@@ -74,30 +82,38 @@ void main(){
     if (navigator.connection && navigator.connection.saveData) return;
     const gl = cv.getContext('webgl', { alpha: false, antialias: false, powerPreference: 'low-power' });
     if (!gl) return;
-    const sh = (type, src) => {
-      const s = gl.createShader(type);
-      gl.shaderSource(s, src); gl.compileShader(s);
-      return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null;
+    const hp = gl.getShaderPrecisionFormat && gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, gl.HIGH_FLOAT);
+    if (!hp || hp.precision === 0) return; // нет highp: остаётся CSS-переплетение
+
+    let uRes, uT, uM, uS;
+    // сборка программы вынесена в функцию: после потери контекста её надо повторить
+    const build = () => {
+      const sh = (type, src) => {
+        const o = gl.createShader(type);
+        gl.shaderSource(o, src); gl.compileShader(o);
+        return gl.getShaderParameter(o, gl.COMPILE_STATUS) ? o : null;
+      };
+      const vs = sh(gl.VERTEX_SHADER, VERT);
+      const fs = sh(gl.FRAGMENT_SHADER, FRAG);
+      if (!vs || !fs) return false;
+      const prog = gl.createProgram();
+      gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return false;
+      gl.useProgram(prog);
+      gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+      const loc = gl.getAttribLocation(prog, 'p');
+      gl.enableVertexAttribArray(loc);
+      gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+      uRes = gl.getUniformLocation(prog, 'uRes'); uT = gl.getUniformLocation(prog, 'uT');
+      uM = gl.getUniformLocation(prog, 'uM'); uS = gl.getUniformLocation(prog, 'uS');
+      return true;
     };
-    const vs = sh(gl.VERTEX_SHADER, VERT);
-    const fs = sh(gl.FRAGMENT_SHADER, FRAG);
-    if (!vs || !fs) return;
-    const prog = gl.createProgram();
-    gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
-    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
-    gl.useProgram(prog);
-    const buf = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-    const loc = gl.getAttribLocation(prog, 'p');
-    gl.enableVertexAttribArray(loc);
-    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-    const U = (n) => gl.getUniformLocation(prog, n);
-    const uRes = U('uRes'), uT = U('uT'), uM = U('uM'), uS = U('uS');
+    if (!build()) return;
 
     const SCALE = 0.5; // рендер в половинном разрешении: ткань мягкая, GPU почти не нагружен
     let mx = 0.62, my = 0.5, tx = mx, ty = my;
-    let running = false, raf = 0, last = 0;
+    let running = false, visible = true, raf = 0, last = 0;
     const t0 = performance.now();
 
     const resize = () => {
@@ -121,12 +137,17 @@ void main(){
       mx += (tx - mx) * 0.08; my += (ty - my) * 0.08;
       draw((now - t0) / 1000);
     };
-    const start = () => { if (running || reduce.matches) return; running = true; raf = requestAnimationFrame(frame); };
+    const start = () => { if (running || reduce.matches || !visible || document.hidden || gl.isContextLost()) return; running = true; raf = requestAnimationFrame(frame); };
     const stop = () => { running = false; cancelAnimationFrame(raf); };
 
     resize();
     draw(4.0);
     cv.classList.add('is-on');
+
+    // размер буфера следует за размером героя (смена шрифтов, поворот планшета), в том числе при reduced motion
+    new ResizeObserver(() => { if (gl.isContextLost()) return; resize(); if (!running) draw(4.0); }).observe(cv);
+    cv.addEventListener('webglcontextlost', (e) => { e.preventDefault(); stop(); cv.classList.remove('is-on'); });
+    cv.addEventListener('webglcontextrestored', () => { if (!build()) return; resize(); draw(4.0); cv.classList.add('is-on'); start(); });
     if (reduce.matches) return; // один статичный кадр
 
     hero.addEventListener('pointermove', (e) => {
@@ -134,11 +155,9 @@ void main(){
       tx = (e.clientX - r.left) / r.width;
       ty = 1 - (e.clientY - r.top) / r.height;
     }, { passive: true });
-    let visible = true;
-    new IntersectionObserver((en) => { visible = en[0].isIntersecting; visible && !document.hidden ? start() : stop(); }).observe(hero);
-    document.addEventListener('visibilitychange', () => { document.hidden ? stop() : visible && start(); });
-    window.addEventListener('resize', () => { resize(); if (!running) draw(4.0); }, { passive: true });
-    cv.addEventListener('webglcontextlost', (e) => { e.preventDefault(); stop(); cv.classList.remove('is-on'); });
+    new IntersectionObserver((en) => { visible = en[0].isIntersecting; visible ? start() : stop(); }).observe(hero);
+    document.addEventListener('visibilitychange', () => { document.hidden ? stop() : start(); });
+    reduce.addEventListener('change', () => { if (reduce.matches) { stop(); draw(4.0); } else start(); });
     start();
   }
 

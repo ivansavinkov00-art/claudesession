@@ -1,7 +1,7 @@
 // Заглушки слотов картинок: SVG → PNG (Chromium, чтобы взять шрифты сайта) → WebP (sharp).
 // node tools/placeholders.mjs            -> слоты 03–13 (01 и 02 временно заняты фото v1)
 // node tools/placeholders.mjs 05 07      -> только указанные слоты
-// Фон #D5C8B3, пунктирная рамка --clay, крупный номер Cormorant, моно-подпись «название · пропорции · минимум».
+// Фон #D5C8B3, пунктирная рамка --clay, крупный номер Playfair, моно-подпись «название · пропорции · минимум».
 // В разметке у заглушки стоит data-placeholder: без цветокоррекции и с object-fit: contain (см. PLAN-v2.md).
 import { launch } from './browser.mjs';
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -14,7 +14,7 @@ if (!targets.length) { console.error('нет таких слотов:', args.joi
 
 const font = (file) => `data:font/woff2;base64,${readFileSync(`assets/fonts/${file}`).toString('base64')}`;
 const faces = [
-  ['Cormorant', 600, 'cormorant-cyrillic-600-normal.woff2'], ['Cormorant', 600, 'cormorant-latin-600-normal.woff2'],
+  ['Playfair', 600, 'playfair-display-cyrillic-wght-normal.woff2'], ['Playfair', 600, 'playfair-display-latin-wght-normal.woff2'],
   ['Plex', 500, 'ibm-plex-mono-cyrillic-500-normal.woff2'], ['Plex', 500, 'ibm-plex-mono-latin-500-normal.woff2'],
 ].map(([family, weight, file]) => `@font-face{font-family:${family};font-weight:${weight};src:url(${font(file)}) format("woff2")}`).join('');
 
@@ -28,7 +28,7 @@ const svg = (s) => {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
   <rect width="${W}" height="${H}" fill="#D5C8B3"/>
   <rect x="${inset}" y="${inset}" width="${W - inset * 2}" height="${H - inset * 2}" fill="none" stroke="#974B31" stroke-width="${Math.max(2, Math.round(W / 400))}" stroke-dasharray="${Math.round(W / 66)} ${Math.round(W / 80)}"/>
-  <text x="${W / 2}" y="${cy + num * 0.18}" text-anchor="middle" font-family="Cormorant" font-weight="600" style="font-variant-numeric: lining-nums" font-size="${num}" fill="#2E2520" fill-opacity=".86" letter-spacing="${-num * 0.02}">${s.n}</text>
+  <text x="${W / 2}" y="${cy + num * 0.18}" text-anchor="middle" font-family="Playfair" font-weight="600" style="font-variant-numeric: lining-nums" font-size="${num}" fill="#2E2520" fill-opacity=".86" letter-spacing="${-num * 0.02}">${s.n}</text>
   <rect x="${W / 2 - W * 0.02}" y="${cy + num * 0.34}" width="${W * 0.04}" height="${Math.max(2, Math.round(W / 400))}" fill="#974B31"/>
   <text x="${W / 2}" y="${cy + num * 0.34 + cap * 2.2}" text-anchor="middle" font-family="Plex" font-weight="500" font-size="${cap}" fill="#2E2520" letter-spacing="${cap * 0.04}">${caption}</text>
 </svg>`;

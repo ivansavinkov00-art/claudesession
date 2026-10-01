@@ -8,6 +8,7 @@
 |---|---|---|---|---|
 | 01 | `assets/img/img-01.webp` | временное фото v1 | копия `hero-arch.webp`: shoreline vehicles, [Pexels 30902519](https://www.pexels.com/photo/close-up-of-sewing-machine-stitching-fabric-30902519/) | [Pexels License](https://www.pexels.com/license/) |
 | 02 | `assets/img/img-02.webp` | временное фото v1 | `workshop.webp`, кадр 4:5: cottonbro studio, [Pexels 4621656](https://www.pexels.com/photo/white-textile-on-brown-brick-wall-4621656/) | [Pexels License](https://www.pexels.com/license/) |
+| — | `assets/img/hero-card.webp` | временное сток-фото | карточка поверх арки на первом экране: Berna, [Pexels 35009418](https://www.pexels.com/photo/stack-of-folded-fabrics-in-neutral-tones-35009418/), кадр 4:5, 640×800 | [Pexels License](https://www.pexels.com/license/) |
 | 03 | `assets/img/img-03.webp` | фото заказчицы | Портрет Олеси Аксеновой, прислан заказчицей 2026-10-01; кадр 4:5, WebP q80, без ИИ | права на публикацию подтвердить с заказчицей |
 | 04–09 | `assets/img/img-04.webp` … `img-09.webp` | временное AI-фото | Higgsfield, модель nano_banana_2 (1k), 2026-09-30; одежда на деревянной вешалке, без людей и логотипов; уменьшено до 480×640, WebP q62–64 | условия Higgsfield |
 | 10 | `assets/img/img-10.webp` | временное сток-фото | `_v1/dir-opt.webp`: Berna, [Pexels 35009418](https://www.pexels.com/photo/stack-of-folded-fabrics-in-neutral-tones-35009418/), кадр 4:5 | [Pexels License](https://www.pexels.com/license/) |
@@ -35,10 +36,9 @@
 |---|---|---|---|
 | Playfair Display (вариативный, 400–900, обычный и курсив) | Claus Eggers Sørensen | SIL Open Font License 1.1 | `@fontsource-variable/playfair-display`, woff2 cyrillic + latin |
 | Onest (вариативный, 100–900) | Onest (Sergey Kovalev и команда), Gazprom-Media-Digital | SIL Open Font License 1.1 | `@fontsource-variable/onest`, woff2 cyrillic + latin |
-| Cormorant 500, 600 (с v3 на странице не используется, файлы оставлены для быстрого отката; нужен `tools/placeholders.mjs`) | Christian Thalmann (Catharsis Fonts) | SIL Open Font License 1.1 | `@fontsource/cormorant` |
 | IBM Plex Mono 400, 500 (только ярлыки, с v3) | IBM, Mike Abbink, Bold Monday | SIL Open Font License 1.1 | `@fontsource/ibm-plex-mono`, woff2 cyrillic + latin |
 
-Шрифты лежат в `assets/fonts/` (self-hosted). В Тильде все три есть в библиотеке Google Fonts, их можно подключить оттуда.
+Шрифты лежат в `assets/fonts/` (self-hosted). Latin-файлы Playfair и Onest урезаны до ASCII, ёлочек, тире, точки-разделителя и ₽ (`tools/subset-fonts.sh`, −45 КБ); кириллица целиком. Cormorant из проекта удалён. В Тильде все три есть в библиотеке Google Fonts, их можно подключить оттуда.
 
 ## Логотип
 

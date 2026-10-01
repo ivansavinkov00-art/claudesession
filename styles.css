@@ -8,19 +8,19 @@
   unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
 @font-face { font-family: "Playfair Display"; font-style: normal; font-weight: 400 900; font-display: swap;
   src: url(assets/fonts/playfair-display-latin-wght-normal.woff2) format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+  unicode-range: U+0020-007E, U+00A0, U+00AB, U+00B7, U+00BB, U+00D7, U+2010-2015, U+2018-201D, U+2022, U+2026, U+20BD, U+2212; }
 @font-face { font-family: "Playfair Display"; font-style: italic; font-weight: 400 900; font-display: swap;
   src: url(assets/fonts/playfair-display-cyrillic-wght-italic.woff2) format("woff2");
   unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
 @font-face { font-family: "Playfair Display"; font-style: italic; font-weight: 400 900; font-display: swap;
   src: url(assets/fonts/playfair-display-latin-wght-italic.woff2) format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+  unicode-range: U+0020-007E, U+00A0, U+00AB, U+00B7, U+00BB, U+00D7, U+2010-2015, U+2018-201D, U+2022, U+2026, U+20BD, U+2212; }
 @font-face { font-family: "Onest"; font-style: normal; font-weight: 100 900; font-display: swap;
   src: url(assets/fonts/onest-cyrillic-wght-normal.woff2) format("woff2");
   unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
 @font-face { font-family: "Onest"; font-style: normal; font-weight: 100 900; font-display: swap;
   src: url(assets/fonts/onest-latin-wght-normal.woff2) format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+  unicode-range: U+0020-007E, U+00A0, U+00AB, U+00B7, U+00BB, U+00D7, U+2010-2015, U+2018-201D, U+2022, U+2026, U+20BD, U+2212; }
 @font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 400; font-display: swap;
   src: url(assets/fonts/ibm-plex-mono-cyrillic-400-normal.woff2) format("woff2");
   unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
@@ -69,12 +69,17 @@
   --fs-body: 17px;
   --fs-small: 14px;
 
+  --container: 1200px; /* ширина сетки; на ≥1600px 1360 (необязательный большой брейкпоинт Zero Block, в Тильде 1920) */
   --gutter: 20px;     /* внутреннее поле контейнера: 1200 = 20 + 1160 + 20 */
   --gap: 40px;        /* межколонник сетки Tilda */
   --section: 88px;
   --header-h: 76px;
   --tape-w: 44px;
   --stitch: repeating-linear-gradient(90deg, var(--clay) 0 6px, transparent 6px 11px);
+}
+/* 1600+: широкие мониторы. Сетка 1360, кегли крупнее, иначе первый экран тонет в полях */
+@media (min-width: 1600px) {
+  :root { --container: 1360px; --fs-xl: 96px; --fs-mid: 46px; --fs-lead: 22px; --fs-hero-fact: 50px; --fs-h2: 60px; --fs-h2-lg: 68px; --fs-h3: 34px; --fs-quote: 36px; --fs-fact: 48px; --fs-pfinal: 30px; --fs-seam: 36px; --fs-body: 18px; --fs-small: 15px; --section: 104px; --gap: 48px; }
 }
 @media (max-width: 1199px) {
   :root { --fs-xl: 72px; --fs-mid: 34px; --fs-lead: 19px; --fs-hero-fact: 38px; --fs-h2: 44px; --fs-h3: 28px; --fs-quote: 28px; --fs-h2-lg: 52px; --fs-fact: 38px; --fs-pfinal: 24px; --fs-seam: 30px; --gutter: 32px; --gap: 24px; --section: 80px; }
@@ -113,7 +118,7 @@ input, select, textarea { caret-color: var(--clay); }
 .skip { position: absolute; left: 16px; top: -100px; z-index: 100; padding: 12px 16px; background: var(--ink); color: var(--milk); }
 .skip:focus { top: 16px; }
 
-.container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 max(var(--gutter), var(--tape-w)) 0 var(--gutter); } /* справа место под ленту */
+.container { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 max(var(--gutter), var(--tape-w)) 0 var(--gutter); } /* справа место под ленту */
 
 /* Пометки для заказчика: то, чего нет в брифе */
 .todo { font-family: var(--sans); font-size: .8em; font-weight: 400; letter-spacing: 0; color: var(--mustard-ink); white-space: nowrap; }
@@ -182,7 +187,7 @@ input, select, textarea { caret-color: var(--clay); }
 .ht-city { display: flex; align-items: center; gap: 14px; margin: 18px 0 20px; font: 500 var(--fs-lead)/1.2 var(--sans); letter-spacing: 0; } /* размер = лиду под заголовком: строка читается как часть заголовка, а не мелкая подпись */
 .ht-city::before { content: ""; flex: none; width: 44px; height: 2px; background: var(--stitch); }
 .ht-mid { font-size: var(--fs-mid); line-height: 1.02; letter-spacing: -.01em; }
-/* акцентное слово: курсив Cormorant цвета «нитки». Одно на заголовок */
+/* акцентное слово: курсив Playfair цвета «нитки». Одно на заголовок */
 .acc { font-style: italic; color: var(--clay); }
 .hero-lead { margin-top: 40px; font: 500 var(--fs-lead)/1.38 var(--serif); letter-spacing: 0; max-width: 28em; }
 .hero-lead span { display: block; }
@@ -249,7 +254,7 @@ input, select, textarea { caret-color: var(--clay); }
 .prod-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); align-items: stretch; }
 .prod-photo {
   grid-column: 1 / span 5; position: relative; min-height: 480px; overflow: hidden; background: #C9B79C;
-  margin-left: calc(-1 * (max(0px, (100vw - 1200px) / 2) + var(--gutter)));
+  margin-left: calc(-1 * (max(0px, (100vw - var(--container)) / 2) + var(--gutter)));
 }
 .prod-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
 .prod-body { grid-column: 7 / span 6; }

@@ -19,13 +19,13 @@ await pdfPage.pdf({ path: 'assets/price-demo.pdf', format: 'A4', printBackground
 rmSync('tools/.price-demo.tmp.html');
 console.log('assets/price-demo.pdf');
 
-// OG: первый экран без ленты
-const ctx = await browser.newContext({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1, reducedMotion: 'reduce' });
+// OG: первый экран без ленты и нитки прогресса
+const ctx = await browser.newContext({ viewport: { width: 1320, height: 693 }, deviceScaleFactor: 1, reducedMotion: 'reduce' });
 const page = await ctx.newPage();
 await page.goto(BASE, { waitUntil: 'networkidle' });
-await page.addStyleTag({ content: '.tape{display:none!important} body{padding-right:0!important} .hero-arch{height:500px!important}' });
+await page.addStyleTag({ content: '.tape,.progress{display:none!important} .hero{min-height:0!important;padding-top:84px!important;padding-bottom:0!important} .hero-media{min-height:520px!important}' });
 await page.evaluate(() => document.fonts.ready);
-const png = await page.screenshot({ clip: { x: 0, y: 0, width: 1200, height: 630 } });
-await sharp(png).jpeg({ quality: 84, mozjpeg: true }).toFile('assets/og.jpg');
+const png = await page.screenshot({ clip: { x: 0, y: 0, width: 1320, height: 693 } }); // снимаем шире, чтобы у текста были поля, и сжимаем до 1200×630
+await sharp(png).resize(1200, 630).jpeg({ quality: 84, mozjpeg: true }).toFile('assets/og.jpg');
 console.log('assets/og.jpg');
 await browser.close();

@@ -2,7 +2,7 @@
    Все селекторы — .kc-carousel…; глобальные токены и классы сайта не используются.
    Брейкпоинты Тильды: 1199 / 959 / 639 / 479. Движение 150–300 мс, ease-out.
    По умолчанию и при prefers-reduced-motion: плоский горизонтальный ряд со scroll-snap, без поворотов.
-   3D-режим включается только при prefers-reduced-motion: no-preference; геометрия coverflow — по [data-pos] (−3…3).
+   3D-режим включается только при prefers-reduced-motion: no-preference; геометрия coverflow — по [data-pos] (−2…2 и back).
    Объём создают только перспектива, масштаб и затемнение: без глянца, бликов и теней с размытием. */
 .kc-carousel {
   /* свои токены модуля (значения = DESIGN.md), чтобы блок жил в Тильде без styles.css */
@@ -26,6 +26,7 @@
   --kc-perspective: 1200px;
   color: var(--kc-ink);
 }
+@media (min-width: 1600px) { .kc-carousel { --kc-card-w: 420px; --kc-perspective: 1400px; } }
 @media (max-width: 1199px) { .kc-carousel { --kc-card-w: 320px; } }
 @media (max-width: 639px) { .kc-carousel { --kc-card-w: min(280px, 72vw); --kc-perspective: 900px; } }
 
@@ -110,8 +111,8 @@
   .kc-carousel__slide[data-pos="1"]  { z-index: 4; transform: translateX(64%) translateZ(-160px) rotateY(-30deg); filter: brightness(.82); cursor: pointer; }
   .kc-carousel__slide[data-pos="-2"] { z-index: 3; transform: translateX(-114%) translateZ(-280px) rotateY(32deg); filter: brightness(.62); cursor: pointer; }
   .kc-carousel__slide[data-pos="2"]  { z-index: 3; transform: translateX(114%) translateZ(-280px) rotateY(-32deg); filter: brightness(.62); cursor: pointer; }
-  .kc-carousel__slide[data-pos="-3"] { z-index: 1; transform: translateX(-140%) translateZ(-360px) rotateY(32deg); filter: brightness(.5); opacity: 0; pointer-events: none; }
-  .kc-carousel__slide[data-pos="3"]  { z-index: 1; transform: translateX(140%) translateZ(-360px) rotateY(-32deg); filter: brightness(.5); opacity: 0; pointer-events: none; }
+  /* карточки напротив активной: прозрачны, уходят за активную и возвращаются с той стороны, куда крутим */
+  .kc-carousel__slide[data-pos="back"] { z-index: 1; transform: translateZ(-380px) scale(.9); filter: brightness(.5); opacity: 0; pointer-events: none; }
   /* «Рассчитать» — только у активной карточки */
   .kc-carousel__slide:not([data-pos="0"]) .kc-carousel__cta { visibility: hidden; }
 }

@@ -25,6 +25,7 @@
   display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--kc-gap); align-items: start;
   color: var(--kc-ink);
 }
+@media (min-width: 1600px) { .kc-tasks { --kc-name: 46px; } }
 @media (max-width: 1199px) { .kc-tasks { --kc-name: 36px; --kc-gap: 24px; } }
 @media (max-width: 959px) { .kc-tasks { --kc-name: 34px; --kc-gap: 20px; } }
 @media (max-width: 639px) { .kc-tasks { --kc-name: 30px; } }

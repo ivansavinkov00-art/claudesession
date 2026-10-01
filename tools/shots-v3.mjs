@@ -21,7 +21,7 @@ async function page(w, h, reducedMotion) {
   return p;
 }
 
-for (const [w, h] of [[1440, 900], [1366, 650], [1024, 768], [768, 1024], [390, 844], [360, 640]]) {
+for (const [w, h] of [[1920, 1080], [1440, 900], [1366, 650], [1024, 768], [768, 1024], [390, 844], [360, 640]]) {
   const p = await page(w, h, 'no-preference');
   await p.screenshot({ path: `${dir}/hero-${w}x${h}.png` });
   await p.context().close();

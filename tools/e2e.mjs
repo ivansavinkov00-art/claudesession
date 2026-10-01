@@ -501,16 +501,16 @@ await test('карусель: стрелки листают по кругу, с�
 });
 
 await test('карусель: после 06 снова 01, по обе стороны всегда по две видимые карточки', MOTION, async (p) => {
-  const pos = () => p.locator('#portfolio [data-kc="slide"]').evaluateAll((els) => els.map((e) => Number(e.dataset.pos)));
-  const sorted = (a) => [...a].sort((x, y) => x - y);
+  const pos = () => p.locator('#portfolio [data-kc="slide"]').evaluateAll((els) => els.map((e) => e.dataset.pos));
+  const shown = (ps) => ps.filter((v) => v !== 'back').sort((x, y) => Number(x) - Number(y));
   // вперёд: полный круг и ещё шаг
   for (let k = 1; k <= 7; k++) {
     await p.click('#portfolio [data-kc="next"]');
     await wait(p, 330);
     assert.equal(await counter(p), `0${(k % 6) + 1} / 06`);
     const ps = await pos();
-    assert.deepEqual(sorted(ps).filter((v) => Math.abs(v) <= 2), [-2, -1, 0, 1, 2], `слева и справа по две карточки: ${ps}`);
-    assert.equal(ps.filter((v) => Math.abs(v) === 3).length, 1, 'одна скрытая карточка напротив');
+    assert.deepEqual(shown(ps), ['-2', '-1', '0', '1', '2'], `слева и справа по две карточки: ${ps}`);
+    assert.equal(ps.filter((v) => v === 'back').length, 1, 'одна скрытая карточка напротив');
   }
   // назад: с первой на последнюю
   await p.click('#portfolio [data-kc="goto"][data-index="0"]');
@@ -518,7 +518,15 @@ await test('карусель: после 06 снова 01, по обе стор�
   await p.click('#portfolio [data-kc="prev"]');
   await wait(p, 330);
   assert.equal(await counter(p), '06 / 06');
-  assert.deepEqual((await pos()).filter((v) => Math.abs(v) <= 2).sort((x, y) => x - y), [-2, -1, 0, 1, 2]);
+  assert.deepEqual(shown(await pos()), ['-2', '-1', '0', '1', '2']);
+});
+
+await test('карусель: быстрые клики и смена направления не ломают порядок карточек', MOTION, async (p) => {
+  for (const k of ['next', 'next', 'prev', 'next', 'next', 'next', 'prev']) await p.click(`#portfolio [data-kc="${k}"]`); // без пауз
+  await wait(p, 500);
+  assert.equal(await counter(p), '04 / 06'); // +1 +1 −1 +1 +1 +1 −1 = +3
+  const ps = await p.locator('#portfolio [data-kc="slide"]').evaluateAll((els) => els.map((e) => e.dataset.pos));
+  assert.deepEqual(ps, ['back', '-2', '-1', '0', '1', '2']);
 });
 
 await test('карусель: клик по дальней карточке и по пункту ряда крутит кратчайшим путём', MOTION, async (p) => {
@@ -741,6 +749,30 @@ await test('v3: бегущая строка — один список для ч�
   await btn.click();
   await p.mouse.move(10, 10); // курсор над строкой сам её останавливает (hover), убираем
   assert.equal(await state(), 'running');
+});
+await test('v3: кнопку паузы бегущей строки не перекрывает вертикальная лента', { viewport: { width: 1440, height: 900 }, reducedMotion: 'no-preference' }, async (p) => {
+  // строка по центру окна: ровно там, где стоит лента «Рассчитать стоимость»
+  await p.evaluate(() => { const r = document.querySelector('[data-marquee]').getBoundingClientRect(); window.scrollBy(0, r.top + r.height / 2 - innerHeight / 2); });
+  await wait(p, 300);
+  const hit = await p.evaluate(() => {
+    const b = document.querySelector('[data-marquee-pause]').getBoundingClientRect();
+    return [[b.left + 2, b.top + 2], [b.right - 2, b.top + 2], [b.left + 2, b.bottom - 2], [b.right - 2, b.bottom - 2], [(b.left + b.right) / 2, (b.top + b.bottom) / 2]]
+      .map(([x, y]) => !!document.elementFromPoint(x, y).closest('[data-marquee-pause]'));
+  });
+  assert.deepEqual(hit, [true, true, true, true, true], 'кнопка частично под лентой или чем-то ещё');
+});
+await test('v3: телефон в финале помещается в плашку на 960–1920', { viewport: { width: 1200, height: 800 } }, async (p) => {
+  for (const w of [960, 1024, 1099, 1100, 1200, 1280, 1440, 1920]) {
+    await p.setViewportSize({ width: w, height: 800 });
+    await wait(p, 80);
+    const m = await p.evaluate(() => {
+      const side = document.querySelector('.final-side').getBoundingClientRect();
+      const ph = document.querySelector('.final-phone').getBoundingClientRect();
+      return { sideR: side.right, phR: ph.right, sideL: side.left, phL: ph.left, vw: innerWidth };
+    });
+    assert.ok(m.phR <= m.sideR + 0.5 && m.phL >= m.sideL - 0.5, `на ${w}px телефон вылез из плашки: ${JSON.stringify(m)}`);
+    assert.ok(m.sideR <= m.vw, `на ${w}px плашка вышла за окно`);
+  }
 });
 await test('v3: при reduced motion бегущая строка не движется, без кнопки паузы', DESK, async (p) => {
   assert.equal(await p.locator('.marquee-track').evaluate((e) => getComputedStyle(e).animationName), 'none');

@@ -3,7 +3,8 @@
 //
 // Разметка: корень [data-kc-carousel] (role="region", aria-roledescription="карусель"), внутри data-kc:
 //   index > goto[data-index]   ряд-указатель, у активного aria-current="true"
-//   stage > slide[data-index]  карточки; JS ставит data-pos — кратчайшее расстояние до активной по кругу, −3…3
+//   stage > slide[data-index]  карточки; JS ставит data-pos — кратчайшее расстояние до активной по кругу −2…2,
+//                              остальные (напротив активной) — data-pos="back": прозрачны, стоят за активной
 //   calc-link                  «Рассчитать» внутри карточки (a[href="#raschet"][data-calc-item])
 //   prev / next                стрелки; лента замкнута: после последней снова первая, по обе стороны всегда соседи
 //   counter                    «03 / 06», aria-live="polite"
@@ -31,12 +32,13 @@
     if (!slides.length || !stage) return;
     const n = slides.length;
     let active = 0;
-    let tie = 1;        // при чётном n карточка напротив активной стоит скрытой слева (−1) или справа (+1)
     let timer = 0;      // цепочка шагов при переходе через несколько карточек
     const flat = () => reduce.matches;
     const mod = (i) => ((i % n) + n) % n;
-    // кратчайшее смещение по кругу в пределах (−n/2, n/2]; ровно напротив — в сторону tie
-    const circ = (d) => { d = mod(d); if (d > n / 2) d -= n; return d * 2 === n ? tie * d : d; };
+    // кратчайшее смещение по кругу в пределах (−n/2, n/2]; карточки дальше ±2 уходят за активную (data-pos="back"),
+    // поэтому слева и справа всегда по две видимые карточки, а на стыке 06 → 01 нет «перелёта» через сцену
+    const circ = (d) => { d = mod(d); return d > n / 2 ? d - n : d; };
+    const posOf = (d) => (Math.abs(d) > 2 ? 'back' : String(d));
 
     // ---------- отрисовка состояния ----------
     function render() {
@@ -45,7 +47,7 @@
         const link = slide.querySelector('[data-kc="calc-link"]');
         // в плоском режиме видны и доступны все карточки
         const inert = !flat() && d !== 0;
-        if (flat()) slide.removeAttribute('data-pos'); else slide.setAttribute('data-pos', String(Math.max(-3, Math.min(3, d))));
+        if (flat()) slide.removeAttribute('data-pos'); else slide.setAttribute('data-pos', posOf(d));
         if (inert) slide.setAttribute('aria-hidden', 'true'); else slide.removeAttribute('aria-hidden');
         if (link) { if (inert) link.setAttribute('tabindex', '-1'); else link.removeAttribute('tabindex'); }
       });
@@ -66,21 +68,9 @@
       stage.scrollTo({ left: slide.offsetLeft - (stage.clientWidth - slide.offsetWidth) / 2, behavior: 'auto' });
     }
 
-    // Один шаг по кругу. Скрытая карточка напротив активной сначала без анимации встаёт на ту сторону,
-    // с которой она должна выехать, иначе она пролетела бы через всю сцену
+    // Один шаг по кругу
     function step(dir) {
-      if (n % 2 === 0) {
-        const opp = slides[mod(active + n / 2)];
-        const want = String(Math.max(-3, Math.min(3, dir * (n / 2))));
-        if (opp.getAttribute('data-pos') !== want) {
-          opp.style.transition = 'none';
-          opp.setAttribute('data-pos', want);
-          void opp.offsetWidth;
-          opp.style.transition = '';
-        }
-      }
       active = mod(active + dir);
-      tie = -dir;
       render();
       revealGoto();
     }
@@ -92,7 +82,7 @@
       if (flat()) { active = i; render(); revealGoto(); scrollToCard(i); return; }
       if (i === active) return;
       let d = mod(i - active); if (d > n / 2) d -= n;
-      if (d * 2 === n) d = dirHint < 0 ? -d : d;
+      if (d * 2 === n) d = dirHint < 0 ? -d : d; // ровно напротив — в сторону, куда крутили
       const dir = d < 0 ? -1 : 1;
       let left = Math.abs(d);
       const tick = () => { step(dir); if (--left > 0) timer = setTimeout(tick, 110); };
