@@ -15,6 +15,8 @@ const theme = (process.argv.find((a) => a.startsWith('--theme=')) || '').slice(8
 if (theme === 'dark') html = html.replace('data-theme-default="light"', 'data-theme-default="dark"');
 // CSS тёмной темы в одном файле лежит всегда (скрипт видит [data-theme-css] и ничего не подгружает)
 html = html.replace('<link rel="stylesheet" href="theme-base.css">', '<link rel="stylesheet" href="theme-base.css">\n<link rel="stylesheet" href="theme-dark.css" data-theme-css>');
+// загрузчик тёмного CSS из скрипта темы заменяем заглушкой: стили уже внутри файла
+html = html.replace(/window\.ksLoadDark = function \(cb\) \{[\s\S]*?if \(t === 'dark'\) window\.ksLoadDark\(\);/, "window.ksLoadDark = function (cb) { if (cb) cb(); };");
 // предзагрузки из инлайн-скрипта темы в одном файле не нужны (файлов рядом нет)
 html = html.replace(/\n  \/\/ предзагрузка[\s\S]*?\n  \}\);\n/, '\n');
 
