@@ -74,7 +74,12 @@ void main(){
  gl_FragColor=vec4(base*k,1.);
 }`;
 
+  // управление тканью снаружи: в тёмной теме её нет (PLAN-v4.md, 2.3)
+  let fabricCtl = null;
+  const isDark = () => document.documentElement.dataset.theme === 'dark';
+
   function initFabric() {
+    if (fabricCtl) return;
     const hero = $('.hero');
     const cv = $('.fabric');
     if (!hero || !cv) return;
@@ -137,9 +142,10 @@ void main(){
       mx += (tx - mx) * 0.08; my += (ty - my) * 0.08;
       draw((now - t0) / 1000);
     };
-    const start = () => { if (running || reduce.matches || !visible || document.hidden || gl.isContextLost()) return; running = true; raf = requestAnimationFrame(frame); };
+    const start = () => { if (running || reduce.matches || !visible || document.hidden || isDark() || gl.isContextLost()) return; running = true; raf = requestAnimationFrame(frame); };
     const stop = () => { running = false; cancelAnimationFrame(raf); };
 
+    fabricCtl = { start, stop, on: () => { resize(); draw(4.0); cv.classList.add('is-on'); }, off: () => { stop(); cv.classList.remove('is-on'); } };
     resize();
     draw(4.0);
     cv.classList.add('is-on');
@@ -161,6 +167,10 @@ void main(){
     start();
   }
 
-  const boot = () => ('requestIdleCallback' in window ? requestIdleCallback(initFabric, { timeout: 1200 }) : setTimeout(initFabric, 300));
+  const boot = () => { if (isDark()) return; ('requestIdleCallback' in window ? requestIdleCallback(initFabric, { timeout: 1200 }) : setTimeout(initFabric, 300)); };
+  document.addEventListener('themechange', (e) => {
+    if (e.detail.theme === 'dark') { if (fabricCtl) fabricCtl.off(); return; }
+    if (fabricCtl) { fabricCtl.on(); fabricCtl.start(); } else initFabric();
+  });
   if (document.readyState === 'complete') boot(); else window.addEventListener('load', boot, { once: true });
 })();

@@ -14,6 +14,8 @@
   --kc-sage-bg: #E4E8DC;
   --kc-line: rgba(46, 37, 32, .18);
   --kc-line-strong: rgba(46, 37, 32, .56);
+  --kc-todo: #765A1F;
+  --kc-ph-bg: #C9B79C;
   --kc-serif: "Playfair Display", Georgia, "Times New Roman", serif;
   --kc-sans: "Onest", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --kc-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
@@ -61,10 +63,10 @@
 }
 .kc-tasks__action:focus-visible { outline: 2px solid var(--kc-clay); outline-offset: 3px; }
 .kc-tasks__action span { margin-left: .5em; }
-.kc-tasks__panel .todo { font-size: .8em; letter-spacing: 0; color: #765A1F; white-space: nowrap; }
+.kc-tasks__panel .todo { font-size: .8em; letter-spacing: 0; color: var(--kc-todo); white-space: nowrap; }
 
 /* Картинка задачи справа: 4:5, sticky, плавная смена (opacity) */
-.kc-tasks__stage { grid-column: 8 / span 5; position: sticky; top: var(--kc-sticky-top); display: grid; aspect-ratio: 4 / 5; overflow: hidden; background: #C9B79C; }
+.kc-tasks__stage { grid-column: 8 / span 5; position: sticky; top: var(--kc-sticky-top); display: grid; aspect-ratio: 4 / 5; overflow: hidden; background: var(--kc-ph-bg); }
 .kc-tasks__media { position: relative; grid-area: 1 / 1; margin: 0; opacity: 0; transition: opacity .25s ease-out; }
 .kc-tasks__media.is-active { opacity: 1; }
 .kc-tasks__media img, .kc-tasks__media-m img { display: block; width: 100%; height: 100%; object-fit: cover; filter: saturate(.92) sepia(.06); }
@@ -77,7 +79,7 @@
   .kc-tasks__stage { display: none; }
   .kc-tasks__toggle { grid-template-columns: 44px minmax(0, 1fr) 32px; }
   .kc-tasks__panel-in { padding-left: 0; }
-  .kc-tasks__media-m { position: relative; display: block; aspect-ratio: 3 / 2; margin: 4px 0 20px; overflow: hidden; background: #C9B79C; }
+  .kc-tasks__media-m { position: relative; display: block; aspect-ratio: 3 / 2; margin: 4px 0 20px; overflow: hidden; background: var(--kc-ph-bg); }
   .kc-tasks__dl { min-height: 0; }
   .kc-tasks__row.is-open .kc-tasks__arrow { transform: rotate(90deg); }
 }
@@ -90,3 +92,13 @@
 @media (prefers-reduced-motion: reduce) {
   .kc-tasks *, .kc-tasks *::before, .kc-tasks *::after { transition: none !important; }
 }
+
+/* Тёмная тема (PLAN-v4.md, 4.3) */
+:root[data-theme="dark"] .kc-tasks {
+  --kc-linen: #14100D; --kc-milk: #1D1713; --kc-ink: #EEE6D8; --kc-ink-hover: #FBF6EE; --kc-muted: #A89D90; --kc-clay: #D9A184;
+  --kc-cacao: #0B0907; --kc-olive: #9DAA7F; --kc-sage-bg: #22261C; --kc-line: rgba(238, 230, 216, .14); --kc-line-strong: rgba(238, 230, 216, .40);
+  --kc-serif: "Noto Serif SC", Georgia, "Times New Roman", serif; --kc-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; --kc-mono: "Inter", system-ui, sans-serif;
+  --kc-hover: rgba(238, 230, 216, .10); --kc-todo: #D8B866; --kc-ph-bg: #2A221C; --kc-tick: rgba(238, 230, 216, .5); --kc-tick-strong: rgba(238, 230, 216, .7);
+}
+:root[data-theme="dark"] .kc-tasks__name { font-weight: 400; letter-spacing: 0; }
+:root[data-theme="dark"] .kc-tasks__media img { filter: saturate(.9) brightness(.92); }

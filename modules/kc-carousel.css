@@ -17,6 +17,9 @@
   --kc-sage-bg: #E4E8DC;
   --kc-line: rgba(46, 37, 32, .18);
   --kc-line-strong: rgba(46, 37, 32, .56);
+  --kc-card-bg: rgba(242, 236, 226, .99); /* альфа .99, а не сплошной: см. комментарий у .kc-carousel__card */
+  --kc-media-bg: rgba(201, 183, 156, .99);
+  --kc-hover: rgba(46, 37, 32, .08);
   --kc-serif: "Playfair Display", Georgia, "Times New Roman", serif;
   --kc-sans: "Onest", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --kc-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
@@ -56,8 +59,8 @@
 
 /* Карточка. Фон намеренно с альфой .99, а не сплошной: иначе Chromium считает активную карточку полностью
    непрозрачной слоем и «вырезает» из-под неё куски боковых 3D-карточек (видны прямоугольные дыры у внутреннего края) */
-.kc-carousel__card { display: flex; flex-direction: column; background: rgba(242, 236, 226, .99); transition: transform .15s ease-out; transform: perspective(900px) rotateX(var(--tilt-y, 0deg)) rotateY(var(--tilt-x, 0deg)); }
-.kc-carousel__media { position: relative; margin: 0; aspect-ratio: 3 / 4; overflow: hidden; background: rgba(201, 183, 156, .99); }
+.kc-carousel__card { display: flex; flex-direction: column; background: var(--kc-card-bg); transition: transform .15s ease-out; transform: perspective(900px) rotateX(var(--tilt-y, 0deg)) rotateY(var(--tilt-x, 0deg)); }
+.kc-carousel__media { position: relative; margin: 0; aspect-ratio: 3 / 4; overflow: hidden; background: var(--kc-media-bg); }
 .kc-carousel__media img { display: block; width: 100%; height: 100%; object-fit: cover; -webkit-user-drag: none; user-select: none; filter: saturate(.92) sepia(.06); }
 .kc-carousel__media img[data-placeholder] { filter: none; object-fit: contain; }
 /* номер — бирка, будто вшитый ярлык */
@@ -72,7 +75,7 @@
   font: 500 15px/1.2 var(--kc-sans); letter-spacing: .05em; text-decoration: none; cursor: pointer;
   transition: background-color .15s var(--kc-ease);
 }
-.kc-carousel__cta:hover { background: rgba(46, 37, 32, .08); }
+.kc-carousel__cta:hover { background: var(--kc-hover); }
 .kc-carousel__cta:focus-visible { outline: 2px solid var(--kc-clay); outline-offset: 3px; }
 @media (max-width: 1199px) { .kc-carousel__title { font-size: 30px; } }
 @media (max-width: 639px) { .kc-carousel__title { font-size: 28px; padding: 14px 16px 0; } .kc-carousel__cta { margin: 12px 16px 16px; } }
@@ -84,7 +87,7 @@
   border: 1px solid var(--kc-ink); border-radius: 0; cursor: pointer; transition: background-color .15s var(--kc-ease);
 }
 .kc-carousel__arrow svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: square; stroke-linejoin: miter; }
-.kc-carousel__arrow:hover { background: rgba(46, 37, 32, .08); }
+.kc-carousel__arrow:hover { background: var(--kc-hover); }
 .kc-carousel__arrow:focus-visible { outline: 2px solid var(--kc-clay); outline-offset: 3px; }
 .kc-carousel__counter { min-width: 6em; margin: 0; text-align: center; font: 500 15px/1 var(--kc-mono); letter-spacing: .1em; font-variant-numeric: lining-nums; }
 
@@ -131,3 +134,15 @@
 @media (prefers-reduced-motion: reduce) {
   .kc-carousel *, .kc-carousel *::before, .kc-carousel *::after { transition: none !important; }
 }
+
+/* Тёмная тема (PLAN-v4.md, 4.3): токены и форма элементов управления */
+:root[data-theme="dark"] .kc-carousel {
+  --kc-linen: #14100D; --kc-milk: #1D1713; --kc-ink: #EEE6D8; --kc-ink-hover: #FBF6EE; --kc-muted: #A89D90; --kc-clay: #D9A184;
+  --kc-cacao: #0B0907; --kc-olive: #9DAA7F; --kc-sage-bg: #22261C; --kc-line: rgba(238, 230, 216, .14); --kc-line-strong: rgba(238, 230, 216, .40);
+  --kc-serif: "Noto Serif SC", Georgia, "Times New Roman", serif; --kc-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; --kc-mono: "Inter", system-ui, sans-serif;
+  --kc-hover: rgba(238, 230, 216, .10); --kc-todo: #D8B866; --kc-ph-bg: #2A221C; --kc-tick: rgba(238, 230, 216, .5); --kc-tick-strong: rgba(238, 230, 216, .7);
+  --kc-card-bg: rgba(29, 23, 19, .99); --kc-media-bg: rgba(42, 34, 28, .99);
+}
+:root[data-theme="dark"] .kc-carousel__cta, :root[data-theme="dark"] .kc-carousel__arrow { border-radius: 8px; }
+:root[data-theme="dark"] .kc-carousel__title { font-weight: 400; letter-spacing: 0; }
+:root[data-theme="dark"] .kc-carousel__media img { filter: saturate(.9) brightness(.92); }

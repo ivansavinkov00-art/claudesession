@@ -10,3 +10,14 @@ sub() { "$PY" "$1" --unicodes="$U" --flavor=woff2 --layout-features='kern,liga,l
 sub node_modules/@fontsource-variable/playfair-display/files/playfair-display-latin-wght-normal.woff2 assets/fonts/playfair-display-latin-wght-normal.woff2
 sub node_modules/@fontsource-variable/playfair-display/files/playfair-display-latin-wght-italic.woff2 assets/fonts/playfair-display-latin-wght-italic.woff2
 sub node_modules/@fontsource-variable/onest/files/onest-latin-wght-normal.woff2 assets/fonts/onest-latin-wght-normal.woff2
+
+# --- тёмная тема (PLAN-v4.md, 3.1): Noto Serif с шириной 87,5% и весами 300–500 (кириллица целиком, latin урезан) и Inter ---
+NS=node_modules/@fontsource-variable/noto-serif/files
+INSTANCER="${PYINSTANCER:-.venv/bin/fonttools} varLib.instancer"
+for s in normal italic; do
+  $INSTANCER $NS/noto-serif-cyrillic-standard-$s.woff2 wdth=87.5 wght=300:500 --output=assets/fonts/noto-serif-sc-cyrillic-$s.woff2
+  $INSTANCER $NS/noto-serif-latin-standard-$s.woff2 wdth=87.5 wght=300:500 --output=/tmp/ns-latin-$s.woff2
+  sub /tmp/ns-latin-$s.woff2 assets/fonts/noto-serif-sc-latin-$s.woff2
+done
+cp node_modules/@fontsource-variable/inter/files/inter-cyrillic-wght-normal.woff2 assets/fonts/
+sub node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2 assets/fonts/inter-latin-wght-normal.woff2
