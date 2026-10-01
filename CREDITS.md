@@ -8,7 +8,7 @@
 |---|---|---|---|---|
 | 01 | `assets/img/img-01.webp` | временное фото v1 | копия `hero-arch.webp`: shoreline vehicles, [Pexels 30902519](https://www.pexels.com/photo/close-up-of-sewing-machine-stitching-fabric-30902519/) | [Pexels License](https://www.pexels.com/license/) |
 | 02 | `assets/img/img-02.webp` | временное фото v1 | `workshop.webp`, кадр 4:5: cottonbro studio, [Pexels 4621656](https://www.pexels.com/photo/white-textile-on-brown-brick-wall-4621656/) | [Pexels License](https://www.pexels.com/license/) |
-| 03 | `assets/img/img-03.webp` | заглушка (только настоящее фото) | `tools/placeholders.mjs`, 2026-09-29 | — |
+| 03 | `assets/img/img-03.webp` | фото заказчицы | Портрет Олеси Аксеновой, прислан заказчицей 2026-10-01; кадр 4:5, WebP q80, без ИИ | права на публикацию подтвердить с заказчицей |
 | 04–09 | `assets/img/img-04.webp` … `img-09.webp` | временное AI-фото | Higgsfield, модель nano_banana_2 (1k), 2026-09-30; одежда на деревянной вешалке, без людей и логотипов; уменьшено до 480×640, WebP q62–64 | условия Higgsfield |
 | 10 | `assets/img/img-10.webp` | временное сток-фото | `_v1/dir-opt.webp`: Berna, [Pexels 35009418](https://www.pexels.com/photo/stack-of-folded-fabrics-in-neutral-tones-35009418/), кадр 4:5 | [Pexels License](https://www.pexels.com/license/) |
 | 11 | `assets/img/img-11.webp` | временное сток-фото | `_v1/stitch.webp`: Jahra Tasfia Reza, [Pexels 33706427](https://www.pexels.com/photo/close-up-of-sewing-machine-needle-in-action-33706427/), кадр 4:5 | [Pexels License](https://www.pexels.com/license/) |

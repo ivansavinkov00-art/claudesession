@@ -10,7 +10,7 @@
 }
 
 /* ---------- Моно только для ярлыков ---------- */
-.tag, .logo-plate, .step-n, .ht-city, .tape, .todo, .footer-col h3, .path-s { font-family: var(--mono); }
+.tag, .logo-plate, .step-n, .tape, .todo, .footer-col h3, .path-s { font-family: var(--mono); }
 .hero-facts dd, .fact-l { font: 400 12px/1.35 var(--mono); letter-spacing: .07em; text-transform: uppercase; }
 .btn { min-height: 54px; font: 600 15px/1.2 var(--sans); letter-spacing: .02em; }
 .nav { font: 500 15px/1.2 var(--sans); letter-spacing: 0; }
@@ -129,7 +129,7 @@
 .s-portfolio .kc-carousel__goto:hover { text-decoration-color: var(--clay-light); }
 .s-portfolio .kc-carousel__goto:focus-visible, .s-portfolio .kc-carousel__arrow:focus-visible { outline-color: var(--milk); }
 .s-portfolio .kc-carousel__arrow { color: var(--milk); border-color: rgba(242, 236, 226, .7); }
-.s-portfolio .kc-carousel__arrow:hover:not(:disabled) { background: rgba(242, 236, 226, .14); }
+.s-portfolio .kc-carousel__arrow:hover { background: rgba(242, 236, 226, .14); }
 .kc-carousel__card { box-shadow: 0 0 0 1px rgba(242, 236, 226, .1); }
 
 /* ---------- Шов ---------- */
@@ -227,7 +227,7 @@ html.js .reveal.is-in { opacity: 1; transform: none; }
   :root { --fs-xl: 66px; --fs-mid: 32px; --fs-lead: 18px; --fs-hero-fact: 34px; }
   .hero { min-height: 0; padding: calc(var(--header-h) + 18px) 0 28px; }
   .hero-media { min-height: 470px; }
-  .ht-city { margin: 10px 0 12px; }
+  .ht-city { margin: 12px 0 14px; }
   .hero-lead { margin-top: 20px; }
   .hero-actions { margin-top: 22px; }
   .hero-facts { margin-top: 24px; }

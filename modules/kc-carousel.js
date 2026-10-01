@@ -3,9 +3,9 @@
 //
 // Разметка: корень [data-kc-carousel] (role="region", aria-roledescription="карусель"), внутри data-kc:
 //   index > goto[data-index]   ряд-указатель, у активного aria-current="true"
-//   stage > slide[data-index]  карточки; JS ставит data-pos = index − active, в пределах −3…3
+//   stage > slide[data-index]  карточки; JS ставит data-pos — кратчайшее расстояние до активной по кругу, −3…3
 //   calc-link                  «Рассчитать» внутри карточки (a[href="#raschet"][data-calc-item])
-//   prev / next                стрелки (disabled на краях, без закольцовки)
+//   prev / next                стрелки; лента замкнута: после последней снова первая, по обе стороны всегда соседи
 //   counter                    «03 / 06», aria-live="polite"
 // Геометрия — в kc-carousel.css по [data-pos]; JS только расставляет позиции.
 // При prefers-reduced-motion карусель — плоский ряд со scroll-snap: data-pos не ставится,
@@ -29,15 +29,19 @@
     const prev = q('prev');
     const next = q('next');
     if (!slides.length || !stage) return;
-    const last = slides.length - 1;
+    const n = slides.length;
     let active = 0;
+    let tie = 1;        // при чётном n карточка напротив активной стоит скрытой слева (−1) или справа (+1)
+    let timer = 0;      // цепочка шагов при переходе через несколько карточек
     const flat = () => reduce.matches;
-    const clamp = (i) => Math.max(0, Math.min(last, i));
+    const mod = (i) => ((i % n) + n) % n;
+    // кратчайшее смещение по кругу в пределах (−n/2, n/2]; ровно напротив — в сторону tie
+    const circ = (d) => { d = mod(d); if (d > n / 2) d -= n; return d * 2 === n ? tie * d : d; };
 
     // ---------- отрисовка состояния ----------
     function render() {
       slides.forEach((slide, i) => {
-        const d = i - active;
+        const d = circ(i - active);
         const link = slide.querySelector('[data-kc="calc-link"]');
         // в плоском режиме видны и доступны все карточки
         const inert = !flat() && d !== 0;
@@ -47,8 +51,6 @@
       });
       gotos.forEach((btn, i) => { if (i === active) btn.setAttribute('aria-current', 'true'); else btn.removeAttribute('aria-current'); });
       if (counter) counter.textContent = `${pad(active + 1)} / ${pad(slides.length)}`;
-      if (prev) prev.disabled = active === 0;
-      if (next) next.disabled = active === last;
     }
 
     // активный пункт ряда-указателя прокручиваем в видимость, не трогая прокрутку страницы
@@ -64,18 +66,42 @@
       stage.scrollTo({ left: slide.offsetLeft - (stage.clientWidth - slide.offsetWidth) / 2, behavior: 'auto' });
     }
 
-    function go(i) {
-      i = clamp(i);
-      if (flat()) scrollToCard(i);
-      if (i === active) return;
-      active = i;
+    // Один шаг по кругу. Скрытая карточка напротив активной сначала без анимации встаёт на ту сторону,
+    // с которой она должна выехать, иначе она пролетела бы через всю сцену
+    function step(dir) {
+      if (n % 2 === 0) {
+        const opp = slides[mod(active + n / 2)];
+        const want = String(Math.max(-3, Math.min(3, dir * (n / 2))));
+        if (opp.getAttribute('data-pos') !== want) {
+          opp.style.transition = 'none';
+          opp.setAttribute('data-pos', want);
+          void opp.offsetWidth;
+          opp.style.transition = '';
+        }
+      }
+      active = mod(active + dir);
+      tie = -dir;
       render();
       revealGoto();
     }
 
+    // Переход к карточке i кратчайшим путём; через несколько карточек — быстрой чередой шагов (карусель «крутится»)
+    function go(i, dirHint = 1) {
+      i = mod(i);
+      clearTimeout(timer);
+      if (flat()) { active = i; render(); revealGoto(); scrollToCard(i); return; }
+      if (i === active) return;
+      let d = mod(i - active); if (d > n / 2) d -= n;
+      if (d * 2 === n) d = dirHint < 0 ? -d : d;
+      const dir = d < 0 ? -1 : 1;
+      let left = Math.abs(d);
+      const tick = () => { step(dir); if (--left > 0) timer = setTimeout(tick, 110); };
+      tick();
+    }
+
     // ---------- стрелки, ряд-указатель, клик по соседней карточке, клавиши ----------
-    if (prev) prev.addEventListener('click', () => go(active - 1));
-    if (next) next.addEventListener('click', () => go(active + 1));
+    if (prev) prev.addEventListener('click', () => go(active - 1, -1));
+    if (next) next.addEventListener('click', () => go(active + 1, 1));
     gotos.forEach((btn) => btn.addEventListener('click', () => go(Number(btn.dataset.index))));
 
     slides.forEach((slide, i) => slide.addEventListener('click', (e) => {
@@ -88,7 +114,8 @@
     root.addEventListener('keydown', (e) => {
       if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
       e.preventDefault();
-      go(active + (e.key === 'ArrowRight' ? 1 : -1));
+      const dir = e.key === 'ArrowRight' ? 1 : -1;
+      go(active + dir, dir);
     });
 
     // ---------- перетаскивание и свайп (3D-режим) ----------
@@ -111,7 +138,7 @@
         suppressClick = true; // после перетаскивания click по карточке не нужен
         setTimeout(() => { suppressClick = false; }, 0);
       }
-      if (e.type === 'pointerup' && Math.abs(dx) > SWIPE) go(active + (dx < 0 ? 1 : -1));
+      if (e.type === 'pointerup' && Math.abs(dx) > SWIPE) { const dir = dx < 0 ? 1 : -1; go(active + dir, dir); }
     };
     stage.addEventListener('pointerup', endDrag);
     stage.addEventListener('pointercancel', endDrag);

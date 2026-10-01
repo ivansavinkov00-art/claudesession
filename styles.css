@@ -53,7 +53,6 @@
   /* 1200+ */
   --fs-xl: 84px;      /* «Швейное производство»: Playfair 600, главный акцент первого экрана */
   --fs-mid: 40px;     /* «Полного цикла под ключ» */
-  --fs-city: 14px;    /* «в Челябинске», моно */
   --fs-lead: 20px;    /* лид, Onest */
   --fs-hero-fact: 44px; /* цифры строки фактов первого экрана */
   --fs-h2: 52px;
@@ -78,10 +77,10 @@
   --stitch: repeating-linear-gradient(90deg, var(--clay) 0 6px, transparent 6px 11px);
 }
 @media (max-width: 1199px) {
-  :root { --fs-xl: 72px; --fs-mid: 34px; --fs-city: 14px; --fs-lead: 19px; --fs-hero-fact: 38px; --fs-h2: 44px; --fs-h3: 28px; --fs-quote: 28px; --fs-h2-lg: 52px; --fs-fact: 38px; --fs-pfinal: 24px; --fs-seam: 30px; --gutter: 32px; --gap: 24px; --section: 80px; }
+  :root { --fs-xl: 72px; --fs-mid: 34px; --fs-lead: 19px; --fs-hero-fact: 38px; --fs-h2: 44px; --fs-h3: 28px; --fs-quote: 28px; --fs-h2-lg: 52px; --fs-fact: 38px; --fs-pfinal: 24px; --fs-seam: 30px; --gutter: 32px; --gap: 24px; --section: 80px; }
 }
 @media (max-width: 959px) {
-  :root { --fs-xl: 58px; --fs-mid: 29px; --fs-city: 13px; --fs-lead: 18px; --fs-h2: 38px; --fs-h2-lg: 44px; --fs-fact: 36px; --fs-pfinal: 22px; --fs-seam: 28px; --gap: 20px; --section: 72px; --header-h: 64px; --tape-w: 0px; }
+  :root { --fs-xl: 58px; --fs-mid: 29px; --fs-lead: 18px; --fs-h2: 38px; --fs-h2-lg: 44px; --fs-fact: 36px; --fs-pfinal: 22px; --fs-seam: 28px; --gap: 20px; --section: 72px; --header-h: 64px; --tape-w: 0px; }
 }
 @media (max-width: 639px) {
   :root { --fs-xl: 50px; --fs-mid: 26px; --fs-lead: 17px; --fs-hero-fact: 32px; --fs-h2: 34px; --fs-h3: 26px; --fs-quote: 24px; --fs-body: 16px; --fs-h2-lg: 40px; --fs-fact: 34px; --fs-pfinal: 22px; --fs-seam: 26px; --gutter: 20px; --gap: 16px; --section: 64px; --header-h: 60px; }
@@ -180,8 +179,8 @@ input, select, textarea { caret-color: var(--clay); }
 .ht-line { display: block; }
 .ht-xl { font-size: var(--fs-xl); line-height: .94; letter-spacing: -.02em; }
 /* «в Челябинске» — пришитая бирка-метка: строчка и моно-строка, привязана к «производство» */
-.ht-city { display: flex; align-items: center; gap: 12px; margin: 16px 0 18px; font: 500 var(--fs-city)/1.2 var(--sans); letter-spacing: .04em; }
-.ht-city::before { content: ""; flex: none; width: 40px; height: 2px; background: var(--stitch); }
+.ht-city { display: flex; align-items: center; gap: 14px; margin: 18px 0 20px; font: 500 var(--fs-lead)/1.2 var(--sans); letter-spacing: 0; } /* размер = лиду под заголовком: строка читается как часть заголовка, а не мелкая подпись */
+.ht-city::before { content: ""; flex: none; width: 44px; height: 2px; background: var(--stitch); }
 .ht-mid { font-size: var(--fs-mid); line-height: 1.02; letter-spacing: -.01em; }
 /* акцентное слово: курсив Cormorant цвета «нитки». Одно на заголовок */
 .acc { font-style: italic; color: var(--clay); }

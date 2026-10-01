@@ -481,10 +481,10 @@ await test('карусель: роли, подписи, счётчик', MOTION,
   assert.equal(await slides.nth(2).getAttribute('aria-label'), '3 из 6: Рубашки');
   assert.equal(await p.locator('#portfolio [data-kc="counter"]').getAttribute('aria-live'), 'polite');
   assert.equal(await counter(p), '01 / 06');
-  assert.equal(await p.locator('#portfolio [data-kc="prev"]').isDisabled(), true, '«назад» на первой не disabled');
+  assert.equal(await p.locator('#portfolio [data-kc="prev"]').isDisabled(), false, 'лента замкнута: «назад» на первой доступна');
 });
 
-await test('карусель: стрелки листают, на краях disabled', MOTION, async (p) => {
+await test('карусель: стрелки листают по кругу, стрелки никогда не disabled', MOTION, async (p) => {
   await p.click('#portfolio [data-kc="next"]');
   await wait(p, 350);
   assert.equal(await counter(p), '02 / 06');
@@ -493,11 +493,41 @@ await test('карусель: стрелки листают, на краях dis
   await p.click('#portfolio [data-kc="goto"][data-index="5"]');
   await wait(p, 350);
   assert.equal(await counter(p), '06 / 06');
-  assert.equal(await p.locator('#portfolio [data-kc="next"]').isDisabled(), true);
+  assert.equal(await p.locator('#portfolio [data-kc="next"]').isDisabled(), false);
   assert.equal(await p.locator('#portfolio [data-kc="goto"][data-index="5"]').getAttribute('aria-current'), 'true');
   await p.click('#portfolio [data-kc="prev"]');
   await wait(p, 350);
   assert.equal(await counter(p), '05 / 06');
+});
+
+await test('карусель: после 06 снова 01, по обе стороны всегда по две видимые карточки', MOTION, async (p) => {
+  const pos = () => p.locator('#portfolio [data-kc="slide"]').evaluateAll((els) => els.map((e) => Number(e.dataset.pos)));
+  const sorted = (a) => [...a].sort((x, y) => x - y);
+  // вперёд: полный круг и ещё шаг
+  for (let k = 1; k <= 7; k++) {
+    await p.click('#portfolio [data-kc="next"]');
+    await wait(p, 330);
+    assert.equal(await counter(p), `0${(k % 6) + 1} / 06`);
+    const ps = await pos();
+    assert.deepEqual(sorted(ps).filter((v) => Math.abs(v) <= 2), [-2, -1, 0, 1, 2], `слева и справа по две карточки: ${ps}`);
+    assert.equal(ps.filter((v) => Math.abs(v) === 3).length, 1, 'одна скрытая карточка напротив');
+  }
+  // назад: с первой на последнюю
+  await p.click('#portfolio [data-kc="goto"][data-index="0"]');
+  await wait(p, 600);
+  await p.click('#portfolio [data-kc="prev"]');
+  await wait(p, 330);
+  assert.equal(await counter(p), '06 / 06');
+  assert.deepEqual((await pos()).filter((v) => Math.abs(v) <= 2).sort((x, y) => x - y), [-2, -1, 0, 1, 2]);
+});
+
+await test('карусель: клик по дальней карточке и по пункту ряда крутит кратчайшим путём', MOTION, async (p) => {
+  await p.click('#portfolio [data-kc="goto"][data-index="4"]'); // с 01 на 05: два шага назад
+  await wait(p, 700);
+  assert.equal(await counter(p), '05 / 06');
+  await p.click('#portfolio [data-kc="goto"][data-index="1"]'); // с 05 на 02: три шага (напротив)
+  await wait(p, 900);
+  assert.equal(await counter(p), '02 / 06');
 });
 
 await test('карусель: клавиши ← →', MOTION, async (p) => {

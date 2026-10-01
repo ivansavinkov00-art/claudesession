@@ -83,8 +83,7 @@
   border: 1px solid var(--kc-ink); border-radius: 0; cursor: pointer; transition: background-color .15s var(--kc-ease);
 }
 .kc-carousel__arrow svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: square; stroke-linejoin: miter; }
-.kc-carousel__arrow:hover:not(:disabled) { background: rgba(46, 37, 32, .08); }
-.kc-carousel__arrow:disabled { opacity: .35; cursor: default; }
+.kc-carousel__arrow:hover { background: rgba(46, 37, 32, .08); }
 .kc-carousel__arrow:focus-visible { outline: 2px solid var(--kc-clay); outline-offset: 3px; }
 .kc-carousel__counter { min-width: 6em; margin: 0; text-align: center; font: 500 15px/1 var(--kc-mono); letter-spacing: .1em; font-variant-numeric: lining-nums; }
 
