@@ -25,7 +25,8 @@
       sync();
       document.dispatchEvent(new CustomEvent('themechange', { detail: { theme: next } }));
     };
-    if (document.startViewTransition && !reduce.matches) document.startViewTransition(apply); else apply();
+    const go = () => { if (document.startViewTransition && !reduce.matches) document.startViewTransition(apply); else apply(); };
+    if (next === 'dark' && window.ksLoadDark) window.ksLoadDark(go); else go(); // сначала CSS тёмной, потом смена темы
   }
 
   toggles.forEach((b) => b.addEventListener('click', () => setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark')));

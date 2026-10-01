@@ -1,5 +1,5 @@
-/* Культура шитья, v4: слой тем (PLAN-v4.md). Светлая тема остаётся как есть; всё тёмное живёт под :root[data-theme="dark"].
-   Подключается после v3.css. Токены дублируют светлые: кремовый текст --ink на тёмном --linen, акцент «нитка» --clay = #D9A184. */
+/* Культура шитья, v4: тёмная тема (PLAN-v4.md). Всё живёт под :root[data-theme="dark"].
+   Подключается только в тёмной теме: инлайн-скрипт в <head> и theme.js создают <link> по необходимости, светлая страница этот файл не качает. Токены дублируют светлые: кремовый текст --ink на тёмном --linen, акцент «нитка» --clay = #D9A184. */
 
 /* ---------- Шрифты тёмной темы (файлы грузятся только если шрифт реально используется) ---------- */
 @font-face { font-family: "Noto Serif SC"; font-style: normal; font-weight: 300 500; font-display: swap;
@@ -20,13 +20,6 @@
 @font-face { font-family: "Inter"; font-style: normal; font-weight: 100 900; font-display: swap;
   src: url(assets/fonts/inter-latin-wght-normal.woff2) format("woff2");
   unicode-range: U+0020-007E, U+00A0, U+00AB, U+00B7, U+00BB, U+00D7, U+2010-2015, U+2018-201D, U+2022, U+2026, U+20BD, U+2212; }
-
-/* ---------- Общее для обеих тем: переключатель и элементы, видимые только в тёмной ---------- */
-.theme-toggle .i-sun { display: none; }
-.hero-bg, .hero-badge, .hf-ico, .header-cta, .btn-ico { display: none; }
-.hero-facts > div.hero-fact--opt { display: none; } /* специфичность выше, чем у .hero-facts > div на 320–479 */
-.theme-toggle svg { width: 24px; height: 24px; fill: currentColor; }
-.nav .theme-toggle { margin-left: -6px; }
 
 /* ---------- Токены и шкала ---------- */
 :root[data-theme="dark"] { --fs-xl: 92px; --fs-h2: 56px; --fs-h2-lg: 64px; --fs-h3: 32px; --fs-quote: 34px; --fs-fact: 44px; --fs-body: 17px; --fs-small: 14px; --fs-hero-sub: 22px; --fs-hero-lead: 16px; --fs-eyebrow: 13px; --header-h: 88px;
@@ -64,6 +57,8 @@
 :root[data-theme="dark"] .tag { border-radius: 8px; }
 :root[data-theme="dark"] .tape { display: none; }
 :root[data-theme="dark"] .quote p { font-weight: 300; }
+:root[data-theme="dark"] .prod-body > .prod-final { font-weight: 400; }
+:root[data-theme="dark"] .btn-on-dark:hover { background: var(--ink-hover); border-color: var(--ink-hover); }
 :root[data-theme="dark"] .fact-n, :root[data-theme="dark"] .footer-phone, :root[data-theme="dark"] .final-phone, :root[data-theme="dark"] .kc-calc__panel dd { font-weight: 400; }
 :root[data-theme="dark"] .marquee-list li { font-weight: 300; }
 :root[data-theme="dark"] .logo-plate { background: transparent; }
@@ -125,7 +120,7 @@
 :root[data-theme="dark"] .hero-bg::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: .16; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E"); }
 :root[data-theme="dark"] .hero-grid { align-items: end; }
 :root[data-theme="dark"] .hero-text { grid-column: 1 / span 8; max-width: 720px; }
-:root[data-theme="dark"] .hero-title { font-weight: 300; letter-spacing: 0; }
+:root[data-theme="dark"] .hero-title { font-size: var(--fs-eyebrow); line-height: 1.7; font-weight: 300; letter-spacing: 0; } /* без этого строка надзаголовка стоит на «подставке» h1 в 2em */
 :root[data-theme="dark"] .ht-xl, :root[data-theme="dark"] .ht-city { display: inline; margin: 0; font: 400 var(--fs-eyebrow)/1.7 var(--sans); letter-spacing: .32em; text-transform: uppercase; color: rgba(238, 230, 216, .72); }
 :root[data-theme="dark"] .ht-city::before { display: none; }
 :root[data-theme="dark"] .ht-mid { display: block; margin-top: 26px; font: 330 var(--fs-xl)/.98 var(--serif); letter-spacing: -.005em; color: var(--ink); }
@@ -161,15 +156,20 @@
   :root[data-theme="dark"] .hero-facts { grid-template-columns: repeat(4, minmax(0, 190px)); }
   :root[data-theme="dark"] .hero-text { max-width: 820px; }
 }
+@media (min-width: 960px) and (max-width: 1199px) {
+  :root[data-theme="dark"] .header-row { gap: 0 20px; }
+  :root[data-theme="dark"] .nav .phone { display: none; } /* телефон остаётся в финале и подвале; в шапке не хватает места */
+}
 @media (max-width: 1199px) {
   :root[data-theme="dark"] .hero-badge { width: 132px; height: 132px; font-size: 9px; letter-spacing: .08em; }
+  :root[data-theme="dark"] .hero-facts { max-width: calc(100% - 170px); }
   :root[data-theme="dark"] .hero-facts { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
 }
 @media (max-width: 959px) {
   :root[data-theme="dark"] .hero { min-height: 100svh; padding: calc(var(--header-h) + 40px) 0 32px; }
   :root[data-theme="dark"] .hero-bg img { object-position: 72% 50%; }
   :root[data-theme="dark"] .hero-bg::after { background: linear-gradient(180deg, rgba(12, 9, 7, .45) 0%, rgba(12, 9, 7, .30) 28%, rgba(12, 9, 7, .80) 58%, rgba(12, 9, 7, .95) 100%); }
-  :root[data-theme="dark"] .hero-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; margin-top: 44px; }
+  :root[data-theme="dark"] .hero-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; margin-top: 44px; max-width: none; }
   :root[data-theme="dark"] .hero-lead span { display: block; }
 }
 @media (max-width: 639px) {
@@ -181,3 +181,10 @@
 }
 @keyframes bg-in { from { opacity: 0; transform: scale(1.04); } to { opacity: 1; transform: none; } }
 @keyframes thread { 0% { transform: scaleY(0); } 55% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
+
+@media (max-width: 479px) {
+  :root[data-theme="dark"] .hero-facts { border-top: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  :root[data-theme="dark"] .hero-facts > div, :root[data-theme="dark"] .hero-facts > div:first-child { display: block; padding: 0; border: 0; }
+  :root[data-theme="dark"] .hero-facts dd { margin-top: 4px; }
+}
+:root[data-theme="dark"] .menu-nav a { font-weight: 300; }

@@ -1,13 +1,14 @@
 // Скриншоты слоя v3 (PLAN-v3.md). Нужен сервер: python3 -m http.server 5507.
-// node tools/shots-v3.mjs [BASE]  ->  screenshots/v3/*.png
+// node tools/shots-v3.mjs [BASE] [--theme=dark]  ->  screenshots/v3/*.png (тёмная: screenshots/v4-dark/*.png)
 //   hero-*        первый экран на типовых окнах (движение включено, WebGL-ткань через swiftshader)
 //   sec-*         экраны по якорям на 1440 и 390 (движение включено)
 //   full-*        вся страница (reduced motion: scroll-driven части сразу в конечном состоянии)
 import { launch } from './browser.mjs';
 import { mkdirSync } from 'node:fs';
 
-const BASE = process.argv.find((a) => a.startsWith('http')) || 'http://127.0.0.1:5507/';
-const dir = 'screenshots/v3';
+const THEME = (process.argv.find((a) => a.startsWith('--theme=')) || '').slice(8) || 'light';
+const BASE = (process.argv.find((a) => a.startsWith('http')) || 'http://127.0.0.1:5507/') + (THEME === 'dark' ? '?theme=dark' : '');
+const dir = THEME === 'dark' ? 'screenshots/v4-dark' : 'screenshots/v3';
 mkdirSync(dir, { recursive: true });
 const browser = await launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
 

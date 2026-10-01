@@ -13,7 +13,11 @@
     "placeholders": "node tools/placeholders.mjs",
     "incoming": "node tools/incoming.mjs",
     "assets": "node tools/build-assets.mjs",
-    "preview": "node tools/preview.mjs preview.html"
+    "preview": "node tools/preview.mjs preview.html",
+    "e2e:dark": "node tools/e2e.mjs --theme=dark",
+    "shots:dark": "node tools/shots-v3.mjs --theme=dark",
+    "preview:dark": "node tools/preview.mjs preview-dark.html --theme=dark",
+    "diff": "node tools/visual-diff.mjs"
   },
   "devDependencies": {
     "@fontsource-variable/inter": "^5.3.0",

@@ -1,0 +1,9 @@
+/* Культура шитья, v4: общее для обеих тем (PLAN-v4.md). Переключатель темы и элементы, которые видны только в тёмной.
+   Подключается всегда после v3.css; светлую отрисовку не меняет. */
+
+/* ---------- Общее для обеих тем: переключатель и элементы, видимые только в тёмной ---------- */
+.theme-toggle .i-sun { display: none; }
+.hero-bg, .hero-badge, .hf-ico, .header-cta, .btn-ico { display: none; }
+.hero-facts > div.hero-fact--opt { display: none; } /* специфичность выше, чем у .hero-facts > div на 320–479 */
+.theme-toggle svg { width: 24px; height: 24px; fill: currentColor; }
+.nav .theme-toggle { margin-left: -6px; }

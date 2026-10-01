@@ -36,9 +36,22 @@
 |---|---|---|---|
 | Playfair Display (вариативный, 400–900, обычный и курсив) | Claus Eggers Sørensen | SIL Open Font License 1.1 | `@fontsource-variable/playfair-display`, woff2 cyrillic + latin |
 | Onest (вариативный, 100–900) | Onest (Sergey Kovalev и команда), Gazprom-Media-Digital | SIL Open Font License 1.1 | `@fontsource-variable/onest`, woff2 cyrillic + latin |
+| Noto Serif (вариативный, ширина 87,5%, веса 300–500; тёмная тема) | Google, Monotype и др. | SIL Open Font License 1.1 | `@fontsource-variable/noto-serif`, кириллица и latin (урезан), `tools/subset-fonts.sh` |
+| Inter (вариативный; тёмная тема) | Rasmus Andersson | SIL Open Font License 1.1 | `@fontsource-variable/inter`, кириллица и latin (урезан) |
 | IBM Plex Mono 400, 500 (только ярлыки, с v3) | IBM, Mike Abbink, Bold Monday | SIL Open Font License 1.1 | `@fontsource/ibm-plex-mono`, woff2 cyrillic + latin |
 
 Шрифты лежат в `assets/fonts/` (self-hosted). Latin-файлы Playfair и Onest урезаны до ASCII, ёлочек, тире, точки-разделителя и ₽ (`tools/subset-fonts.sh`, −45 КБ); кириллица целиком. Cormorant из проекта удалён. В Тильде все три есть в библиотеке Google Fonts, их можно подключить оттуда.
+
+## Иконки
+
+Phosphor Icons (Light): moon, sun, arrow-right, factory, timer, scissors, package. Авторы Phosphor Icons, лицензия MIT, пакет `@phosphor-icons/core`. Символы вставлены в начало `index.html` спрайтом `ph-*`.
+
+## Фото тёмной темы
+
+| Файл | Статус | Источник | Лицензия |
+|---|---|---|---|
+| `assets/img/hero-dark-1920.webp`, `-1280.webp`, `-m.webp` | временное сток-фото | `_v1/stitch.webp`: Jahra Tasfia Reza, [Pexels 33706427](https://www.pexels.com/photo/close-up-of-sewing-machine-needle-in-action-33706427/), кадр под экран и затемнение. Заменить на тёмное фото цеха (в референсе оно без текста нужно прислать отдельно) | [Pexels License](https://www.pexels.com/license/) |
+| `materials/reference-dark.webp` | референс клиентки, не публикуется на сайте | прислан заказчицей | — |
 
 ## Логотип
 
