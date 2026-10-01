@@ -6,15 +6,15 @@
 
 | Слот | Файл | Статус | Источник | Лицензия |
 |---|---|---|---|---|
-| 01 | `assets/img/img-01.webp` | временное фото v1 | копия `hero-arch.webp`: shoreline vehicles, [Pexels 30902519](https://www.pexels.com/photo/close-up-of-sewing-machine-stitching-fabric-30902519/) | [Pexels License](https://www.pexels.com/license/) |
-| 02 | `assets/img/img-02.webp` | временное фото v1 | `workshop.webp`, кадр 4:5: cottonbro studio, [Pexels 4621656](https://www.pexels.com/photo/white-textile-on-brown-brick-wall-4621656/) | [Pexels License](https://www.pexels.com/license/) |
-| — | `assets/img/hero-card.webp` | временное сток-фото | карточка поверх арки на первом экране: Berna, [Pexels 35009418](https://www.pexels.com/photo/stack-of-folded-fabrics-in-neutral-tones-35009418/), кадр 4:5, 640×800 | [Pexels License](https://www.pexels.com/license/) |
+| 01 | `assets/img/img-01.webp`, `img-01-800.webp` | фото заказчицы | `materials/photos-v5/needle-macro.webp` (игла), прислано 2026-10-01, ИИ-генерация | права подтвердить |
+| 02 | `assets/img/img-02.webp` | фото заказчицы | `materials/photos-v5/atelier-brick.webp`, прислано 2026-10-01 | права подтвердить |
+| — | `assets/img/hero-card.webp` | фото заказчицы | кадр из `atelier-brick.webp` (стол с лекалами) | права подтвердить |
 | 03 | `assets/img/img-03.webp` | фото заказчицы | Портрет Олеси Аксеновой, прислан заказчицей 2026-10-01; кадр 4:5, WebP q80, без ИИ | права на публикацию подтвердить с заказчицей |
 | 04–09 | `assets/img/img-04.webp` … `img-09.webp` | временное AI-фото | Higgsfield, модель nano_banana_2 (1k), 2026-09-30; одежда на деревянной вешалке, без людей и логотипов; уменьшено до 480×640, WebP q62–64 | условия Higgsfield |
-| 10 | `assets/img/img-10.webp` | временное сток-фото | `_v1/dir-opt.webp`: Berna, [Pexels 35009418](https://www.pexels.com/photo/stack-of-folded-fabrics-in-neutral-tones-35009418/), кадр 4:5 | [Pexels License](https://www.pexels.com/license/) |
-| 11 | `assets/img/img-11.webp` | временное сток-фото | `_v1/stitch.webp`: Jahra Tasfia Reza, [Pexels 33706427](https://www.pexels.com/photo/close-up-of-sewing-machine-needle-in-action-33706427/), кадр 4:5 | [Pexels License](https://www.pexels.com/license/) |
-| 12 | `assets/img/img-12.webp` | временное сток-фото | другой кадр `workshop.webp`: cottonbro studio, [Pexels 4621656](https://www.pexels.com/photo/white-textile-on-brown-brick-wall-4621656/) | [Pexels License](https://www.pexels.com/license/) |
-| 13 | `assets/img/img-13.webp` | временное сток-фото | `_v1/dir-exp.webp`: Metin Ozer, [Unsplash SjnR2gN5lwU](https://unsplash.com/photos/a-person-drawing-on-a-clothing-pattern-SjnR2gN5lwU), кадр 4:5 | [Unsplash License](https://unsplash.com/license) |
+| 10 | `assets/img/img-10.webp` | фото заказчицы | `materials/photos-v5/fabrics-stack.webp`, прислано 2026-10-01, ИИ-генерация | права подтвердить |
+| 11 | `assets/img/img-11.webp` | фото заказчицы | кадр из `atelier-wide.webp` (манекен и швея), прислано 2026-10-01 | права подтвердить |
+| 12 | `assets/img/img-12.webp` | фото заказчицы | кадр из `atelier-wide.webp` (стойка), прислано 2026-10-01 | права подтвердить |
+| 13 | `assets/img/img-13.webp` | фото заказчицы | `materials/photos-v5/pattern-drawing.webp` (срезан угол с артефактом), прислано 2026-10-01 | права подтвердить |
 
 Когда слот получает картинку из `incoming/`, строка меняется на «сгенерировано в Nano Banana, дата» (или «фото заказчика»).
 
@@ -50,7 +50,7 @@ Phosphor Icons (Light): moon, sun, arrow-right, factory, timer, scissors, packag
 
 | Файл | Статус | Источник | Лицензия |
 |---|---|---|---|
-| `assets/img/hero-dark-1920.webp`, `-1280.webp`, `-m.webp` | временное сток-фото | `_v1/stitch.webp`: Jahra Tasfia Reza, [Pexels 33706427](https://www.pexels.com/photo/close-up-of-sewing-machine-needle-in-action-33706427/), кадр под экран и затемнение. Заменить на тёмное фото цеха (в референсе оно без текста нужно прислать отдельно) | [Pexels License](https://www.pexels.com/license/) |
+| `assets/img/hero-dark-1920.webp`, `-1280.webp`, `-m.webp` (v5) | фото заказчицы | широкий кадр цеха из `materials/photos-v5/atelier-wide.webp`, прислан заказчицей 2026-10-01 (ИИ-генерация, инструмент не назван) | права подтвердить с заказчицей |
 | `materials/reference-dark.webp` | референс клиентки, не публикуется на сайте | прислан заказчицей | — |
 
 ## Логотип

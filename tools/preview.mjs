@@ -35,6 +35,7 @@ html = html.replace(/<link rel="(preload|icon|apple-touch-icon)"[^>]*>\n?/g, '')
 // картинки, PDF
 html = html.replace(/(src|href)="(assets\/(?:img|price-demo)[^"]+)"/g, (_, attr, p) => `${attr}="${dataUri(p)}"`);
 html = html.replace(/srcset="([^"]+)"/g, (_, v) => `srcset="${v.replace(/assets\/img\/[^\s,]+/g, (p) => dataUri(p))}"`);
+scripts.unshift(readFileSync(root + 'wow.js', 'utf8')); // «вау» тёмной встроен и стоит первым (theme.js видит __ksWow и ничего не подгружает); сам включается только в тёмной
 const tail = scripts.map((s) => `<script>\n${s}\n</script>`).join('\n') + '\n</body>';
 html = html.replace('</body>', () => tail);
 html = html.replace(/<meta property="og:image"[^>]*>\n?/g, '');

@@ -30,11 +30,11 @@
   // предзагрузка картинки и шрифтов только активной темы (PLAN-v4.md, 2.2)
   var P = t === 'dark'
     ? [['image', 'assets/img/hero-dark-1920.webp'], ['font', 'assets/fonts/noto-serif-sc-cyrillic-normal.woff2'], ['font', 'assets/fonts/inter-cyrillic-wght-normal.woff2']]
-    : [['image', 'assets/img/img-01.webp'], ['font', 'assets/fonts/playfair-display-cyrillic-wght-normal.woff2'], ['font', 'assets/fonts/onest-cyrillic-wght-normal.woff2']];
+    : [['image', 'assets/img/img-01.webp', 'assets/img/img-01-800.webp 800w, assets/img/img-01.webp 1122w', '(max-width: 959px) 100vw, 480px'], ['font', 'assets/fonts/playfair-display-cyrillic-wght-normal.woff2'], ['font', 'assets/fonts/onest-cyrillic-wght-normal.woff2']];
   if (t === 'dark' && window.matchMedia('(max-width: 639px)').matches) P[0][1] = 'assets/img/hero-dark-m.webp';
   P.forEach(function (p) {
     var l = document.createElement('link'); l.rel = 'preload'; l.as = p[0]; l.href = p[1];
-    if (p[0] === 'font') { l.type = 'font/woff2'; l.crossOrigin = ''; } else { l.fetchPriority = 'high'; }
+    if (p[0] === 'font') { l.type = 'font/woff2'; l.crossOrigin = ''; } else { l.fetchPriority = 'high'; if (p[2]) { l.setAttribute('imagesrcset', p[2]); l.setAttribute('imagesizes', p[3]); } }
     document.head.appendChild(l);
   });
 })();
@@ -114,7 +114,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   <!-- Экран 1. Первый экран: саммари -->
   <section class="hero" aria-labelledby="hero-title">
     <picture class="hero-bg" aria-hidden="true">
-      <source media="(max-width: 639px)" srcset="assets/img/hero-dark-m.webp">
+      <source media="(max-width: 639px)" srcset="assets/img/hero-dark-m.webp" width="720" height="900">
       <img src="assets/img/hero-dark-1920.webp" srcset="assets/img/hero-dark-1280.webp 1280w, assets/img/hero-dark-1920.webp 1920w" sizes="100vw" width="1920" height="1080" alt="" loading="lazy" decoding="async">
     </picture>
     <canvas class="fabric" aria-hidden="true"></canvas>
@@ -134,8 +134,8 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
       </div>
       <div class="hero-media">
         <figure class="hero-arch" data-slot="01">
-          <img src="assets/img/img-01.webp" width="1600" height="2000" fetchpriority="high" decoding="async"
-               alt="Руки швеи ведут ткань под лапкой промышленной швейной машины">
+          <img src="assets/img/img-01.webp" srcset="assets/img/img-01-800.webp 800w, assets/img/img-01.webp 1122w" sizes="(max-width: 959px) 100vw, 480px" width="1122" height="1402" fetchpriority="high" decoding="async"
+               alt="Игла и лапка швейной машины прошивают бордовую ткань, рядом пальцы швеи">
         </figure>
         <figure class="hero-card">
           <img src="assets/img/hero-card.webp" width="640" height="800" decoding="async" alt="">
@@ -177,7 +177,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   <section class="section s-prod" id="proizvodstvo" aria-labelledby="prod-title">
     <div class="container prod-grid">
       <figure class="prod-photo" data-slot="02">
-        <img src="assets/img/img-02.webp" width="1600" height="2000" loading="lazy" decoding="async"
+        <img src="assets/img/img-02.webp" width="1122" height="1402" loading="lazy" decoding="async"
              alt="Швейный цех: раскройный стол с лекалами, стойки с готовыми изделиями у кирпичной стены">
       </figure>
       <div class="prod-body">
@@ -346,8 +346,8 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
             <div class="kc-tasks__panel" id="kc-task-1" role="region" aria-labelledby="kc-task-1-btn" data-kc="panel">
               <div class="kc-tasks__panel-in">
                 <figure class="kc-tasks__media-m" data-slot="10">
-                  <img src="assets/img/img-10.webp" width="1200" height="1500" loading="lazy" decoding="async"
-                       alt="Стопка сложенных тканей в нейтральных тонах">
+                  <img src="assets/img/img-10.webp" width="1122" height="1402" loading="lazy" decoding="async"
+                       alt="Стопка сложенных тканей в руках">
                 </figure>
                 <dl class="kc-tasks__dl">
                   <div><dt>Задача</dt><dd>Отшить партию к&nbsp;поставке и&nbsp;не&nbsp;сорвать сроки.</dd></div>
@@ -368,8 +368,8 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
             <div class="kc-tasks__panel" id="kc-task-2" role="region" aria-labelledby="kc-task-2-btn" data-kc="panel">
               <div class="kc-tasks__panel-in">
                 <figure class="kc-tasks__media-m" data-slot="11">
-                  <img src="assets/img/img-11.webp" width="1200" height="1500" loading="lazy" decoding="async"
-                       alt="Игла швейной машины прошивает ткань, крупный план">
+                  <img src="assets/img/img-11.webp" width="900" height="1125" loading="lazy" decoding="async"
+                       alt="Манекен и швея за машинкой в цехе">
                 </figure>
                 <dl class="kc-tasks__dl">
                   <div><dt>Задача</dt><dd>Запустить коллекцию и&nbsp;расти, не&nbsp;меняя производство.</dd></div>
@@ -390,8 +390,8 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
             <div class="kc-tasks__panel" id="kc-task-3" role="region" aria-labelledby="kc-task-3-btn" data-kc="panel">
               <div class="kc-tasks__panel-in">
                 <figure class="kc-tasks__media-m" data-slot="12">
-                  <img src="assets/img/img-12.webp" width="1200" height="1500" loading="lazy" decoding="async"
-                       alt="Цех: стойка с готовыми изделиями у кирпичной стены">
+                  <img src="assets/img/img-12.webp" width="900" height="1125" loading="lazy" decoding="async"
+                       alt="Стойка с готовыми изделиями в цехе">
                 </figure>
                 <dl class="kc-tasks__dl">
                   <div><dt>Задача</dt><dd>Стабильные объёмы и&nbsp;сроки на&nbsp;годы вперёд.</dd></div>
@@ -412,7 +412,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
             <div class="kc-tasks__panel" id="kc-task-4" role="region" aria-labelledby="kc-task-4-btn" data-kc="panel">
               <div class="kc-tasks__panel-in">
                 <figure class="kc-tasks__media-m" data-slot="13">
-                  <img src="assets/img/img-13.webp" width="1200" height="1500" loading="lazy" decoding="async"
+                  <img src="assets/img/img-13.webp" width="1018" height="1272" loading="lazy" decoding="async"
                        alt="Конструктор размечает лекало на рабочем столе">
                 </figure>
                 <dl class="kc-tasks__dl">
@@ -426,19 +426,19 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         </ol>
         <div class="kc-tasks__stage" data-kc="stage">
           <figure class="kc-tasks__media is-active" data-kc="media" data-index="0" data-slot="10">
-            <img src="assets/img/img-10.webp" width="1200" height="1500" loading="lazy" decoding="async"
-                 alt="Стопка сложенных тканей в нейтральных тонах">
+            <img src="assets/img/img-10.webp" width="1122" height="1402" loading="lazy" decoding="async"
+                 alt="Стопка сложенных тканей в руках">
           </figure>
           <figure class="kc-tasks__media" data-kc="media" data-index="1" data-slot="11" aria-hidden="true">
-            <img src="assets/img/img-11.webp" width="1200" height="1500" loading="lazy" decoding="async"
-                 alt="Игла швейной машины прошивает ткань, крупный план">
+            <img src="assets/img/img-11.webp" width="900" height="1125" loading="lazy" decoding="async"
+                 alt="Манекен и швея за машинкой в цехе">
           </figure>
           <figure class="kc-tasks__media" data-kc="media" data-index="2" data-slot="12" aria-hidden="true">
-            <img src="assets/img/img-12.webp" width="1200" height="1500" loading="lazy" decoding="async"
-                 alt="Цех: стойка с готовыми изделиями у кирпичной стены">
+            <img src="assets/img/img-12.webp" width="900" height="1125" loading="lazy" decoding="async"
+                 alt="Стойка с готовыми изделиями в цехе">
           </figure>
           <figure class="kc-tasks__media" data-kc="media" data-index="3" data-slot="13" aria-hidden="true">
-            <img src="assets/img/img-13.webp" width="1200" height="1500" loading="lazy" decoding="async"
+            <img src="assets/img/img-13.webp" width="1018" height="1272" loading="lazy" decoding="async"
                  alt="Конструктор размечает лекало на рабочем столе">
           </figure>
         </div>

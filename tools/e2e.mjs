@@ -938,9 +938,44 @@ for (const [label, opts] of [['1440', { viewport: { width: 1440, height: 900 } }
       if (ratio < (it.size >= 24 ? 3 : 4.5)) bad.push(`${it.s} ${ratio.toFixed(2)}`);
     }
     assert.ok(items.length >= 5, `найдено элементов: ${items.length}`);
-    assert.deepEqual(bad, []);
+    assert.deepEqual(bad, [], `слабый контраст: ${bad.join(', ')}`);
   });
 }
+await test('light: «вау» тёмной не грузится на светлой', DESK, async (p) => {
+  assert.equal(await p.locator('script[data-wow]').count(), 0);
+  assert.equal(await p.evaluate(() => !!window.__ksWow), false);
+  assert.equal(await p.locator('.thread, .hero-dust, .hero-lantern, .w').count(), 0);
+});
+await test('dark: вау — слова заголовков проявляются, пыль и нить на широком окне, фонарь за курсором', { viewport: { width: 1440, height: 900 }, reducedMotion: 'no-preference' }, async (p) => {
+  await p.waitForFunction(() => window.__ksWow === true);
+  assert.equal(await p.locator('.hero-dust').count(), 1);
+  assert.equal(await p.locator('.thread').isVisible(), true);
+  await p.mouse.move(900, 300, { steps: 6 });
+  await wait(p, 400);
+  assert.equal(await p.locator('.hero-lantern.is-on').count(), 1, 'фонарь включается после движения курсора');
+  const split = await p.locator('.sec-head h2 .w').count();
+  assert.ok(split >= 3, `слов в заголовке: ${split}`);
+  // слова выехали: после прокрутки к разделу у всех слов нет сдвига
+  await p.evaluate(() => document.querySelector('#portfolio').scrollIntoView());
+  await wait(p, 1800);
+  const moved = await p.locator('#portfolio .sec-head h2 .wi').evaluateAll((els) => els.filter((e) => getComputedStyle(e).transform !== 'none' && !/matrix\(1, 0, 0, 1, 0, 0\)/.test(getComputedStyle(e).transform)).length);
+  assert.equal(moved, 0, 'слова остались внизу под маской');
+  // пыль не мешает кликам и скринридерам
+  assert.equal(await p.locator('.hero-dust').getAttribute('aria-hidden'), 'true');
+  assert.equal(await p.locator('.hero-dust').evaluate((e) => getComputedStyle(e).pointerEvents), 'none');
+});
+await test('dark: при reduced motion вау не добавляет движущихся слоёв, заголовки видны сразу', DESK, async (p) => {
+  await p.waitForFunction(() => window.__ksWow === true);
+  assert.equal(await p.locator('.hero-dust, .hero-lantern').count(), 0);
+  const hidden = await p.locator('.sec-head h2.is-split:not(.is-in)').count();
+  assert.equal(hidden, 0, 'разбитые заголовки должны быть показаны');
+  assert.equal(await p.locator('.hero-bg img').evaluate((e) => getComputedStyle(e).animationName), 'none');
+});
+await test('dark: на мобильном нет пыли и фонаря, текст первого экрана на месте', MOB, async (p) => {
+  await p.waitForFunction(() => window.__ksWow === true);
+  assert.equal(await p.locator('.hero-dust, .hero-lantern, .thread').evaluateAll((els) => els.filter((e) => getComputedStyle(e).display !== 'none' && e.className !== 'thread').length), 0);
+  assert.ok(await p.locator('.hero .ht-mid').isVisible());
+});
 await test('dark: галочка отмеченного чекбокса видна, фокус заметен', DESK, async (p) => {
   await p.locator('#raschet').scrollIntoViewIfNeeded();
   await pick(p, `${C} input[name="direction"][value="wb"]`);

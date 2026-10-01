@@ -4,6 +4,12 @@
   const root = document.documentElement;
   const KEY = 'ks-theme';
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  // «вау» тёмной темы грузится только в тёмной (в одиночном файле превью уже встроен: __ksWow)
+  const loadWow = () => {
+    if (window.__ksWow || root.dataset.theme !== 'dark' || document.querySelector('script[data-wow]')) return;
+    const s = document.createElement('script'); s.src = 'wow.js'; s.defer = true; s.setAttribute('data-wow', '');
+    document.head.appendChild(s);
+  };
   const toggles = [...document.querySelectorAll('[data-theme-toggle]')];
   const header = document.querySelector('.site-header');
   const hero = document.querySelector('.hero');
@@ -23,6 +29,7 @@
       const m = document.querySelector('meta[name="theme-color"]');
       if (m) m.content = next === 'dark' ? '#14100D' : '#E6DECE';
       sync();
+      loadWow();
       document.dispatchEvent(new CustomEvent('themechange', { detail: { theme: next } }));
     };
     const go = () => { if (document.startViewTransition && !reduce.matches) document.startViewTransition(apply); else apply(); };
@@ -31,6 +38,7 @@
 
   toggles.forEach((b) => b.addEventListener('click', () => setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark')));
   sync();
+  loadWow();
 
   // Шапка в тёмной теме прозрачна над фото первого экрана и сплошная ниже (иначе текст страницы лёг бы под навигацию)
   if (header && hero && 'IntersectionObserver' in window) {
