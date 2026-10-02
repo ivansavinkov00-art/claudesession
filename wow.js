@@ -36,7 +36,7 @@
   }
 
   function headings() {
-    const list = $$('.hero .ht-mid, .sec-head h2, .prod-body h2, .founder-body h2, #final-title');
+    const list = $$('.hero .ht-xl, .hero .ht-mid, .sec-head h2, .prod-body h2, .founder-body h2, #final-title');
     list.forEach((h) => { h.classList.remove('reveal'); splitWords(h); });
     const show = (h) => h.classList.add('is-in');
     if (reduce.matches || !('IntersectionObserver' in window)) { list.forEach(show); return () => {}; }

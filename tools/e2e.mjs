@@ -863,11 +863,32 @@ await test('dark: первый экран — фото на весь экран,
     const img = document.querySelector('.hero-bg img');
     return { bg: vis('.hero-bg'), loaded: img.complete && img.naturalWidth > 0, media: vis('.hero-media'), fabric: vis('.fabric'), tag: vis('.hero-actions .tag'), badge: vis('.hero-badge'),
       facts: [...document.querySelectorAll('.hero-facts > div')].filter((d) => getComputedStyle(d).display !== 'none').length, icons: [...document.querySelectorAll('.hf-ico')].filter((i) => i.getBoundingClientRect().width > 0).length,
-      eyebrow: document.querySelector('.hero-title').innerText.replace(/\s+/g, ' ').trim() };
+      title: document.querySelector('.hero-title').innerText.replace(/\s+/g, ' ').trim() };
   });
   assert.deepEqual({ bg: r.bg, loaded: r.loaded, media: r.media, fabric: r.fabric, tag: r.tag, badge: r.badge, facts: r.facts, icons: r.icons }, { bg: true, loaded: true, media: false, fabric: false, tag: false, badge: true, facts: 4, icons: 4 });
-  assert.match(r.eyebrow, /Швейное производство в Челябинске\s*Полного цикла под ключ/i);
+  assert.match(r.title, /Швейное производство в Челябинске\s*Полного цикла под ключ/i);
 });
+for (const [label, opts] of [['1920', { viewport: { width: 1920, height: 1080 } }], ['1440', DESK], ['1024', { viewport: { width: 1024, height: 768 } }], ['390', MOB], ['320', { viewport: { width: 320, height: 568 }, isMobile: true, hasTouch: true }]]) {
+  await test(`иерархия первого экрана (${label}): «Швейное производство» крупнее всего, «Полного цикла» меньше, «в Челябинске» — пояснение`, opts, async (p) => {
+    const r = await p.evaluate(() => {
+      const q = (s) => document.querySelector(s);
+      const fs = (s) => parseFloat(getComputedStyle(q(s)).fontSize);
+      const box = (s) => q(s).getBoundingClientRect();
+      const order = [box('.ht-xl').top, box('.ht-city').top, box('.ht-mid').top, box('.hero-lead').top];
+      return { xl: fs('.ht-xl'), mid: fs('.ht-mid'), city: fs('.ht-city'), leadSub: fs('.hero-lead span:first-child'), lead: fs('.hero-lead span:last-child'),
+        order, xlRight: box('.ht-xl').right, w: innerWidth, sw: document.documentElement.scrollWidth,
+        // последнее слово заголовка не выходит за контейнер: меряем ширину самого длинного слова
+        longest: (() => { const el = q('.ht-xl'); const rng = document.createRange(); rng.selectNodeContents(el); return Math.max(...[...rng.getClientRects()].map((x) => x.right)); })() };
+    });
+    assert.ok(r.xl > r.mid && r.xl >= r.mid * 1.8, `xl ${r.xl} должен быть заметно крупнее mid ${r.mid}`);
+    assert.ok(r.mid > r.city && r.mid >= r.city * 1.1, `mid ${r.mid} крупнее пояснения ${r.city}`);
+    assert.ok(r.city >= r.lead, `пояснение ${r.city} не мельче второй строки лида ${r.lead}`);
+    assert.ok(r.city >= r.leadSub - 1 && r.city <= r.leadSub + 1, `пояснение ${r.city} = кегль первой строки лида ${r.leadSub}`);
+    assert.deepEqual(r.order, [...r.order].sort((a, b) => a - b), `порядок строк сверху вниз: ${r.order}`);
+    assert.ok(r.longest <= r.w - 8, `заголовок шире экрана: ${r.longest} > ${r.w}`);
+    assert.equal(r.sw, r.w, 'горизонтального скролла нет');
+  });
+}
 await test('dark: на мобильном бейдж скрыт, факты 2×2, горизонтального скролла нет', MOB, async (p) => {
   assert.equal(await p.locator('.hero-badge').isVisible(), false);
   const cols = await p.locator('.hero-facts').evaluate((e) => getComputedStyle(e).gridTemplateColumns.split(' ').length);

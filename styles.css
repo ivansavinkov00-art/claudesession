@@ -91,7 +91,7 @@
   :root { --fs-xl: 50px; --fs-mid: 26px; --fs-lead: 17px; --fs-hero-fact: 32px; --fs-h2: 34px; --fs-h3: 26px; --fs-quote: 24px; --fs-body: 16px; --fs-h2-lg: 40px; --fs-fact: 34px; --fs-pfinal: 22px; --fs-seam: 26px; --gutter: 20px; --gap: 16px; --section: 64px; --header-h: 60px; }
 }
 @media (max-width: 479px) {
-  :root { --fs-xl: 38px; --fs-mid: 23px; --fs-small: 13px; --fs-hero-fact: 28px; --fs-h2: 30px; --fs-h3: 22px; --fs-quote: 22px; --gutter: 16px; --fs-h2-lg: 34px; --fs-pfinal: 20px; --fs-seam: 24px; --section: 56px; }
+  :root { --fs-xl: 38px; --fs-mid: 20px; --fs-small: 13px; --fs-hero-fact: 28px; --fs-h2: 30px; --fs-h3: 22px; --fs-quote: 22px; --gutter: 16px; --fs-h2-lg: 34px; --fs-pfinal: 20px; --fs-seam: 24px; --section: 56px; }
 }
 
 /* ---------- База ---------- */
