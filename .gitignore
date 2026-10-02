@@ -6,5 +6,6 @@ node_modules/
 Thumbs.db
 desktop.ini
 
-# собранный превью-файл (npm run preview)
+# собранные превью-файлы (npm run preview, npm run preview:dark)
 preview.html
+preview-dark.html
