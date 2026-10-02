@@ -137,11 +137,11 @@
 
 /* Тёмная тема (PLAN-v4.md, 4.3): токены и форма элементов управления */
 :root[data-theme="dark"] .kc-carousel {
-  --kc-linen: #14100D; --kc-milk: #1D1713; --kc-ink: #EEE6D8; --kc-ink-hover: #FBF6EE; --kc-muted: #A89D90; --kc-clay: #D9A184;
-  --kc-cacao: #0B0907; --kc-olive: #9DAA7F; --kc-sage-bg: #22261C; --kc-line: rgba(238, 230, 216, .14); --kc-line-strong: rgba(238, 230, 216, .40);
+  --kc-linen: #2A1810; --kc-milk: #3A2218; --kc-ink: #F6ECDA; --kc-ink-hover: #FFF8EA; --kc-muted: #CDB8A2; --kc-clay: #D9A184;
+  --kc-cacao: #1F110B; --kc-olive: #B3BE90; --kc-sage-bg: #34301F; --kc-line: rgba(246, 236, 218, .14); --kc-line-strong: rgba(246, 236, 218, .40);
   --kc-serif: "Noto Serif SC", Georgia, "Times New Roman", serif; --kc-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; --kc-mono: "Inter", system-ui, sans-serif;
-  --kc-hover: rgba(238, 230, 216, .10); --kc-todo: #D8B866; --kc-ph-bg: #2A221C; --kc-tick: rgba(238, 230, 216, .5); --kc-tick-strong: rgba(238, 230, 216, .7);
-  --kc-card-bg: rgba(29, 23, 19, .99); --kc-media-bg: rgba(42, 34, 28, .99);
+  --kc-hover: rgba(246, 236, 218, .10); --kc-todo: #E0BE72; --kc-ph-bg: #3A2218; --kc-tick: rgba(246, 236, 218, .5); --kc-tick-strong: rgba(246, 236, 218, .7);
+  --kc-card-bg: rgba(58, 34, 24, .99); --kc-media-bg: rgba(74, 46, 34, .99);
 }
 :root[data-theme="dark"] .kc-carousel__cta, :root[data-theme="dark"] .kc-carousel__arrow { border-radius: 8px; }
 :root[data-theme="dark"] .kc-carousel__title { font-weight: 400; letter-spacing: 0; }

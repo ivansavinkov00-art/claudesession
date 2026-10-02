@@ -813,7 +813,7 @@ await test('v3: нитка прогресса лежит в шапке и не �
   const pe = await p.locator('.progress').evaluate((e) => ({ pe: getComputedStyle(e).pointerEvents, inHeader: !!e.closest('.site-header') }));
   assert.deepEqual(pe, { pe: 'none', inHeader: true });
 });
-await test('v3: тёмная секция «Что мы шьём» — текст и стрелки светлые, контраст ≥ 4.5', MOTION, async (p) => {
+await test('light: тёмная секция «Что мы шьём» — текст и стрелки светлые, контраст ≥ 4.5', MOTION, async (p) => {
   const c = await p.evaluate(() => {
     const lum = (rgb) => { const [r, g, b] = rgb.match(/\d+/g).map(Number).map((v) => { v /= 255; return v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; }); return .2126 * r + .7152 * g + .0722 * b; };
     const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + .05) / (y + .05); };
@@ -833,7 +833,7 @@ await test('v4: переключатель меняет тему, запомин
   assert.equal(await cur(), next);
   assert.equal(await p.evaluate(() => localStorage.getItem('ks-theme')), next);
   assert.deepEqual(await p.locator('[data-theme-toggle]').evaluateAll((els) => els.map((e) => e.getAttribute('aria-pressed'))), [String(next === 'dark'), String(next === 'dark')]);
-  assert.equal(await p.evaluate(() => document.querySelector('meta[name="theme-color"]').content), next === 'dark' ? '#14100D' : '#E6DECE');
+  assert.equal(await p.evaluate(() => document.querySelector('meta[name="theme-color"]').content), next === 'dark' ? '#2A1810' : '#E6DECE');
   await p.goto(BASE.split('?')[0], { waitUntil: 'networkidle' }); // без ?theme в адресе: берётся сохранённая
   assert.equal(await cur(), next);
   await p.goto(`${BASE}?theme=${start}`, { waitUntil: 'networkidle' });
@@ -842,7 +842,7 @@ await test('v4: переключатель меняет тему, запомин
 await test('v4: тема ставится до первой отрисовки (без мигания)', { viewport: { width: 1440, height: 800 }, storageState: { cookies: [], origins: [{ origin: new URL(BASE).origin, localStorage: [{ name: 'ks-theme', value: 'dark' }] }] } }, async (p) => {
   await p.goto(BASE.split('?')[0], { waitUntil: 'networkidle' });
   assert.equal(await p.evaluate(() => document.documentElement.dataset.theme), 'dark');
-  assert.equal(await p.evaluate(() => getComputedStyle(document.body).backgroundColor), 'rgb(20, 16, 13)');
+  assert.equal(await p.evaluate(() => getComputedStyle(document.body).backgroundColor), 'rgb(42, 24, 16)');
 });
 await test('light: шрифты тёмной темы не загружаются на светлой', DESK, async (p) => {
   const loaded = await p.evaluate(() => [...document.fonts].filter((f) => f.status === 'loaded').map((f) => f.family.replace(/"/g, '')));
@@ -929,7 +929,7 @@ for (const [label, opts] of [['1440', { viewport: { width: 1440, height: 900 } }
     const shot = await p.screenshot();
     const { data, info } = await sharp(shot).removeAlpha().raw().toBuffer({ resolveWithObject: true });
     const lum = (r, g, b) => { const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }; return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b); };
-    const fg = lum(238, 230, 216); // кремовый --ink; у приглушённых подписей прозрачность учтена запасом
+    const fg = lum(246, 236, 218); // кремовый --ink шоколадного тона; у приглушённых подписей прозрачность учтена запасом
     const bad = [];
     for (const it of items) {
       let max = 0;
@@ -957,9 +957,7 @@ await test('dark: вау — слова заголовков проявляют�
   assert.ok(split >= 3, `слов в заголовке: ${split}`);
   // слова выехали: после прокрутки к разделу у всех слов нет сдвига
   await p.evaluate(() => document.querySelector('#portfolio').scrollIntoView());
-  await wait(p, 1800);
-  const moved = await p.locator('#portfolio .sec-head h2 .wi').evaluateAll((els) => els.filter((e) => getComputedStyle(e).transform !== 'none' && !/matrix\(1, 0, 0, 1, 0, 0\)/.test(getComputedStyle(e).transform)).length);
-  assert.equal(moved, 0, 'слова остались внизу под маской');
+  await p.waitForFunction(() => [...document.querySelectorAll('#portfolio .sec-head h2 .wi')].every((e) => { const t = getComputedStyle(e).transform; return t === 'none' || /matrix\(1, 0, 0, 1, 0, 0\)/.test(t); }), null, { timeout: 5000 });
   // пыль не мешает кликам и скринридерам
   assert.equal(await p.locator('.hero-dust').getAttribute('aria-hidden'), 'true');
   assert.equal(await p.locator('.hero-dust').evaluate((e) => getComputedStyle(e).pointerEvents), 'none');
@@ -976,22 +974,54 @@ await test('dark: на мобильном нет пыли и фонаря, те�
   assert.equal(await p.locator('.hero-dust, .hero-lantern, .thread').evaluateAll((els) => els.filter((e) => getComputedStyle(e).display !== 'none' && e.className !== 'thread').length), 0);
   assert.ok(await p.locator('.hero .ht-mid').isVisible());
 });
-await test('dark: галочка отмеченного чекбокса видна, фокус заметен', DESK, async (p) => {
+await test('dark: экраны чередуются шоколад и крем, полосы-акценты между ними', DESK, async (p) => {
+  const r = await p.evaluate(() => {
+    const lum = (c) => { const [r, g, b] = c.match(/\d+/g).map(Number).map((v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };
+    const bg = (s) => getComputedStyle(document.querySelector(s)).backgroundColor;
+    const screens = ['.hero', '.s-prod', '.s-founder', '.s-portfolio', '.s-tasks', '.s-calc', '.final', '.site-footer'];
+    return { screens: screens.map((s) => ({ s, l: lum(bg(s)) })), marquee: bg('.marquee'), seam: bg('.seam') };
+  });
+  r.screens.forEach((x, i) => assert.equal(x.l < 0.2, i % 2 === 0, `экран ${x.s} должен быть ${i % 2 === 0 ? 'шоколадным' : 'кремовым'} (яркость ${x.l.toFixed(3)})`));
+  assert.equal(r.marquee, 'rgb(217, 161, 132)', 'бегущая строка залита акцентом');
+  assert.equal(r.seam, 'rgb(217, 161, 132)', '«шов» залит акцентом');
+});
+await test('dark: нет ахроматики: фоны, текст и рамки без серого, чёрного и белого', DESK, async (p) => {
+  const bad = await p.evaluate(() => {
+    const out = new Set();
+    const chroma = (c) => { const m = c.match(/[\d.]+/g).map(Number); if (m.length > 3 && m[3] < 0.05) return 99; return Math.max(m[0], m[1], m[2]) - Math.min(m[0], m[1], m[2]); };
+    const els = [document.documentElement, document.body, ...document.querySelectorAll('header *, main *, footer *, header, main, footer, .sticky-cta, .sticky-cta *')];
+    for (const el of els) {
+      if (el.closest('svg') && el.tagName !== 'svg') continue;
+      const cs = getComputedStyle(el);
+      if (+cs.opacity === 0 || cs.display === 'none') continue;
+      const props = [['color', cs.color], ['background', cs.backgroundColor]];
+      for (const side of ['Top', 'Right', 'Bottom', 'Left']) if (parseFloat(cs['border' + side + 'Width']) > 0 && cs['border' + side + 'Style'] !== 'none') props.push(['border', cs['border' + side + 'Color']]);
+      for (const [k, v] of props) { if (v && chroma(v) < 12) out.add(`${k} ${v} (${(el.className && el.className.baseVal === undefined ? el.className : el.tagName).toString().slice(0, 28)})`); }
+    }
+    return [...out];
+  });
+  assert.deepEqual(bad.slice(0, 10), [], `ахроматичных цветов: ${bad.length}`);
+});
+await test('dark: галочка отмеченного чекбокса видна на креме, фокус заметен', DESK, async (p) => {
   await p.locator('#raschet').scrollIntoViewIfNeeded();
   await pick(p, `${C} input[name="direction"][value="wb"]`);
   await p.click(`${C} [data-kc="next"]`);
   await pick(p, `${C} input[name="item"][value="hoodie"]`);
   await wait(p, 300);
   const m = await p.evaluate(() => {
-    const lum = (c) => { const [r, g, b] = c.match(/\d+/g).map(Number); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };
+    const lum = ([r, g, b]) => { const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }; return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b); };
     const el = document.querySelector('#raschet input[name="item"][value="hoodie"] + .kc-calc__thumb');
     const a = getComputedStyle(el, '::after');
-    return { fill: lum(a.backgroundColor), img: a.backgroundImage.includes('1D1713') };
+    const fill = a.backgroundColor.match(/\d+/g).slice(0, 3).map(Number);
+    const hex = (a.backgroundImage.match(/stroke='%23([0-9A-Fa-f]{6})'/) || [])[1] || '000000';
+    const stroke = [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16));
+    const [x, y] = [lum(fill), lum(stroke)].sort((m, n) => n - m);
+    return { ratio: (x + 0.05) / (y + 0.05), fill, hex };
   });
-  assert.ok(m.fill > 200 && m.img, `фон галочки ${m.fill}, тёмный штрих: ${m.img}`);
+  assert.ok(m.ratio >= 4.5, `галочка ${m.hex} на заливке ${m.fill}: ${m.ratio.toFixed(2)}`);
   await p.keyboard.press('Tab');
-  const outline = await p.evaluate(() => { const c = getComputedStyle(document.activeElement).outlineColor; return c; });
-  assert.notEqual(outline, 'rgb(20, 16, 13)');
+  const ring = await p.evaluate(() => getComputedStyle(document.activeElement).outlineColor);
+  assert.notEqual(ring, 'rgba(0, 0, 0, 0)');
 });
 for (const w of [320, 360, 390, 480, 640, 960, 1200, 1366, 1440, 1920]) {
   const mobile = w < 960;

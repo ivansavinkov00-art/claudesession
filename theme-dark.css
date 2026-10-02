@@ -24,10 +24,7 @@
 /* ---------- Токены и шкала ---------- */
 :root[data-theme="dark"] { --fs-xl: 92px; --fs-h2: 56px; --fs-h2-lg: 64px; --fs-h3: 32px; --fs-quote: 34px; --fs-fact: 44px; --fs-body: 17px; --fs-small: 14px; --fs-hero-sub: 22px; --fs-hero-lead: 16px; --fs-eyebrow: 13px; --header-h: 88px;
   --serif: "Noto Serif SC", Georgia, "Times New Roman", serif; --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; --mono: "Inter", system-ui, sans-serif;
-  --linen: #14100D; --milk: #1D1713; --cacao: #0B0907; --ink: #EEE6D8; --ink-hover: #FBF6EE; --muted: #A89D90; --clay: #D9A184;
-  --line: rgba(238, 230, 216, .14); --line-strong: rgba(238, 230, 216, .40); --olive: #9DAA7F; --sage-bg: #22261C; --mustard-ink: #D8B866;
-  --weave-light: repeating-linear-gradient(0deg, rgba(238, 230, 216, .022) 0 1px, transparent 1px 4px), repeating-linear-gradient(90deg, rgba(238, 230, 216, .022) 0 1px, transparent 1px 4px);
-  --radius-ctl: 8px; color-scheme: dark;
+  --radius-ctl: 8px; color: var(--ink);
 }
 @media (min-width: 1600px) {
   :root[data-theme="dark"] { --fs-xl: 104px; --fs-h2: 64px; --fs-h2-lg: 72px; --fs-h3: 36px; --fs-quote: 38px; --fs-fact: 50px; --fs-body: 18px; --fs-small: 15px; --fs-hero-sub: 24px; --fs-hero-lead: 17px; --fs-eyebrow: 14px; }
@@ -46,13 +43,13 @@
 }
 
 /* ---------- Общее ---------- */
-:root[data-theme="dark"] { scrollbar-color: rgba(238, 230, 216, .3) var(--linen); --tape-w: 0px; }
+:root[data-theme="dark"] { scrollbar-color: rgba(246, 236, 218, .3) var(--linen); --tape-w: 0px; }
 :root[data-theme="dark"] h1, :root[data-theme="dark"] h2 { font-weight: 300; letter-spacing: -.005em; }
 :root[data-theme="dark"] h3 { font-weight: 400; }
-:root[data-theme="dark"] ::selection { background: var(--clay); color: #14100D; }
+:root[data-theme="dark"] ::selection { background: var(--clay); color: #2A1810; }
 :root[data-theme="dark"] .btn { border-radius: var(--radius-ctl); letter-spacing: 0; font-weight: 500; }
-:root[data-theme="dark"] .btn-secondary { border-color: rgba(238, 230, 216, .5); }
-:root[data-theme="dark"] .btn-secondary:hover { background: rgba(238, 230, 216, .1); }
+:root[data-theme="dark"] .btn-secondary { border-color: var(--line-strong); }
+:root[data-theme="dark"] .btn-secondary:hover { background: var(--hover); }
 :root[data-theme="dark"] .btn-ico { display: inline-block; flex: none; width: 16px; height: 16px; fill: currentColor; }
 :root[data-theme="dark"] .tag { border-radius: 8px; }
 :root[data-theme="dark"] .tape { display: none; }
@@ -62,37 +59,20 @@
 :root[data-theme="dark"] .fact-n, :root[data-theme="dark"] .footer-phone, :root[data-theme="dark"] .final-phone, :root[data-theme="dark"] .kc-calc__panel dd { font-weight: 400; }
 :root[data-theme="dark"] .marquee-list li { font-weight: 300; }
 :root[data-theme="dark"] .logo-plate { background: transparent; }
-:root[data-theme="dark"] .check input:checked { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='11' viewBox='0 0 14 11'%3E%3Cpath d='M1 5.5 5 9.5 13 1.5' fill='none' stroke='%231D1713' stroke-width='1.8'/%3E%3C/svg%3E"); }
-:root[data-theme="dark"] .field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%23EEE6D8' stroke-width='1.5'/%3E%3C/svg%3E"); }
+:root[data-theme="dark"] .check input:checked { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='11' viewBox='0 0 14 11'%3E%3Cpath d='M1 5.5 5 9.5 13 1.5' fill='none' stroke='%232A1810' stroke-width='1.8'/%3E%3C/svg%3E"); }
+:root[data-theme="dark"] .field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%23F6ECDA' stroke-width='1.5'/%3E%3C/svg%3E"); }
 :root[data-theme="dark"] .field input, :root[data-theme="dark"] .field select, :root[data-theme="dark"] .field textarea, :root[data-theme="dark"] .seg-opt > span, :root[data-theme="dark"] .hint, :root[data-theme="dark"] .btn-link { border-radius: var(--radius-ctl); }
 :root[data-theme="dark"] .modal { border-radius: 12px; }
-:root[data-theme="dark"] dialog::backdrop { background: rgba(0, 0, 0, .72); }
-:root[data-theme="dark"] .hero-arch, :root[data-theme="dark"] .prod-photo { background: #2A221C; }
-:root[data-theme="dark"] img[data-placeholder] { background: #2A221C; }
+:root[data-theme="dark"] dialog::backdrop { background: rgba(31, 17, 11, .78); }
+:root[data-theme="dark"] .hero-arch, :root[data-theme="dark"] .prod-photo { background: var(--ph-bg); }
+:root[data-theme="dark"] img[data-placeholder] { background: var(--ph-bg); }
 :root[data-theme="dark"] [data-slot] img { filter: saturate(.9) brightness(.92); }
 :root[data-theme="dark"] .window { box-shadow: 6px 6px 0 var(--clay); }
-:root[data-theme="dark"] .fact--main .fact-l { color: rgba(29, 23, 19, .72); }
-
-/* ---------- Тёмные полосы: текст там был --milk, а --milk теперь тёмный ---------- */
-:root[data-theme="dark"] .final, :root[data-theme="dark"] .s-portfolio, :root[data-theme="dark"] .marquee { color: var(--ink); }
-:root[data-theme="dark"] .btn-on-dark { background: var(--ink); color: var(--cacao); border-color: var(--ink); }
-:root[data-theme="dark"] .btn-on-dark:hover { background: var(--ink-hover); border-color: var(--ink-hover); }
-:root[data-theme="dark"] .btn-on-dark-outline { color: var(--ink); border-color: rgba(238, 230, 216, .5); }
-:root[data-theme="dark"] .btn-on-dark-outline:hover { background: rgba(238, 230, 216, .1); }
-:root[data-theme="dark"] .final :focus-visible, :root[data-theme="dark"] .marquee-pause:focus-visible, :root[data-theme="dark"] .final-phone:focus-visible, :root[data-theme="dark"] .s-portfolio .kc-carousel__goto:focus-visible, :root[data-theme="dark"] .s-portfolio .kc-carousel__arrow:focus-visible { outline-color: var(--ink); }
-:root[data-theme="dark"] .final-direct a { color: var(--ink); text-decoration-color: rgba(238, 230, 216, .5); }
-:root[data-theme="dark"] .final-direct a:hover { text-decoration-color: var(--ink); }
-:root[data-theme="dark"] .s-portfolio .sec-head h2 { color: var(--ink); }
-:root[data-theme="dark"] .s-portfolio .kc-carousel__goto, :root[data-theme="dark"] .s-portfolio .kc-carousel__counter { color: var(--ink); }
-:root[data-theme="dark"] .s-portfolio .kc-carousel__arrow { color: var(--ink); border-color: rgba(238, 230, 216, .7); }
-:root[data-theme="dark"] .marquee-pause { color: var(--ink); background: var(--cacao); border-color: rgba(238, 230, 216, .4); border-radius: 8px; }
-:root[data-theme="dark"] .marquee-pause:hover { background: rgba(238, 230, 216, .12); }
-:root[data-theme="dark"] .final-side { border-radius: 8px; }
 
 /* ---------- Шапка: прозрачная над фото первого экрана, сплошная ниже ---------- */
 :root[data-theme="dark"] .site-header { background: transparent; border-bottom-color: transparent; transition: background-color .25s ease, border-color .25s ease, backdrop-filter .25s ease; }
-:root[data-theme="dark"] .site-header::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 150px; z-index: -1; pointer-events: none; background: linear-gradient(rgba(12, 9, 7, .62), rgba(12, 9, 7, 0)); transition: opacity .25s ease; }
-:root[data-theme="dark"] .site-header.is-solid { background: rgba(20, 16, 13, .92); border-bottom-color: var(--line); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+:root[data-theme="dark"] .site-header::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 150px; z-index: -1; pointer-events: none; background: linear-gradient(rgba(31, 17, 11, .62), rgba(31, 17, 11, 0)); transition: opacity .25s ease; }
+:root[data-theme="dark"] .site-header.is-solid { background: rgba(31, 17, 11, .94); border-bottom-color: var(--line); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
 :root[data-theme="dark"] .site-header.is-solid::before { opacity: 0; }
 :root[data-theme="dark"] .nav { font-weight: 400; font-size: 14px; }
 :root[data-theme="dark"] .nav .phone { font-weight: 500; }
@@ -102,46 +82,46 @@
   :root[data-theme="dark"] .header-row { display: flex; align-items: center; gap: 0 28px; }
   :root[data-theme="dark"] .site-header .logo { order: -1; margin-right: 12px; }
   :root[data-theme="dark"] .nav { display: contents; }
-  :root[data-theme="dark"] .header-cta { order: 5; margin-left: auto; display: inline-flex; align-items: center; gap: 10px; height: 40px; padding: 0 20px; border: 1px solid rgba(238, 230, 216, .5); border-radius: 999px; font: 500 14px/1 var(--sans); color: var(--ink); text-decoration: none; white-space: nowrap; transition: background-color .2s ease; }
-  :root[data-theme="dark"] .header-cta:hover { background: rgba(238, 230, 216, .1); }
+  :root[data-theme="dark"] .header-cta { order: 5; margin-left: auto; display: inline-flex; align-items: center; gap: 10px; height: 40px; padding: 0 20px; border: 1px solid rgba(246, 236, 218, .5); border-radius: 999px; font: 500 14px/1 var(--sans); color: var(--ink); text-decoration: none; white-space: nowrap; transition: background-color .2s ease; }
+  :root[data-theme="dark"] .header-cta:hover { background: rgba(246, 236, 218, .1); }
   :root[data-theme="dark"] .header-cta svg { width: 16px; height: 16px; fill: currentColor; }
   :root[data-theme="dark"] .nav .theme-toggle { order: 6; margin-left: -8px; }
 }
 
 /* ---------- Первый экран ---------- */
-:root[data-theme="dark"] .hero { background-color: #0B0907; background-image: none; min-height: min(100dvh, 960px); padding: calc(var(--header-h) + 72px) 0 56px; align-content: end; }
+:root[data-theme="dark"] .hero { background-color: #1F110B; background-image: none; min-height: min(100dvh, 960px); padding: calc(var(--header-h) + 72px) 0 56px; align-content: end; }
 :root[data-theme="dark"] .hero-bg { display: block; position: absolute; inset: 0; z-index: -2; overflow: hidden; }
 :root[data-theme="dark"] .hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: 62% 50%; }
 :root[data-theme="dark"] .hero-bg::after { content: ""; position: absolute; inset: 0; background:
-  linear-gradient(90deg, rgba(12, 9, 7, .92) 0%, rgba(12, 9, 7, .80) 30%, rgba(12, 9, 7, .40) 56%, rgba(12, 9, 7, .14) 100%),
-  linear-gradient(180deg, rgba(12, 9, 7, .50) 0%, rgba(12, 9, 7, 0) 22%, rgba(12, 9, 7, 0) 58%, rgba(12, 9, 7, .90) 100%); }
+  linear-gradient(90deg, rgba(31, 17, 11, .92) 0%, rgba(31, 17, 11, .80) 30%, rgba(31, 17, 11, .40) 56%, rgba(31, 17, 11, .14) 100%),
+  linear-gradient(180deg, rgba(31, 17, 11, .50) 0%, rgba(31, 17, 11, 0) 22%, rgba(31, 17, 11, 0) 58%, rgba(31, 17, 11, .90) 100%); }
 :root[data-theme="dark"] .fabric, :root[data-theme="dark"] .hero-media { display: none; }
 /* зерно маскирует мягкость увеличенного кадра и добавляет «плёнку» */
-:root[data-theme="dark"] .hero-bg::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: .16; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E"); }
+:root[data-theme="dark"] .hero-bg::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: .16; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .62 0 0 0 0 .42 0 0 0 0 .3 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E"); }
 :root[data-theme="dark"] .hero-grid { align-items: end; }
 :root[data-theme="dark"] .hero-text { grid-column: 1 / span 8; max-width: 720px; }
 :root[data-theme="dark"] .hero-title { font-size: var(--fs-eyebrow); line-height: 1.7; font-weight: 300; letter-spacing: 0; } /* без этого строка надзаголовка стоит на «подставке» h1 в 2em */
-:root[data-theme="dark"] .ht-xl, :root[data-theme="dark"] .ht-city { display: inline; margin: 0; font: 400 var(--fs-eyebrow)/1.7 var(--sans); letter-spacing: .32em; text-transform: uppercase; color: rgba(238, 230, 216, .72); }
+:root[data-theme="dark"] .ht-xl, :root[data-theme="dark"] .ht-city { display: inline; margin: 0; font: 400 var(--fs-eyebrow)/1.7 var(--sans); letter-spacing: .32em; text-transform: uppercase; color: rgba(246, 236, 218, .72); }
 :root[data-theme="dark"] .ht-city::before { display: none; }
 :root[data-theme="dark"] .ht-mid { display: block; margin-top: 26px; font: 330 var(--fs-xl)/.98 var(--serif); letter-spacing: -.005em; color: var(--ink); }
 :root[data-theme="dark"] .ht-mid .acc { padding-bottom: .08em; }
 :root[data-theme="dark"] .hero-lead { margin-top: 28px; max-width: 34em; font-weight: 300; }
 :root[data-theme="dark"] .hero-lead span:first-child { font: 300 var(--fs-hero-sub)/1.3 var(--sans); color: var(--ink); }
-:root[data-theme="dark"] .hero-lead span:last-child { margin-top: 14px; font: 300 var(--fs-hero-lead)/1.5 var(--sans); color: rgba(238, 230, 216, .85); }
+:root[data-theme="dark"] .hero-lead span:last-child { margin-top: 14px; font: 300 var(--fs-hero-lead)/1.5 var(--sans); color: rgba(246, 236, 218, .85); }
 :root[data-theme="dark"] .hero-actions { margin-top: 36px; }
 :root[data-theme="dark"] .hero-actions .tag { display: none; }
 :root[data-theme="dark"] .hero-facts { grid-column: 1 / -1; grid-row: 2; display: grid; grid-template-columns: repeat(4, minmax(0, 168px)); gap: 32px; margin-top: 72px; }
 :root[data-theme="dark"] .hero-facts > div, :root[data-theme="dark"] .hero-facts > div:first-child { padding: 0; border: 0; }
 :root[data-theme="dark"] .hero-facts > div.hero-fact--opt { display: block; }
-:root[data-theme="dark"] .hf-ico { display: block; width: 26px; height: 26px; margin-bottom: 14px; fill: currentColor; color: rgba(238, 230, 216, .9); }
+:root[data-theme="dark"] .hf-ico { display: block; width: 26px; height: 26px; margin-bottom: 14px; fill: currentColor; color: rgba(246, 236, 218, .9); }
 :root[data-theme="dark"] .hero-facts dt { font: 500 15px/1.35 var(--sans); letter-spacing: 0; white-space: normal; }
 :root[data-theme="dark"] .hero-facts .acc { font-style: normal; color: inherit; }
-:root[data-theme="dark"] .hero-facts dd { margin-top: 4px; font: 300 13px/1.4 var(--sans); letter-spacing: 0; text-transform: none; color: rgba(238, 230, 216, .72); }
+:root[data-theme="dark"] .hero-facts dd { margin-top: 4px; font: 300 13px/1.4 var(--sans); letter-spacing: 0; text-transform: none; color: rgba(246, 236, 218, .72); }
 :root[data-theme="dark"] .hero-badge { display: none; }
 @media (min-width: 960px) {
-  :root[data-theme="dark"] .hero-badge { display: grid; place-items: center; position: absolute; z-index: 1; right: max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter))); bottom: 56px; width: 148px; height: 148px; border: 1px solid rgba(238, 230, 216, .5); border-radius: 50%; text-align: center; font: 500 10px/1.5 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: rgba(238, 230, 216, .88); }
+  :root[data-theme="dark"] .hero-badge { display: grid; place-items: center; position: absolute; z-index: 1; right: max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter))); bottom: 56px; width: 148px; height: 148px; border: 1px solid rgba(246, 236, 218, .5); border-radius: 50%; text-align: center; font: 500 10px/1.5 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: rgba(246, 236, 218, .88); }
   :root[data-theme="dark"] .hero-badge span { margin-top: -14px; }
-  :root[data-theme="dark"] .hero-badge::after { content: ""; position: absolute; left: 50%; top: 66%; width: 1px; height: 26%; background: rgba(238, 230, 216, .6); transform-origin: top; }
+  :root[data-theme="dark"] .hero-badge::after { content: ""; position: absolute; left: 50%; top: 66%; width: 1px; height: 26%; background: rgba(246, 236, 218, .6); transform-origin: top; }
 }
 @media (min-width: 960px) and (max-height: 760px) {
   :root[data-theme="dark"] { --fs-xl: 66px; --fs-hero-sub: 20px; --fs-hero-lead: 15px; }
@@ -168,7 +148,7 @@
 @media (max-width: 959px) {
   :root[data-theme="dark"] .hero { min-height: 100svh; padding: calc(var(--header-h) + 30svh) 0 32px; }
   :root[data-theme="dark"] .hero-bg img { object-position: 72% 50%; }
-  :root[data-theme="dark"] .hero-bg::after { background: linear-gradient(180deg, rgba(12, 9, 7, .5) 0%, rgba(12, 9, 7, .12) 30%, rgba(12, 9, 7, .5) 62%, rgba(12, 9, 7, .96) 82%, #0B0907 100%); }
+  :root[data-theme="dark"] .hero-bg::after { background: linear-gradient(180deg, rgba(31, 17, 11, .5) 0%, rgba(31, 17, 11, .12) 30%, rgba(31, 17, 11, .5) 62%, rgba(31, 17, 11, .96) 82%, #1F110B 100%); }
   :root[data-theme="dark"] .hero-bg { inset: 0 0 auto 0; height: 58svh; }
   :root[data-theme="dark"] .hero { padding-top: calc(var(--header-h) + 30svh); }
   :root[data-theme="dark"] .hero-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; margin-top: 44px; max-width: none; }
@@ -237,13 +217,103 @@
 /* Финал: кадр с иглой справа, текст на тёмном слева */
 :root[data-theme="dark"] .final { position: relative; overflow: hidden; }
 :root[data-theme="dark"] .final::before { content: ""; position: absolute; z-index: 0; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 26%); mask-image: linear-gradient(90deg, transparent 0, #000 26%); top: 0; bottom: 0; right: 0; width: min(54%, 820px); pointer-events: none;
-  background: linear-gradient(90deg, #0B0907 0%, rgba(11, 9, 7, .62) 34%, rgba(11, 9, 7, .12) 100%), linear-gradient(180deg, rgba(11, 9, 7, .55), rgba(11, 9, 7, 0) 30%, rgba(11, 9, 7, 0) 70%, rgba(11, 9, 7, .6)), url(assets/img/img-01.webp) 58% 44% / cover no-repeat; }
+  background: linear-gradient(90deg, #1F110B 0%, rgba(31, 17, 11, .62) 34%, rgba(31, 17, 11, .12) 100%), linear-gradient(180deg, rgba(31, 17, 11, .55), rgba(31, 17, 11, 0) 30%, rgba(31, 17, 11, 0) 70%, rgba(31, 17, 11, .6)), url(assets/img/img-01.webp) 58% 44% / cover no-repeat; }
 :root[data-theme="dark"] .final-inner { position: relative; z-index: 1; }
-:root[data-theme="dark"] .final-side { background: rgba(11, 9, 7, .74); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+:root[data-theme="dark"] .final-side { background: rgba(31, 17, 11, .74); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
 @media (max-width: 1099px) { :root[data-theme="dark"] .final::before { width: 100%; opacity: .32; } }
 @media (max-width: 959px) and (max-height: 700px) {
   /* низкий экран: на полосу с фото места нет, текст идёт почти сразу, поэтому кадр темнее */
   :root[data-theme="dark"] .hero { padding-top: calc(var(--header-h) + 12svh); }
   :root[data-theme="dark"] .hero-bg { height: 70svh; }
-  :root[data-theme="dark"] .hero-bg::after { background: linear-gradient(180deg, rgba(12, 9, 7, .62) 0%, rgba(12, 9, 7, .9) 22%, rgba(12, 9, 7, .97) 44%, #0B0907 78%); }
+  :root[data-theme="dark"] .hero-bg::after { background: linear-gradient(180deg, rgba(31, 17, 11, .62) 0%, rgba(31, 17, 11, .9) 22%, rgba(31, 17, 11, .97) 44%, #1F110B 78%); }
 }
+
+/* ================= v6: шоколад и крем. Экраны чередуются, цвет задаётся токенами экрана, а не страницы =================
+   Шоколадный тон (C): первый экран, «Основатель», «Задачи», финал, корень (шапка, окна, меню).
+   Кремовый тон (K): «Производство», «Что мы шьём», квиз, подвал. Полосы бегущей строки и «шва» — цвет акцента #D9A184.
+   Серых, чёрных и белых нет: тёмное — шоколад (оттенок 18°), светлое — тёплый крем (38°). Акцент в тексте на креме темнее (#8C422B: 5,3–6:1), на шоколаде — #D9A184 (7,6:1). */
+:root[data-theme="dark"], :root[data-theme="dark"] :is(.hero, .s-founder, .s-tasks, .final) {
+  --linen: #2A1810; --milk: #3A2218; --cacao: #1F110B; --ink: #F6ECDA; --ink-hover: #FFF8EA; --muted: #CDB8A2; --clay: #D9A184;
+  --line: rgba(246, 236, 218, .16); --line-strong: rgba(246, 236, 218, .42); --olive: #B3BE90; --sage-bg: #34301F; --mustard-ink: #E0BE72;
+  --stitch: repeating-linear-gradient(90deg, var(--clay) 0 6px, transparent 6px 11px);
+  --weave: repeating-linear-gradient(0deg, rgba(246, 236, 218, .025) 0 1px, transparent 1px 4px), repeating-linear-gradient(90deg, rgba(246, 236, 218, .025) 0 1px, transparent 1px 4px);
+  --ph-bg: #3A2218; --card-bg: rgba(58, 34, 24, .99); --media-bg: rgba(74, 46, 34, .99);
+  --hover: rgba(246, 236, 218, .10); --tick: rgba(246, 236, 218, .5); --tick-strong: rgba(246, 236, 218, .7);
+}
+:root[data-theme="dark"] :is(.s-prod, .s-portfolio, .s-calc, .site-footer) {
+  --linen: #F4E9D6; --milk: #FBF5EA; --cacao: #2A1810; --ink: #2A1810; --ink-hover: #44281A; --muted: #6E5140; --clay: #8C422B;
+  --line: rgba(42, 24, 16, .18); --line-strong: rgba(42, 24, 16, .5); --olive: #5E6A48; --sage-bg: #E9E5C9; --mustard-ink: #765A1F;
+  --stitch: repeating-linear-gradient(90deg, var(--clay) 0 6px, transparent 6px 11px);
+  --weave: repeating-linear-gradient(0deg, rgba(42, 24, 16, .03) 0 1px, transparent 1px 4px), repeating-linear-gradient(90deg, rgba(42, 24, 16, .03) 0 1px, transparent 1px 4px);
+  --ph-bg: #E3D2B6; --card-bg: rgba(251, 245, 234, .99); --media-bg: rgba(227, 210, 182, .99);
+  --hover: rgba(42, 24, 16, .08); --tick: rgba(42, 24, 16, .5); --tick-strong: rgba(42, 24, 16, .7);
+}
+:root[data-theme="dark"] :is(.s-portfolio, .site-footer) { --linen: #EFE1CB; }
+
+/* Фон и цвет текста задаём экрану явно: цвет наследуется уже вычисленным, а не пересчитывается по токену экрана */
+:root[data-theme="dark"] :is(.s-founder, .s-tasks, .s-prod, .s-portfolio, .s-calc, .site-footer) { background-color: var(--linen); background-image: var(--weave); color: var(--ink); }
+:root[data-theme="dark"] .final { background-color: var(--cacao); background-image: var(--weave); color: var(--ink); }
+:root[data-theme="dark"] .hero { color: var(--ink); }
+
+/* Модули берут цвета у экрана, в котором стоят (их собственный тёмный блок остаётся для переноса в Тильду) */
+html:root[data-theme="dark"] :is(.kc-carousel, .kc-tasks, .kc-calc) { /* html: чуть выше специфичность, чем у тёмного блока самого модуля (тот подключается позже по порядку) */
+  --kc-linen: var(--linen); --kc-milk: var(--milk); --kc-ink: var(--ink); --kc-ink-hover: var(--ink-hover); --kc-muted: var(--muted); --kc-clay: var(--clay);
+  --kc-cacao: var(--cacao); --kc-olive: var(--olive); --kc-sage-bg: var(--sage-bg); --kc-line: var(--line); --kc-line-strong: var(--line-strong);
+  --kc-todo: var(--mustard-ink); --kc-ph-bg: var(--ph-bg); --kc-hover: var(--hover); --kc-card-bg: var(--card-bg); --kc-media-bg: var(--media-bg);
+  --kc-tick: var(--tick); --kc-tick-strong: var(--tick-strong);
+}
+
+/* Кнопки на шоколаде в финале: кремовая заливка, тёмный текст */
+:root[data-theme="dark"] .btn-on-dark { background: var(--ink); color: var(--cacao); border-color: var(--ink); }
+:root[data-theme="dark"] .btn-on-dark:hover { background: var(--ink-hover); border-color: var(--ink-hover); }
+:root[data-theme="dark"] .btn-on-dark-outline { color: var(--ink); border-color: var(--line-strong); }
+:root[data-theme="dark"] .btn-on-dark-outline:hover { background: var(--hover); }
+:root[data-theme="dark"] .final :focus-visible, :root[data-theme="dark"] .final-phone:focus-visible { outline-color: var(--ink); }
+:root[data-theme="dark"] .final-direct a { color: var(--ink); text-decoration-color: var(--line-strong); }
+:root[data-theme="dark"] .final-direct a:hover { text-decoration-color: var(--ink); }
+:root[data-theme="dark"] .final-side { border-radius: 8px; }
+
+/* Полоса-акцент: бегущая строка. Цвет акцента #D9A184 как заливка, шоколадный текст (7,6:1) */
+:root[data-theme="dark"] .marquee { background-color: #D9A184; background-image: none; border-top: 0; color: #2A1810; }
+:root[data-theme="dark"] .marquee-list li { font-weight: 400; }
+:root[data-theme="dark"] .marquee-list li::after { background: repeating-linear-gradient(90deg, #2A1810 0 6px, transparent 6px 11px); }
+:root[data-theme="dark"] .marquee-pause { background: #2A1810; color: #F6ECDA; border: 0; border-radius: 8px; }
+:root[data-theme="dark"] .marquee-pause:hover { background: #3A2218; }
+:root[data-theme="dark"] .marquee-pause:focus-visible { outline: 2px solid #2A1810; outline-offset: 3px; }
+
+/* Полоса-акцент: «шов» между «Что мы шьём» и «Задачи» */
+:root[data-theme="dark"] .seam { --ink: #2A1810; --milk: #FBF5EA; --muted: #4A2E22; --clay: #2A1810; --line-strong: rgba(42, 24, 16, .55); --hover: rgba(42, 24, 16, .10);
+  --stitch: repeating-linear-gradient(90deg, #2A1810 0 6px, transparent 6px 11px); background-color: #D9A184; color: #2A1810; padding: 44px 0; }
+:root[data-theme="dark"] .seam-inner { background-color: transparent; }
+
+/* «Что мы шьём» на креме: в v3 этот экран был тёмным полосой, возвращаем токены */
+:root[data-theme="dark"] .s-portfolio .sec-head h2 { color: var(--ink); }
+:root[data-theme="dark"] .s-portfolio .sec-head p { color: var(--muted); }
+:root[data-theme="dark"] .s-portfolio .acc { color: var(--clay); }
+:root[data-theme="dark"] .s-portfolio .kc-carousel__goto, :root[data-theme="dark"] .s-portfolio .kc-carousel__counter { color: var(--ink); }
+:root[data-theme="dark"] .s-portfolio .kc-carousel__goto-n { color: var(--muted); }
+:root[data-theme="dark"] .s-portfolio .kc-carousel__goto::after { background: var(--stitch); }
+:root[data-theme="dark"] .s-portfolio .kc-carousel__goto:hover { text-decoration-color: var(--clay); }
+:root[data-theme="dark"] .s-portfolio .kc-carousel__goto:focus-visible, :root[data-theme="dark"] .s-portfolio .kc-carousel__arrow:focus-visible { outline-color: var(--clay); }
+:root[data-theme="dark"] .s-portfolio .kc-carousel__arrow { color: var(--ink); border-color: var(--ink); }
+:root[data-theme="dark"] .s-portfolio .kc-carousel__arrow:hover { background: var(--hover); }
+:root[data-theme="dark"] .s-portfolio .kc-carousel__card { box-shadow: 0 0 0 1px var(--line), 0 22px 38px -20px rgba(42, 24, 16, .4); }
+
+/* Фото на креме без затемнения; на шоколаде чуть приглушены */
+:root[data-theme="dark"] :is(.s-prod, .s-portfolio, .s-calc) [data-slot] img,
+:root[data-theme="dark"] .s-portfolio .kc-carousel__media img, :root[data-theme="dark"] .s-calc .kc-calc__thumb img { filter: saturate(.92) sepia(.06); }
+:root[data-theme="dark"] .s-prod .fact--main { box-shadow: 6px 6px 0 var(--clay); }
+
+/* Галочки квиза на креме: светлый штрих на шоколадной заливке (как в светлой теме) */
+:root[data-theme="dark"] .s-calc .kc-calc__item input:checked + .kc-calc__thumb::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='9' viewBox='0 0 12 9'%3E%3Cpath d='M1 4.5 4.3 7.8 11 1.2' fill='none' stroke='%23FBF5EA' stroke-width='1.6'/%3E%3C/svg%3E"); }
+:root[data-theme="dark"] .s-calc .kc-calc__check input:checked { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='11' viewBox='0 0 14 11'%3E%3Cpath d='M1 5.5 5 9.5 13 1.5' fill='none' stroke='%23FBF5EA' stroke-width='1.8'/%3E%3C/svg%3E"); }
+
+/* Поля в окнах темнее самого окна, иначе сливаются */
+:root[data-theme="dark"] .modal :is(.field input, .field select, .field textarea) { background-color: var(--linen); }
+
+/* Нить у левого края видна и на шоколаде, и на креме: терракота вместо персикового */
+:root[data-theme="dark"] .thread::before { background: repeating-linear-gradient(180deg, #C0704D 0 7px, transparent 7px 14px); opacity: .65; }
+:root[data-theme="dark"] .thread::after { background: #C0704D; box-shadow: 0 0 16px 4px rgba(192, 112, 77, .45); }
+
+/* У флажков нет текста, но цвет по умолчанию у них чёрный: наследуем (иначе в стилях остаётся ахроматика) */
+:root[data-theme="dark"] input:is([type="checkbox"], [type="radio"]) { color: inherit; }

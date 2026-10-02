@@ -186,16 +186,16 @@
 
 /* Тёмная тема (PLAN-v4.md, 4.3): токены, форма элементов (радиус 8), светлая галочка заменена тёмной */
 :root[data-theme="dark"] .kc-calc {
-  --kc-linen: #14100D; --kc-milk: #1D1713; --kc-ink: #EEE6D8; --kc-ink-hover: #FBF6EE; --kc-muted: #A89D90; --kc-clay: #D9A184;
-  --kc-cacao: #0B0907; --kc-olive: #9DAA7F; --kc-sage-bg: #22261C; --kc-line: rgba(238, 230, 216, .14); --kc-line-strong: rgba(238, 230, 216, .40);
+  --kc-linen: #2A1810; --kc-milk: #3A2218; --kc-ink: #F6ECDA; --kc-ink-hover: #FFF8EA; --kc-muted: #CDB8A2; --kc-clay: #D9A184;
+  --kc-cacao: #1F110B; --kc-olive: #B3BE90; --kc-sage-bg: #34301F; --kc-line: rgba(246, 236, 218, .14); --kc-line-strong: rgba(246, 236, 218, .40);
   --kc-serif: "Noto Serif SC", Georgia, "Times New Roman", serif; --kc-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; --kc-mono: "Inter", system-ui, sans-serif;
-  --kc-hover: rgba(238, 230, 216, .10); --kc-todo: #D8B866; --kc-ph-bg: #2A221C; --kc-tick: rgba(238, 230, 216, .5); --kc-tick-strong: rgba(238, 230, 216, .7);
+  --kc-hover: rgba(246, 236, 218, .10); --kc-todo: #E0BE72; --kc-ph-bg: #3A2218; --kc-tick: rgba(246, 236, 218, .5); --kc-tick-strong: rgba(246, 236, 218, .7);
 }
 :root[data-theme="dark"] .kc-calc__card > span, :root[data-theme="dark"] .kc-calc__chip > span, :root[data-theme="dark"] .kc-calc__thumb,
 :root[data-theme="dark"] .kc-calc__field input, :root[data-theme="dark"] .kc-calc__field textarea, :root[data-theme="dark"] .kc-calc__quick button,
 :root[data-theme="dark"] .kc-calc__btn, :root[data-theme="dark"] .kc-calc__panel { border-radius: 8px; }
 :root[data-theme="dark"] .kc-calc__q, :root[data-theme="dark"] .kc-calc__done h3 { font-weight: 400; letter-spacing: 0; }
 :root[data-theme="dark"] .kc-calc__panel dd { color: var(--kc-ink); font-weight: 400; }
-:root[data-theme="dark"] .kc-calc__item input:checked + .kc-calc__thumb::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='9' viewBox='0 0 12 9'%3E%3Cpath d='M1 4.5 4.3 7.8 11 1.2' fill='none' stroke='%231D1713' stroke-width='1.6'/%3E%3C/svg%3E"); }
-:root[data-theme="dark"] .kc-calc__check input:checked { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='11' viewBox='0 0 14 11'%3E%3Cpath d='M1 5.5 5 9.5 13 1.5' fill='none' stroke='%231D1713' stroke-width='1.8'/%3E%3C/svg%3E"); }
+:root[data-theme="dark"] .kc-calc__item input:checked + .kc-calc__thumb::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='9' viewBox='0 0 12 9'%3E%3Cpath d='M1 4.5 4.3 7.8 11 1.2' fill='none' stroke='%232A1810' stroke-width='1.6'/%3E%3C/svg%3E"); }
+:root[data-theme="dark"] .kc-calc__check input:checked { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='11' viewBox='0 0 14 11'%3E%3Cpath d='M1 5.5 5 9.5 13 1.5' fill='none' stroke='%232A1810' stroke-width='1.8'/%3E%3C/svg%3E"); }
 :root[data-theme="dark"] .kc-calc__thumb img { filter: saturate(.9) brightness(.92); }

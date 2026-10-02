@@ -27,7 +27,7 @@
       root.setAttribute('data-theme', next);
       try { localStorage.setItem(KEY, next); } catch (e) { /* приватный режим */ }
       const m = document.querySelector('meta[name="theme-color"]');
-      if (m) m.content = next === 'dark' ? '#14100D' : '#E6DECE';
+      if (m) m.content = next === 'dark' ? '#2A1810' : '#E6DECE';
       sync();
       loadWow();
       document.dispatchEvent(new CustomEvent('themechange', { detail: { theme: next } }));
