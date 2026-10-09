@@ -5,9 +5,11 @@
   const KEY = 'ks-theme';
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   // «вау» тёмной темы грузится только в тёмной (в одиночном файле превью уже встроен: __ksWow)
+  // путь к wow.js берём от адреса этого скрипта: страницы во вложенных папках (/opt/) лежат не в корне
+  const base = document.currentScript && document.currentScript.src ? document.currentScript.src.replace(/[^/]*$/, '') : '';
   const loadWow = () => {
     if (window.__ksWow || root.dataset.theme !== 'dark' || document.querySelector('script[data-wow]')) return;
-    const s = document.createElement('script'); s.src = 'wow.js'; s.defer = true; s.setAttribute('data-wow', '');
+    const s = document.createElement('script'); s.src = base + 'wow.js'; s.defer = true; s.setAttribute('data-wow', '');
     document.head.appendChild(s);
   };
   const toggles = [...document.querySelectorAll('[data-theme-toggle]')];

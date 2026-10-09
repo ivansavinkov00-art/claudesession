@@ -1,0 +1,141 @@
+/* Культура шитья, v8: внутренние страницы, FAQ, хлебные крошки, cookie-уведомление.
+   Только токены сайта (--linen, --milk, --ink, --clay, --line…): тёмная тема подменяет их по экранам (theme-dark.css, v6). */
+
+/* ---------- Хлебные крошки ---------- */
+.crumbs ol { display: flex; flex-wrap: wrap; gap: 0 10px; padding: 0; margin: 0 0 28px; list-style: none; font: 400 13px/1.4 var(--mono); letter-spacing: .02em; color: var(--muted); }
+.crumbs li { display: inline-flex; align-items: center; min-height: 28px; }
+.crumbs li + li::before { content: "/"; margin-right: 10px; color: var(--line-strong); }
+.crumbs a { display: inline-flex; align-items: center; min-height: 44px; margin: -8px 0; color: inherit; text-decoration-color: var(--line-strong); }
+.crumbs a:hover { color: var(--ink); text-decoration-color: var(--clay); }
+.crumbs [aria-current] { color: var(--ink); }
+
+/* ---------- Первый экран внутренней страницы ---------- */
+.pg-hero { padding: calc(var(--header-h) + 28px) 0 64px; background: var(--linen); }
+.pg-hero__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); align-items: center; }
+.pg-hero__text { grid-column: 1 / span 7; min-width: 0; }
+.pg-hero__media { grid-column: 9 / span 4; justify-self: end; width: 100%; max-width: 380px; aspect-ratio: 4 / 5; position: relative; overflow: hidden; border-radius: 999px 999px 0 0; background: var(--ph-bg, #C9B79C); outline: 1.5px dashed var(--clay); outline-offset: 12px; }
+.pg-hero__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.pg-eyebrow { font: 400 13px/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--clay); }
+.pg-hero h1 { margin-top: 14px; font-size: var(--fs-h2); line-height: 1.04; letter-spacing: -.01em; }
+.pg-lead { max-width: 52ch; margin-top: 22px; font-size: var(--fs-lead, 20px); line-height: 1.5; color: var(--ink); }
+.pg-lead a { color: inherit; text-decoration-color: var(--clay); }
+.pg-hero .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 16px; margin-top: 32px; }
+.pg-phone { display: inline-flex; align-items: center; min-height: 44px; font: 500 17px/1 var(--sans); letter-spacing: .01em; color: var(--ink); text-decoration-color: var(--line-strong); white-space: nowrap; }
+.pg-phone:hover { text-decoration-color: var(--clay); }
+.pg-promise { margin-top: 14px; font-size: var(--fs-small); color: var(--muted); }
+.pg-facts { display: flex; flex-wrap: wrap; gap: 18px 0; margin-top: 36px; }
+.pg-facts > div { padding: 0 22px; border-left: 1.5px dashed var(--clay); }
+.pg-facts > div:first-child { padding-left: 0; border-left: 0; }
+.pg-facts dt { font: 600 26px/1 var(--serif); letter-spacing: -.01em; font-variant-numeric: lining-nums; }
+.pg-facts dd { margin-top: 8px; font: 400 var(--fs-small)/1.3 var(--sans); color: var(--muted); }
+.pg-404 .container, .pg-legal .container { max-width: 900px; }
+.pg-404 { padding-bottom: 32px; }
+.pg-legal { padding-bottom: 8px; }
+
+/* ---------- Содержание ---------- */
+.pg-body { padding: 32px 0 72px; background: var(--linen); }
+.pg-body > .container { border-top: 0; padding-top: 0; }
+.pg-block { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); padding: 44px 0; border-top: 1px solid var(--line); }
+.pg-block__head { grid-column: 1 / span 4; }
+.pg-block__head h2 { font-size: var(--fs-h3); line-height: 1.1; letter-spacing: -.005em; }
+.pg-block__body { grid-column: 5 / span 8; min-width: 0; max-width: 68ch; }
+.pg-block__body p { margin: 0 0 1em; }
+.pg-block__body p:last-child { margin-bottom: 0; }
+.pg-block__body a, .faq-a a { color: inherit; text-decoration-color: var(--clay); text-underline-offset: 4px; }
+.pg-block__body a:hover, .faq-a a:hover { text-decoration-thickness: 2px; }
+.pg-list { padding: 0; margin: 0; list-style: none; }
+.pg-list li { position: relative; padding: 0 0 12px 30px; }
+.pg-list li::before { content: ""; position: absolute; left: 0; top: .8em; width: 18px; height: 2px; background: var(--stitch); }
+.pg-steps { padding: 0; margin: 0; list-style: none; counter-reset: s; }
+.pg-steps li { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 0 12px; padding: 0 0 22px; }
+.pg-steps .pg-n { font: 500 14px/1.9 var(--mono); letter-spacing: .04em; color: var(--clay); }
+.pg-steps h3 { font-size: 20px; line-height: 1.3; font-family: var(--sans); font-weight: 600; }
+.pg-steps p { margin: 4px 0 0; color: var(--muted); }
+.pg-note { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--line); font-size: var(--fs-small); color: var(--muted); }
+.pg-note--draft { margin-top: 24px; padding: 14px 18px; border: 1.5px dashed var(--mustard-ink); color: var(--ink); }
+
+/* ---------- Карточки «Смотрите также», список услуг ---------- */
+.pg-related { padding: 0 0 72px; background: var(--linen); }
+.pg-related .sec-head, .s-faq .sec-head { padding-top: 56px; border-top: 1px solid var(--line); }
+.pg-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; padding: 0; margin: 0; list-style: none; }
+.pg-cards--wide { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.pg-card { display: flex; flex-direction: column; height: 100%; min-height: 168px; padding: 22px 22px 18px; border: 1.5px dashed var(--line-strong); background: var(--milk); color: var(--ink); text-decoration: none; transition: border-color .2s ease, background-color .2s ease; }
+.pg-card:hover { border-color: var(--clay); background: var(--linen); }
+.pg-card__t { font: 600 21px/1.2 var(--serif); letter-spacing: -.005em; }
+.pg-card__d { margin-top: 10px; font-size: var(--fs-small); line-height: 1.45; color: var(--muted); }
+.pg-card__go { margin-top: auto; padding-top: 16px; font: 500 13px/1 var(--mono); letter-spacing: .04em; color: var(--clay); }
+.pg-card__go::after { content: " →"; }
+.pg-review { margin: 0; padding: 22px; border: 1.5px dashed var(--line-strong); background: var(--milk); }
+.pg-review blockquote p { font: 400 18px/1.5 var(--serif); }
+.pg-review figcaption { margin-top: 14px; font-size: var(--fs-small); color: var(--muted); }
+
+/* ---------- FAQ (раскрывающиеся ответы доступны сразу в разметке, ничего не скрыто от поиска) ---------- */
+.pg-faq, .s-faq { padding: 0 0 var(--section); }
+.pg-faq { padding-top: var(--section); background: var(--milk); background-image: var(--weave-light, none); }
+.s-faq { padding-top: 0; }
+.faq-list { max-width: 860px; border-top: 1px solid var(--line); }
+.faq-item { border-bottom: 1px solid var(--line); }
+.faq-item summary { position: relative; display: flex; align-items: center; min-height: 64px; padding: 14px 52px 14px 0; font: 600 var(--fs-h3, 22px)/1.25 var(--serif); font-size: clamp(18px, 2.2vw, 24px); letter-spacing: -.005em; cursor: pointer; list-style: none; }
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::before, .faq-item summary::after { content: ""; position: absolute; right: 8px; top: 50%; width: 18px; height: 2px; background: var(--clay); transition: transform .25s ease; }
+.faq-item summary::after { transform: rotate(90deg); }
+.faq-item[open] summary::after { transform: rotate(0); }
+.faq-item summary:focus-visible { outline: 2px solid var(--clay); outline-offset: 2px; }
+.faq-a { max-width: 68ch; padding: 0 52px 22px 0; color: var(--ink); }
+.faq-a p { margin: 0; }
+
+/* ---------- Подвал: услуги ---------- */
+.footer-services { grid-column: 1 / -1; padding-top: 28px; border-top: 1px solid var(--line); }
+.footer-services ul { columns: 4 200px; column-gap: var(--gap); }
+.footer-services li { break-inside: avoid; }
+.footer-services h3 a { color: inherit; text-decoration: none; }
+.footer-services h3 a:hover { text-decoration: underline; text-decoration-color: var(--clay); }
+
+/* ---------- Уведомление о cookie ---------- */
+.cookie { position: fixed; z-index: 70; left: 16px; right: 16px; bottom: 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; max-width: 640px; padding: 16px 20px; background: var(--milk); color: var(--ink); border: 1.5px dashed var(--clay); box-shadow: 0 10px 30px rgba(42, 24, 16, .18); }
+.cookie[hidden] { display: none; }
+.cookie p { flex: 1 1 280px; font-size: var(--fs-small); line-height: 1.45; }
+.cookie a { color: inherit; text-decoration-color: var(--clay); }
+.cookie .btn { min-height: 44px; padding: 0 20px; }
+
+/* ---------- Адаптив ---------- */
+@media (max-width: 1199px) {
+  .pg-hero__text { grid-column: 1 / span 8; }
+  .pg-hero__media { grid-column: 9 / span 4; max-width: 300px; }
+  .pg-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 959px) {
+  .pg-hero { padding-bottom: 48px; }
+  .pg-hero__text { grid-column: 1 / -1; }
+  .pg-hero__media { grid-column: 1 / -1; grid-row: 2; justify-self: stretch; max-width: none; aspect-ratio: 4 / 3; margin-top: 36px; outline-offset: 8px; }
+  .pg-hero__grid { row-gap: 0; }
+  .pg-block__head { grid-column: 1 / -1; margin-bottom: 16px; }
+  .pg-block__body { grid-column: 1 / -1; }
+  .pg-block { padding: 32px 0; }
+  .cookie { bottom: 84px; } /* над липкой кнопкой */
+}
+@media (max-width: 639px) {
+  .pg-hero .hero-actions { flex-direction: column; align-items: stretch; }
+  .pg-hero .hero-actions .btn { width: 100%; }
+  .pg-phone { justify-content: center; }
+  .pg-facts > div { padding: 0 18px; }
+  .pg-facts dt { font-size: 24px; }
+  .pg-cards, .pg-cards--wide { grid-template-columns: 1fr; }
+  .pg-steps li { grid-template-columns: 40px minmax(0, 1fr); }
+  .faq-item summary { padding-right: 40px; }
+  .faq-a { padding-right: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .faq-item summary::before, .faq-item summary::after, .pg-card { transition: none; }
+}
+
+/* На внутренних страницах квиз стоит ниже фото: «появление» кружков шагов (прозрачность .3 на старте) аудит контраста принимает за настоящий цвет */
+.pg-body ~ .s-calc .step-n { animation: none; }
+
+/* ---------- Кейсы ---------- */
+.pg-case { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 10px 20px; margin: 0 0 20px; }
+.pg-case dt { font: 400 13px/1.9 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--clay); }
+.pg-case dd { margin: 0; }
+.pg-case__fig { margin: 16px 0 0; }
+@media (max-width: 639px) { .pg-case { grid-template-columns: 1fr; gap: 2px; } .pg-case dd { margin-bottom: 12px; } }
+

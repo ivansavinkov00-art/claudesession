@@ -82,7 +82,7 @@ Every «Рассчитать стоимость» (first screen, tape, sticky bu
 
 - The quiz must steer orders under 300 units away from the wholesale flow **without losing brands**: under 300 in «Партия для WB и OZON» or «Опт и СТМ» is a calm hint with a «Переключить» button to «Коллекция бренда», not an error. For «Образец» the quantity field is replaced by «Сколько моделей». One quiz with a direction choice answers the brief's question about two calculators: different prices are different directions inside one form, and the price itself is calculated by a technologist after the visitor leaves contacts.
 - Personal-data consent (152-ФЗ, separate consent document required since 2025-09-01): separate unchecked checkbox, links to both «Согласие на обработку персональных данных» and «Политика конфиденциальности».
-- Required site sections (future pages): Главная, Услуги, Портфолио, Производство, Прайс с калькулятором, Контакты, Политика. Only the home page is in scope now; «Портфолио» is now a real screen of the home page (`#portfolio`).
+- Required site sections (future pages): Главная, Услуги, Портфолио, Производство, Прайс с калькулятором, Контакты, Политика. Since v8 the home page is joined by generated pages (see `SEO-GUIDE.md`): `/uslugi/` and 12 service/product pages from the semantic core, `/privacy/`, `/consent/`, 404; «Портфолио» remains the home screen; «Портфолио» is now a real screen of the home page (`#portfolio`).
 - Undecided facts (must stay marked `[уточнить]`): brand/experimental minimum batch, response time for a calculation, fabric sourcing/consultation option, callback working hours, legal requirements (реквизиты), real photos, capacity numbers.
 
 ## Brand Commitments

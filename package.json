@@ -17,7 +17,15 @@
     "e2e:dark": "node tools/e2e.mjs --theme=dark",
     "shots:dark": "node tools/shots-v3.mjs --theme=dark",
     "preview:dark": "node tools/preview.mjs preview-dark.html --theme=dark",
-    "diff": "node tools/visual-diff.mjs"
+    "diff": "node tools/visual-diff.mjs",
+    "seo": "node tools/seo-build.mjs",
+    "seo:check": "node tools/seo-build.mjs --check",
+    "seo:import": "node tools/seo-import.mjs",
+    "seo:og": "node tools/og-build.mjs",
+    "seo:audit": "node tools/seo-audit.mjs",
+    "seo:release": "node tools/seo-audit.mjs --release",
+    "seo:direct": "node tools/direct-export.mjs",
+    "preview:page": "node tools/preview.mjs preview-opt.html --page=opt"
   },
   "devDependencies": {
     "@fontsource-variable/inter": "^5.3.0",
@@ -29,6 +37,7 @@
     "css-select": "^7.0.0",
     "css-tree": "^3.2.1",
     "domutils": "^4.0.2",
+    "exceljs": "^4.4.0",
     "htmlparser2": "^12.0.0",
     "playwright": "^1.63.0",
     "potrace": "^2.1.8",

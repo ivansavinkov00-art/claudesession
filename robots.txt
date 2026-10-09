@@ -1,0 +1,14 @@
+# Культура шитья. Сгенерировано tools/seo-build.mjs
+User-agent: *
+Allow: /
+Disallow: /*?theme=
+Disallow: /*?slots
+
+# Яндекс читает только свою группу: правила повторены, Clean-param склеивает адреса с метками
+User-agent: Yandex
+Allow: /
+Disallow: /*?theme=
+Disallow: /*?slots
+Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&ysclid&_openstat&from&theme&slots /
+
+Sitemap: https://aksenovasew.ru/sitemap.xml

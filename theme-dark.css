@@ -228,7 +228,7 @@
    Шоколадный тон (C): первый экран, «Основатель», «Задачи», финал, корень (шапка, окна, меню).
    Кремовый тон (K): «Производство», «Что мы шьём», квиз, подвал. Полосы бегущей строки и «шва» — цвет акцента #D9A184.
    Серых, чёрных и белых нет: тёмное — шоколад (оттенок 18°), светлое — тёплый крем (38°). Акцент в тексте на креме темнее (#8C422B: 5,3–6:1), на шоколаде — #D9A184 (7,6:1). */
-:root[data-theme="dark"], :root[data-theme="dark"] :is(.hero, .s-founder, .s-tasks, .final) {
+:root[data-theme="dark"], :root[data-theme="dark"] :is(.hero, .s-founder, .s-tasks, .final, .pg-hero, .pg-faq) {
   --linen: #2A1810; --milk: #3A2218; --cacao: #1F110B; --ink: #F6ECDA; --ink-hover: #FFF8EA; --muted: #CDB8A2; --clay: #D9A184;
   --line: rgba(246, 236, 218, .16); --line-strong: rgba(246, 236, 218, .42); --olive: #B3BE90; --sage-bg: #34301F; --mustard-ink: #E0BE72;
   --stitch: repeating-linear-gradient(90deg, var(--clay) 0 6px, transparent 6px 11px);
@@ -236,7 +236,7 @@
   --ph-bg: #3A2218; --card-bg: rgba(58, 34, 24, .99); --media-bg: rgba(74, 46, 34, .99);
   --hover: rgba(246, 236, 218, .10); --tick: rgba(246, 236, 218, .5); --tick-strong: rgba(246, 236, 218, .7);
 }
-:root[data-theme="dark"] :is(.s-prod, .s-portfolio, .s-calc, .site-footer) {
+:root[data-theme="dark"] :is(.s-prod, .s-portfolio, .s-calc, .site-footer, .pg-body, .pg-related, .pg-reviews) {
   --linen: #F4E9D6; --milk: #FBF5EA; --cacao: #2A1810; --ink: #2A1810; --ink-hover: #44281A; --muted: #6E5140; --clay: #8C422B;
   --line: rgba(42, 24, 16, .18); --line-strong: rgba(42, 24, 16, .5); --olive: #5E6A48; --sage-bg: #E9E5C9; --mustard-ink: #765A1F;
   --stitch: repeating-linear-gradient(90deg, var(--clay) 0 6px, transparent 6px 11px);
@@ -247,7 +247,7 @@
 :root[data-theme="dark"] :is(.s-portfolio, .site-footer) { --linen: #EFE1CB; }
 
 /* Фон и цвет текста задаём экрану явно: цвет наследуется уже вычисленным, а не пересчитывается по токену экрана */
-:root[data-theme="dark"] :is(.s-founder, .s-tasks, .s-prod, .s-portfolio, .s-calc, .site-footer) { background-color: var(--linen); background-image: var(--weave); color: var(--ink); }
+:root[data-theme="dark"] :is(.s-founder, .s-tasks, .s-prod, .s-portfolio, .s-calc, .site-footer, .pg-hero, .pg-faq, .pg-body, .pg-related, .pg-reviews) { background-color: var(--linen); background-image: var(--weave); color: var(--ink); }
 :root[data-theme="dark"] .final { background-color: var(--cacao); background-image: var(--weave); color: var(--ink); }
 :root[data-theme="dark"] .hero { color: var(--ink); }
 
@@ -313,3 +313,8 @@ html:root[data-theme="dark"] :is(.kc-carousel, .kc-tasks, .kc-calc) { /* html: �
 
 /* У флажков нет текста, но цвет по умолчанию у них чёрный: наследуем (иначе в стилях остаётся ахроматика) */
 :root[data-theme="dark"] input:is([type="checkbox"], [type="radio"]) { color: inherit; }
+
+/* ================= v8: внутренние страницы и FAQ. Цвета и фоны берутся из списков тонов выше; здесь только вес шрифта тёмной темы ================= */
+:root[data-theme="dark"] :is(.pg-facts dt, .pg-card__t, .faq-item summary, .pg-block__head h2, .pg-review blockquote p) { font-weight: 400; }
+:root[data-theme="dark"] .pg-hero h1 { font-weight: 330; letter-spacing: -.005em; }
+:root[data-theme="dark"] .pg-steps h3 { font-weight: 500; }

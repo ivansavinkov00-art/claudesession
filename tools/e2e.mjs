@@ -3,6 +3,7 @@
 // Каждая проверка — на свежей странице; падение одной не останавливает остальные. Код выхода 1, если есть FAIL.
 import { launch } from './browser.mjs';
 import { readFileSync, existsSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
 import assert from 'node:assert/strict';
 import sharp from 'sharp';
 
@@ -116,9 +117,11 @@ await test('каркас: навигация — 5 якорей в шапке, �
   assert.ok(!stubs.includes('Портфолио'), '«Портфолио» всё ещё заглушка');
 });
 
-await test('каркас: description из texts.md', DESK, async (p) => {
+await test('каркас: description и title главной из семантики (seo/semantics.json)', DESK, async (p) => {
+  const home = JSON.parse(readFileSync(new URL('../seo/semantics.json', import.meta.url), 'utf8')).pages.find((x) => x.url === '/');
   const d = await p.locator('meta[name="description"]').getAttribute('content');
-  assert.equal(nb(d), 'Швейное производство полного цикла в Челябинске: одежда второго слоя для селлеров WB и OZON, брендов и оптовых заказчиков. Опт от 300 ед., образец за 2–3 дня, доставка по России.');
+  assert.equal(nb(d), home.description);
+  assert.equal(nb(await p.title()).replace(/^Швейное производство в Челябинске: пошив партий/, 'T'), nb(home.title).replace(/^Швейное производство в Челябинске: пошив партий/, 'T'));
 });
 
 await test('каркас: каждая «Рассчитать стоимость» — ссылка на #raschet', DESK, async (p) => {
@@ -1044,6 +1047,149 @@ await test('dark: галочка отмеченного чекбокса вид�
   const ring = await p.evaluate(() => getComputedStyle(document.activeElement).outlineColor);
   assert.notEqual(ring, 'rgba(0, 0, 0, 0)');
 });
+
+// ---------- v8: SEO-слой (внутренние страницы, FAQ, разметка, цели Метрики) ----------
+const INNER = (slug) => ({ url: `${BASE}${slug}/` });
+const detailsState = (p) => p.locator('details.faq-item').evaluateAll((els) => els.map((e) => e.open));
+const contrastFails = (p) => p.evaluate(() => {
+  const parse = (c) => { const m = c.match(/[\d.]+/g).map(Number); return { rgb: m.slice(0, 3), a: m.length > 3 ? m[3] : 1 }; };
+  const lum = ([r, g, b]) => { const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }; return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b); };
+  const bgOf = (el) => { for (let e = el; e; e = e.parentElement) { const c = parse(getComputedStyle(e).backgroundColor); if (c.a > 0.5) return c.rgb; } return [255, 255, 255]; };
+  const out = [];
+  for (const el of document.querySelectorAll('main h1, main h2, main h3, main p, main li, main summary, main dt, main dd, main .pg-card__t, .crumbs a')) {
+    if (el.closest('.s-calc, .final, dialog') || !el.getClientRects().length) continue;
+    const own = [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim());
+    if (!own) continue;
+    const cs = getComputedStyle(el);
+    const fg = parse(cs.color).rgb; const bg = bgOf(el);
+    const [a, b] = [lum(fg), lum(bg)].sort((x, y) => y - x);
+    const ratio = (a + 0.05) / (b + 0.05);
+    const big = parseFloat(cs.fontSize) >= 24 || (parseFloat(cs.fontSize) >= 18.66 && +cs.fontWeight >= 700);
+    if (ratio < (big ? 3 : 4.5)) out.push(`${el.tagName.toLowerCase()}.${el.className} «${el.textContent.trim().slice(0, 30)}» ${ratio.toFixed(2)}`);
+  }
+  return out;
+});
+
+await test('seo: главная — 5 вопросов FAQ закрыты и открываются, FAQPage совпадает, 12 ссылок на услуги в подвале', DESK, async (p) => {
+  assert.deepEqual(await detailsState(p), [false, false, false, false, false]);
+  await p.locator('details.faq-item summary').nth(1).click();
+  assert.deepEqual(await detailsState(p), [false, true, false, false, false]);
+  const ld = await p.evaluate(() => [...document.querySelectorAll('script[type="application/ld+json"]')].flatMap((s) => JSON.parse(s.textContent)['@graph']));
+  const faq = ld.find((n) => n['@type'] === 'FAQPage');
+  assert.equal(faq.mainEntity.length, 5);
+  assert.ok(ld.some((n) => [].concat(n['@type']).includes('LocalBusiness') && n.address.addressLocality === 'Челябинск' && n.telephone === '+79995888804'), 'LocalBusiness с адресом и телефоном');
+  assert.equal(await p.locator('.footer-services li a[href^="/"]').count(), 12);
+  assert.equal(await p.locator('link[rel="canonical"]').getAttribute('href'), 'https://aksenovasew.ru/');
+  assert.match(await p.locator('meta[property="og:image"]').getAttribute('content'), /^https:\/\/aksenovasew\.ru\/assets\/og\.jpg$/);
+});
+for (const slug of ['opt', 'hudi-svitshoty', 'dtf-pechat', 'price']) {
+  await test(`seo: /${slug}/ — один H1, хлебные крошки, 5 вопросов FAQ, телефон и обе кнопки в первом экране`, { ...DESK, ...INNER(slug) }, async (p) => {
+    assert.equal(await p.locator('h1').count(), 1);
+    assert.equal(await p.locator('.crumbs li').count(), 3);
+    assert.equal(await p.locator('.crumbs a').first().getAttribute('href'), '/');
+    assert.deepEqual(await detailsState(p), [false, false, false, false, false]);
+    for (const sel of ['.pg-hero .btn-primary', '.pg-hero [data-open="price"]', '.pg-hero .pg-phone']) assert.ok(await fullyInView(p, sel), `${sel} не в первом экране`);
+    assert.ok((await p.locator('.pg-card').count()) >= 3, 'блок «Смотрите также»');
+    const ld = await p.evaluate(() => [...document.querySelectorAll('script[type="application/ld+json"]')].flatMap((s) => JSON.parse(s.textContent)['@graph']));
+    for (const t of ['BreadcrumbList', 'Service', 'FAQPage', 'WebPage']) assert.ok(ld.some((n) => [].concat(n['@type']).includes(t)), `нет ${t}`);
+  });
+}
+await test('seo: /opt/ — кнопка ведёт к квизу и предвыбирает «Опт и СТМ»', { ...DESK, ...INNER('opt') }, async (p) => {
+  await p.click('.pg-hero .btn-primary');
+  await wait(p, 600);
+  assert.ok(await isChecked(p, 'direction', 'opt'));
+});
+await test('seo: /hudi-svitshoty/ — предвыбраны направление и три изделия', { ...DESK, ...INNER('hudi-svitshoty') }, async (p) => {
+  await p.click('.pg-hero .btn-primary');
+  await wait(p, 600);
+  assert.ok(await isChecked(p, 'direction', 'opt'));
+  await p.click(`${C} [data-kc="next"]`);
+  for (const v of ['hoodie', 'ziphoodie', 'sweatshirt']) assert.ok(await isChecked(p, 'item', v), v);
+  assert.equal(await isChecked(p, 'item', 'dress'), false);
+});
+await test('seo: внутренняя страница — переключатель темы грузит тёмный CSS от корня, цвета меняются', { ...DESK, ...INNER('brendam'), url: `${BASE}brendam/?theme=light` }, async (p) => {
+  const before = await p.locator('.pg-hero').evaluate((e) => getComputedStyle(e).backgroundColor);
+  await p.locator('.nav-right [data-theme-toggle]').click();
+  await p.waitForFunction(() => document.documentElement.dataset.theme === 'dark' && document.querySelector('link[data-theme-css]'));
+  await p.waitForFunction(() => getComputedStyle(document.querySelector('.pg-hero')).backgroundColor !== 'rgb(230, 222, 206)');
+  const href = await p.locator('link[data-theme-css]').getAttribute('href');
+  assert.equal(href, '/theme-dark.css');
+  const after = await p.locator('.pg-hero').evaluate((e) => getComputedStyle(e).backgroundColor);
+  assert.notEqual(before, after);
+  await p.waitForFunction(() => window.__ksWow === true, null, { timeout: 5000 });
+});
+await test('dark: внутренняя страница — экраны чередуются шоколад и крем, контраст текста ≥ 4,5', { ...DESK, ...INNER('obrazec') }, async (p) => {
+  const lum = await p.evaluate(() => {
+    const L = (c) => { const [r, g, b] = c.match(/\d+/g).map(Number).map((v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };
+    return ['.pg-hero', '.pg-body', '.pg-faq', '.s-calc', '.final', '.site-footer'].map((s) => [s, L(getComputedStyle(document.querySelector(s)).backgroundColor)]);
+  });
+  lum.forEach(([s, l], i) => assert.equal(l < 0.2, i % 2 === 0, `${s}: яркость ${l.toFixed(3)} (ожидался ${i % 2 === 0 ? 'шоколад' : 'крем'})`));
+  const bad = await contrastFails(p);
+  assert.deepEqual(bad.slice(0, 6), [], `слабый контраст: ${bad.length}`);
+});
+await test('light: внутренняя страница — контраст текста ≥ 4,5', { ...DESK, ...INNER('vyshivka') }, async (p) => {
+  const bad = await contrastFails(p);
+  assert.deepEqual(bad.slice(0, 6), [], `слабый контраст: ${bad.length}`);
+});
+await test('seo: мобильный /opt/ — H1 и кнопка в первом экране, липкая кнопка появляется после прокрутки', { ...MOB, ...INNER('opt') }, async (p) => {
+  assert.ok(await fullyInView(p, '.pg-hero .btn-primary'), 'кнопка не в первом экране');
+  assert.equal(await p.locator('[data-sticky-cta]').evaluate((e) => e.classList.contains('is-visible')), false);
+  await p.evaluate(() => window.scrollTo(0, 1400));
+  await p.waitForFunction(() => document.querySelector('[data-sticky-cta]').classList.contains('is-visible'));
+  const m = await p.locator('.pg-hero__media').boundingBox();
+  assert.ok(m && m.width > 300 && m.height < 400, 'фото под текстом на мобильном: компактная арка');
+});
+for (const w of [320, 390, 768, 1440]) {
+  await test(`seo: /platya-rubashki-bryuki/ без горизонтального скролла на ${w}px`, { viewport: { width: w, height: 800 }, isMobile: w < 960, hasTouch: w < 960, ...INNER('platya-rubashki-bryuki') }, async (p) => {
+    const over = await p.evaluate(async () => { let m = 0; for (let y = 0; y < document.body.scrollHeight; y += 700) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 25)); m = Math.max(m, document.documentElement.scrollWidth - innerWidth); } return m; });
+    assert.equal(over, 0, `шире окна на ${over}px`);
+  });
+}
+await test('seo: 404 — понятная страница с ссылками, noindex', { ...DESK, url: `${BASE}404.html` }, async (p) => {
+  assert.equal(await p.locator('h1').innerText().then(nb), 'Страница не найдена');
+  assert.match(await p.locator('meta[name="robots"]').getAttribute('content'), /noindex/);
+  for (const href of ['/', '/uslugi/', '/opt/', '/price/']) assert.ok(await p.locator(`main a[href="${href}"]`).count(), href);
+  assert.equal(await p.locator('a[href="/#raschet"]').count() > 0, true, 'кнопки расчёта ведут на главную');
+});
+await test('seo: политика и согласие — проект с метками, якорь cookie, согласие закрыто от индексации', { ...DESK, url: `${BASE}privacy/` }, async (p) => {
+  assert.equal(await p.locator('#cookie').count(), 1);
+  assert.ok(await p.locator('.pg-note--draft').isVisible(), 'пометка «проект документа»');
+  assert.ok((await p.locator('.todo').count()) >= 5);
+  assert.doesNotMatch(await p.locator('meta[name="robots"]').getAttribute('content'), /noindex/);
+  await p.goto(`${BASE}consent/`);
+  assert.match(await p.locator('meta[name="robots"]').getAttribute('content'), /noindex/);
+});
+await test('seo: аналитика — цели попадают в очередь Метрики, cookie-уведомление запоминается', { ...DESK, ...INNER('opt') }, async (p) => {
+  assert.equal(await p.locator('[data-cookie]').isHidden(), true, 'без номера счётчика уведомления нет');
+  await p.evaluate(() => { window.ksAnalytics.init(99999999); document.addEventListener('click', (e) => e.target.closest('a[href^="tel:"]') && e.preventDefault(), true); });
+  assert.ok(await p.locator('[data-cookie]').isVisible(), 'уведомление показано после подключения');
+  await p.locator('.pg-hero .pg-phone').click();
+  await p.locator('.pg-hero .btn-primary').click();
+  await p.locator('.pg-hero [data-open="price"]').click();
+  const calls = await p.evaluate(() => (window.ym.a || []).map((a) => [...a].slice(0, 3)));
+  assert.deepEqual(calls[0].slice(0, 2), [99999999, 'init']);
+  const goals = calls.filter((c) => c[1] === 'reachGoal').map((c) => c[2]);
+  for (const g of ['phone_click', 'cta_click', 'price_open']) assert.ok(goals.includes(g), `нет цели ${g}: ${goals}`);
+  await p.keyboard.press('Escape');
+  await p.locator('[data-cookie-ok]').click();
+  assert.equal(await p.locator('[data-cookie]').isHidden(), true);
+  assert.equal(await p.evaluate(() => localStorage.getItem('ks-cookie')), '1');
+});
+await test('seo: sitemap.xml и robots.txt на месте, в карте 15 адресов без служебных страниц', DESK, async (p) => {
+  const [sm, rb] = await p.evaluate(async () => [await (await fetch('/sitemap.xml')).text(), await (await fetch('/robots.txt')).text()]);
+  assert.equal((sm.match(/<loc>/g) || []).length, 15);
+  assert.ok(sm.includes('<loc>https://aksenovasew.ru/opt/</loc>'));
+  assert.ok(!sm.includes('404') && !sm.includes('/consent/'));
+  assert.match(rb, /Sitemap: https:\/\/aksenovasew\.ru\/sitemap\.xml/);
+  assert.match(rb, /Clean-param: utm_source/);
+});
+await test('seo: сборка актуальна, аудит без ошибок', DESK, async () => {
+  const build = spawnSync('node', ['tools/seo-build.mjs', '--check'], { encoding: 'utf8' });
+  assert.equal(build.status, 0, `seo-build --check: ${build.stderr.split('\n')[0]}`);
+  const audit = spawnSync('node', ['tools/seo-audit.mjs'], { encoding: 'utf8' });
+  assert.equal(audit.status, 0, audit.stdout.split('\n').filter((l) => l.includes('✗')).slice(0, 3).join(' | '));
+});
+
 for (const w of [320, 360, 390, 480, 640, 960, 1200, 1366, 1440, 1920]) {
   const mobile = w < 960;
   await test(`нет горизонтального скролла на ${w}px`, { viewport: { width: w, height: 800 }, isMobile: mobile, hasTouch: mobile }, async (p) => {

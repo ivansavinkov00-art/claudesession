@@ -1,0 +1,59 @@
+{
+  "name": "Культура шитья",
+  "domain": "https://aksenovasew.ru",
+  "locale": "ru_RU",
+  "description": "Швейное производство полного цикла в Челябинске: пошив партий для брендов и селлеров WB и OZON, образец за 2–3 дня, доставка по России.",
+  "phone": "+7 999 588-88-04",
+  "email": null,
+  "address": {
+    "locality": "Челябинск",
+    "region": "Челябинская область",
+    "country": "RU",
+    "street": null,
+    "postalCode": null
+  },
+  "founder": {
+    "name": "Олеся Сергеевна Аксенова",
+    "jobTitle": "Основатель, технолог",
+    "image": "assets/img/img-03.webp"
+  },
+  "social": {
+    "vk": "https://vk.ru/24poshiv7"
+  },
+  "messengers": {
+    "telegram": null,
+    "whatsapp": null,
+    "max": null
+  },
+  "minBatch": 300,
+  "sampleDays": "2–3",
+  "responseTime": null,
+  "hours": null,
+  "metrikaId": null,
+  "legal": {
+    "operator": null,
+    "inn": null,
+    "ogrn": null,
+    "address": null,
+    "email": null,
+    "responsible": null
+  },
+  "logo": "assets/logo/logo-mark.svg",
+  "ogDefault": "assets/og.jpg",
+  "lastmod": "2026-10-09",
+  "order": [
+    "opt",
+    "marketplejsy",
+    "brendam",
+    "obrazec",
+    "davalcheskoe",
+    "hudi-svitshoty",
+    "platya-rubashki-bryuki",
+    "dtf-pechat",
+    "vyshivka",
+    "birki-upakovka",
+    "lekala-konstruktor",
+    "price"
+  ],
+  "notes": "null = данных нет. Генератор подставляет метку [уточнить] и не выдумывает значение. Заполненные значения попадают в JSON-LD, политику и подвал."
+}

@@ -1,0 +1,39 @@
+# Пример настройки nginx для статического сайта «Культура шитья» (проверить под свой хостинг).
+server {
+    listen 80;
+    server_name aksenovasew.ru www.aksenovasew.ru;
+    return 301 https://aksenovasew.ru$request_uri;
+}
+server {
+    listen 443 ssl http2;
+    server_name www.aksenovasew.ru;
+    # ssl_certificate ... (сертификат)
+    return 301 https://aksenovasew.ru$request_uri;
+}
+server {
+    listen 443 ssl http2;
+    server_name aksenovasew.ru;
+    # ssl_certificate ... ; ssl_certificate_key ...
+    root /var/www/aksenovasew;
+    index index.html;
+    charset utf-8;
+
+    # без слэша на конце адрес приводится к адресу со слэшем: /opt → /opt/ (так же, как canonical и sitemap)
+    location ~ ^/([a-z0-9-]+)$ { try_files $uri $uri/ =404; }
+    location / { try_files $uri $uri/ =404; }
+
+    # ?theme= и ?slots служебные: не плодим адреса в выдаче (в robots.txt они закрыты)
+    error_page 404 /404.html;
+    location = /404.html { internal; }
+
+    gzip on;
+    gzip_types text/css application/javascript application/json application/xml image/svg+xml;
+    location ~* \.(woff2|webp|jpg|png|svg|css|js)$ { expires 1y; add_header Cache-Control "public, immutable"; }
+    location = /sitemap.xml { default_type application/xml; expires 1h; }
+    location = /robots.txt { default_type text/plain; expires 1h; }
+
+    # публиковать только собранный сайт: исходники и материалы наружу не отдавать
+    location ~ ^/(seo|tools|materials|screenshots|incoming|node_modules)/ { return 404; }
+    location ~ \.(md|mjs|json|xlsx)$ { return 404; }
+    location ~ ^/assets/.*\.json$ { return 404; }
+}

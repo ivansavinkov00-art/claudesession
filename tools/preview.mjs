@@ -1,5 +1,5 @@
 // Собирает один самодостаточный HTML из index.html для отправки на просмотр: CSS, JS, шрифты, картинки и PDF внутри.
-// node tools/preview.mjs <out.html> [--theme=dark]   (запускать из корня проекта; --theme=dark открывает тёмную тему по умолчанию)
+// node tools/preview.mjs <out.html> [--theme=dark] [--page=opt]   (запускать из корня проекта; --theme=dark открывает тёмную тему по умолчанию)
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('../', import.meta.url));
@@ -10,7 +10,10 @@ const dataUri = (rel) => {
   const ext = rel.split('.').pop();
   return `data:${mime[ext]};base64,${readFileSync(path).toString('base64')}`;
 };
-let html = readFileSync(root + 'index.html', 'utf8');
+// --page=opt: вместо главной берётся внутренняя страница (opt/index.html); ссылки между страницами в одном файле не работают, картинки и стили встроены
+const pageSlug = (process.argv.find((a) => a.startsWith('--page=')) || '').slice(7);
+let html = readFileSync(root + (pageSlug ? `${pageSlug}/index.html` : 'index.html'), 'utf8');
+if (pageSlug) html = html.replace(/(href|src)="\/(assets\/|styles\.css|v3\.css|seo\.css|theme-base\.css|modules\/|script\.js|theme\.js|analytics\.js|v3\.js)/g, '$1="$2');
 const theme = (process.argv.find((a) => a.startsWith('--theme=')) || '').slice(8);
 if (theme === 'dark') html = html.replace('data-theme-default="light"', 'data-theme-default="dark"');
 // CSS тёмной темы в одном файле лежит всегда (скрипт видит [data-theme-css] и ничего не подгружает)
