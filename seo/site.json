@@ -18,12 +18,11 @@
     "image": "assets/img/img-03.webp"
   },
   "social": {
-    "vk": "https://vk.ru/24poshiv7"
+    "vk": "https://vk.ru/24poshiv7",
+    "instagram": "https://www.instagram.com/poshiv24_7/"
   },
   "messengers": {
-    "telegram": null,
-    "whatsapp": null,
-    "max": null
+    "telegram": null
   },
   "minBatch": 300,
   "sampleDays": "2–3",
